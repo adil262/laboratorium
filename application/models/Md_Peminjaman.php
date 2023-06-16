@@ -56,4 +56,33 @@ class Md_Peminjaman extends CI_model
         $this->db->join('ruangan', 'data_barang.id_ruangan = ruangan.id_ruangan');
         return $this->db->get()->result_array();
     }
+    public function getIdRuangan1()
+    {
+        $query = $this->db->select('r.no_ruangan, r.nama_ruangan, r.status_ruangan, r.id_ruangan, a.nama, d.no_barang')
+            ->from('ruangan r')
+            ->join('data_barang d', 'd.id_ruangan = r.id_ruangan', 'left')
+            ->join('asistenlab a', 'a.id_ail = r.id_ail')
+            ->group_by('r.id_ruangan')
+            ->get();
+
+        if ($query->num_rows() > 0) {
+            $result = $query->result_array();
+            foreach ($result as $row) {
+                $no_ruangan = $row['no_ruangan'];
+                $nama_ruangan = $row['nama_ruangan'];
+                $no_barang = $row['no_barang'];
+
+                return $result;
+            }
+        } else {
+            // Tidak ada data yang ditemukan
+        }
+    }
+    public function getIdR()
+    {
+        $this->db->select('ruangan.*, data_barang.*');
+        $this->db->from('ruangan');
+        $this->db->join('data_barang', 'ruangan.id_ruangan = data_barang.id_ruangan');
+        return $this->db->get()->result_array();
+    }
 }

@@ -37,7 +37,7 @@
                                             <td><?= $b['no_ruangan'] ?></td>
                                             <td><?= $b['status_ruangan'] ?></td>
                                             <td>
-                                                <button type="button" data-id_ruangan="<?= $b['id_ruangan']; ?>" data-barang="<?= $b['no_barang']; ?>" class="btn btn-warning tambah">Pinjam</button>
+                                                <button type="button" data-id_ruangan="<?= $b['id_ruangan']; ?>" data-nama="<?= $b['nama']; ?>" data-barang="<?php $b['no_barang']; ?>" class="btn btn-warning tambah">Pinjam</button>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -99,7 +99,6 @@
                                 <div class="col-sm">
                                     <select id="id_ruangan" name="id_ruangan" class="form-control" placeholder="Ruangan">
                                         <option value="<?= $b['id_ruangan']; ?>"><?= $b['no_ruangan']; ?></option>
-
                                     </select>
                                 </div>
 
@@ -107,181 +106,157 @@
                             <div class="form-group">
                                 <label for="barang" class="col-sm-5">Barang</label>
                                 <div class="col-sm">
-                                    <div id="daftarBarang" class="form-check form-check-primary" style="display: none;">
-                                        <label class=" form-check-label">
-                                            <select id="no_barang" name="no_barang" class="form-control" placeholder="Ruangan">
-                                                <option value="<?= $b['no_barang']; ?>"><?= $b['no_barang']; ?></option>
-                                            </select>
-                                        </label>
-                                        <!-- <select id=" daftarBarang" name="id_ruangan" class="form-control" style="display: none;" placeholder="Ruangan">
+                                    <!-- <label class=" form-check-label"> -->
+                                    <select id="no_barang" name="no_barang" class="form-control" placeholder="Barang">
+                                        <option value="<?= $b['no_barang']; ?>"><?= $b['no_barang']; ?></option>
+                                    </select>
+                                    <!-- </label> -->
+                                    <!-- <select id=" daftarBarang" name="id_ruangan" class="form-control" style="display: none;" placeholder="Ruangan">
                                             <option value="</option>
 
                                     </select> -->
-                                    </div>
                                 </div>
-
-                                <div class=" form-group">
-                                    <label for="Peserta" class="col-sm-5">Peserta</label>
-                                    <div class="col-sm">
-                                        <input type="text" class="form-control" name="peserta" id="peserta" placeholder="Nama">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="keterangan" class="col-sm-5">Keterangan</label>
-                                    <div class="col-sm">
-                                        <input type="text" class="form-control" name="keterangan" id="keterangan" placeholder="Tersedia">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="ail" class="col-sm-5">Asisten Instruktur</label>
-                                    <div class="col-sm">
-                                        <input type="text" class="form-control" name="ail" id="ail" placeholder="Asisten Instruktur">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="kalab" class="col-sm-5">Kepala Laboratorium</label>
-                                    <div class="col-sm">
-                                        <input type="text" class="form-control" name="kalab" id="kalab" placeholder="Kepala Laboratorium">
-                                    </div>
-                                </div>
-                                <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
-                                    <div class="form-group">
-                                        <label for="pembina" class="col-sm-5">Pembina</label>
-                                        <div class="col-sm">
-                                            <input type="text" class="form-control" name="pembina" id="pembina" placeholder="Pembina">
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
-                                    <div class="form-group">
-                                        <label for="kajur" class="col-sm-5">Ketua Jurusan</label>
-                                        <div class="col-sm">
-                                            <input type="text" class="form-control" name="kajur" id="kajur" placeholder="Ketua Jurusan">
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
-                                    <div class="form-group">
-                                        <label for="pudir" class="col-sm-5">Pembantu Direktur 1</label>
-                                        <div class="col-sm">
-                                            <input type="text" class="form-control" name="pudir" id="pudir" placeholder="Pembantu Direktur 1">
-                                        </div>
-                                    </div>
-                                <?php } ?>
                             </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Pinjam</button>
+                            <div class=" form-group">
+                                <label for="Peserta" class="col-sm-5">Peserta</label>
+                                <div class="col-sm">
+                                    <input type="text" class="form-control" name="peserta" id="peserta" placeholder="Nama">
+                                </div>
                             </div>
-                        </form>
+                            <div class="form-group">
+                                <label for="keterangan" class="col-sm-5">Keterangan</label>
+                                <div class="col-sm">
+                                    <input type="text" class="form-control" name="keterangan" id="keterangan" placeholder="Tersedia">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="ail" class="col-sm-5">Asisten Instruktur</label>
+                                <div class="col-sm">
+                                    <input type="text" readonly class="form-control" name="ail" id="ail" placeholder="Asisten Instruktur" value="<?= $b['nama']; ?>">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="kalab" class="col-sm-5">Kepala Laboratorium</label>
+                                <div class="col-sm">
+                                    <input type="text" class="form-control" name="kalab" id="kalab" placeholder="Kepala Laboratorium">
+                                </div>
+                            </div>
+                            <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
+                                <div class="form-group">
+                                    <label for="pembina" class="col-sm-5">Pembina</label>
+                                    <div class="col-sm">
+                                        <input type="text" class="form-control" name="pembina" id="pembina" placeholder="Pembina">
+                                    </div>
+                                </div>
+                            <?php } ?>
+                            <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
+                                <div class="form-group">
+                                    <label for="kajur" class="col-sm-5">Ketua Jurusan</label>
+                                    <div class="col-sm">
+                                        <input type="text" class="form-control" name="kajur" id="kajur" placeholder="Ketua Jurusan">
+                                    </div>
+                                </div>
+                            <?php } ?>
+                            <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
+                                <div class="form-group">
+                                    <label for="pudir" class="col-sm-5">Pembantu Direktur 1</label>
+                                    <div class="col-sm">
+                                        <input type="text" class="form-control" name="pudir" id="pudir" placeholder="Pembantu Direktur 1">
+                                    </div>
+                                </div>
+                            <?php } ?>
                     </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Pinjam</button>
+                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-        <!-- content-wrapper ends -->
-        <script>
-            // document.getElementById('tambah').addEventListener('click', function() {
-            //     var formTambah = document.getElementById('formTambah');
-            //     if (formTambah.style.display === 'none') {
-            //         formTambah.style.display = 'block';
-            //     } else {
-            //         formTambah.style.display = 'none';
-            //     }
-            // });
-            // Mendapatkan elemen <select> untuk ruangan
-            var tambah = document.getElementsByClassName('tambah');
-            var ruanganSelect = document.getElementById('id_ruangan');
-            var barangSelect = document.getElementById('no_barang');
-            var daftarBarangDiv = document.getElementById('daftarBarang');
+    </div>
+    <!-- content-wrapper ends -->
+    <script>
+        // document.getElementById('tambah').addEventListener('click', function() {
+        //     var formTambah = document.getElementById('formTambah');
+        //     if (formTambah.style.display === 'none') {
+        //         formTambah.style.display = 'block';
+        //     } else {
+        //         formTambah.style.display = 'none';
+        //     }
+        // });
+        // Mendapatkan elemen <select> untuk ruangan
+        var tambah = document.getElementsByClassName('tambah');
+        var ruanganSelect = document.getElementById('id_ruangan');
+        var barangSelect = document.getElementById('no_barang');
 
-            for (var i = 0; i < tambah.length; i++) {
-                tambah[i].addEventListener('click', function(event) {
-                    event.preventDefault();
-                    var formTambah = document.getElementById('formTambah');
+        for (var i = 0; i < tambah.length; i++) {
+            tambah[i].addEventListener('click', function(event) {
+                event.preventDefault();
+                var formTambah = document.getElementById('formTambah');
 
-                    var selectedRuanganId = this.getAttribute('data-id_ruangan');
-                    var selectedBarang = this.getAttribute('data-barang');
-                    var selectedRuangan = ruanganData.find(function(ruangan) {
-                        return ruangan.id === selectedRuanganId;
-                    });
-
-                    if (selectedRuangan) {
-                        ruanganSelect.innerHTML = '<option value="' + selectedRuangan.id + '">' + selectedRuangan.no_ruangan + '</option>';
-                    }
-
-                    if (selectedBarang) {
-                        barangSelect.innerHTML = '<option value="' + selectedBarang + '">' + selectedBarang + '</option>';
-                        daftarBarangDiv.style.display = 'block'; // Tampilkan daftar barang
-                    } else {
-                        daftarBarangDiv.style.display = 'none'; // Sembunyikan daftar barang
-                    }
-
-                    if (formTambah.style.display === 'none') {
-                        formTambah.style.display = 'block';
-                    } else {
-                        formTambah.style.display = 'none';
-                    }
+                var selectedRuanganId = this.getAttribute('data-id_ruangan');
+                var selectedBarangId = this.getAttribute('data-barang');
+                var selectedRuangan = ruanganData.find(function(ruangan) {
+                    return ruangan.id === selectedRuanganId;
                 });
-            }
+                var selectedBarang = ruanganData.find(function(ruangan) {
+                    return ruangan.id === selectedBarangId;
+                });
 
-            var ruanganDataFromPHP = <?= json_encode($barang); ?>;
-            var ruanganData = [];
+                if (selectedRuangan) {
+                    ruanganSelect.innerHTML = '<option value="' + selectedRuangan.id + '">' + selectedRuangan.no_ruangan + '</option>';
+                }
 
-            for (var j = 0; j < ruanganDataFromPHP.length; j++) {
-                var ruangan = {
-                    id: ruanganDataFromPHP[j]['id_ruangan'],
-                    no_ruangan: ruanganDataFromPHP[j]['no_ruangan']
-                };
-                ruanganData.push(ruangan);
-            }
-
-            ruanganSelect.addEventListener('change', function() {
-                var selectedRuangan = ruanganSelect.value;
-                noBarangDiv.innerHTML = selectedRuangan;
-
-                var selectedBarang = barangData[selectedRuangan];
-                barangSelect.innerHTML = '';
                 if (selectedBarang) {
-                    selectedBarang.forEach(function(barang) {
-                        var option = document.createElement('option');
-                        option.value = barang.id;
-                        option.text = barang.nama;
-                        barangSelect.appendChild(option);
-                    });
-                    daftarBarangDiv.style.display = 'block'; // Tampilkan daftar barang
+                    barangSelect.innerHTML = '<option value="' + selectedBarang.id + '">' + selectedBarang.no_barang + '</option>';
+                }
+                // for ($i = 0; $i <= selectedBarang.length; $i++) {
+                //     barangSelect.innerHTML = '<option value="' + selectedBarang + '">' + selectedBarang + '</option>';
+                //     daftarBarangDiv.style.display = 'block'; // Tampilkan daftar barang
+                // }
+                if (formTambah.style.display === 'none') {
+                    formTambah.style.display = 'block';
                 } else {
-                    daftarBarangDiv.style.display = 'none'; // Sembunyikan daftar barang
+                    formTambah.style.display = 'none';
                 }
             });
-            ruanganSelect.innerHTML = '';
-            // Menambahkan opsi ruangan yang baru
-            ruanganData.forEach(function(ruangan) {
-                var option = document.createElement('option');
-                option.value = ruangan.id;
-                option.text = ruangan.no_ruangan;
-                ruanganSelect.appendChild(option);
-            });
-            var barangData = {
-                // Contoh data barang untuk setiap ruangan
-                'id_ruangan_1': [{
-                        id: 'barang_1',
-                        nama: 'Barang 1'
-                    },
-                    {
-                        id: 'barang_2',
-                        nama: 'Barang 2'
-                    },
-                    // ...
-                ],
-                'id_ruangan_2': [{
-                        id: 'barang_3',
-                        nama: 'Barang 3'
-                    },
-                    {
-                        id: 'barang_4',
-                        nama: 'Barang 4'
-                    },
-                    // ...
-                ],
-                // ...
+        }
+
+        var ruanganDataFromPHP = <?= json_encode($barang); ?>;
+        var ruanganData = [];
+
+        for (var j = 0; j < ruanganDataFromPHP.length; j++) {
+            var ruangan = {
+                id: ruanganDataFromPHP[j]['id_ruangan'],
+                no_ruangan: ruanganDataFromPHP[j]['no_ruangan']
             };
-        </script>
+            ruanganData.push(ruangan);
+        }
+
+        ruanganSelect.addEventListener('change', function() {
+            var selectedRuangan = ruanganSelect.value;
+            noBarangDiv.innerHTML = selectedRuangan;
+
+            var selectedBarang = barangData[selectedRuangan];
+            barangSelect.innerHTML = '';
+            if (selectedBarang) {
+                selectedBarang.forEach(function(barang) {
+                    var option = document.createElement('option');
+                    option.value = barang.id;
+                    option.text = barang.nama;
+                    barangSelect.appendChild(option);
+                });
+                daftarBarangDiv.style.display = 'block'; // Tampilkan daftar barang
+            } else {
+                daftarBarangDiv.style.display = 'none'; // Sembunyikan daftar barang
+            }
+        });
+        ruanganSelect.innerHTML = '';
+        // Menambahkan opsi ruangan yang baru
+        ruanganData.forEach(function(ruangan) {
+            var option = document.createElement('option');
+            option.value = ruangan.id;
+            option.text = ruangan.no_ruangan;
+            ruanganSelect.appendChild(option);
+        });
+    </script>

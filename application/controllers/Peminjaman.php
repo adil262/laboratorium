@@ -22,7 +22,8 @@ class Peminjaman extends CI_Controller
         $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
         $page_data['ruangan2'] = $this->Md_Ruangan->getRuanganwithadd();
 
-        $page_data['barang'] = $this->Md_Peminjaman->getIdRuangan();
+        $page_data['barang'] = $this->Md_Peminjaman->getIdRuangan1();
+
 
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/include_header', $page_data);
