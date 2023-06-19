@@ -39,7 +39,7 @@
                                             <td><?= $pinjam['name'] ?></td>
                                             <td><?= $pinjam['no_ruangan'] ?></td>
                                             <td><?= $pinjam['keterangan'] ?></td>
-                                            <td><a href="" class="mdi mdi-information">Detail</a></td>
+                                            <td><a href="" class="badge badge-warning">Detail</a></td>
                                             <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
                                                 <td>
                                                     <a href="" class="badge badge-success">Terima</a>

@@ -24,11 +24,10 @@ class Md_Ruangan extends CI_model
     {
         return $this->db->get('data_barang')->result_array();
     }
-    public function getIdRuangan($id_ruangan)
+    public function getIdRuangan()
     {
         $this->db->select('data_barang.*, ruangan.*,');
         $this->db->from('data_barang');
-        $this->db->where('ruangan.id_ruangan', $id_ruangan);
         $this->db->where('ruangan.status_ruangan', "Tersedia");
         $this->db->where('data_barang.status_barang', "Tersedia");
         $this->db->join('ruangan', 'data_barang.id_ruangan = ruangan.id_ruangan');

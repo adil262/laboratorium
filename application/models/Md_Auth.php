@@ -3,9 +3,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Md_Auth extends CI_Model
 {
-    public function get_data($table)
+    public function getAll()
     {
-        return $this->db->get($table);
+        return $this->db->get('user')->result_array();
     }
 
     public function getByWhere($table, $where)

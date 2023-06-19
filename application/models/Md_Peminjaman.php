@@ -40,9 +40,8 @@ class Md_Peminjaman extends CI_model
     }
     public function getRuangan()
     {
-        $this->db->select('ruangan.*, asistenlab.*,');
+        $this->db->select('ruangan.*');
         $this->db->from('ruangan');
-        $this->db->join('asistenlab', 'ruangan.id_ail = asistenlab.id_ail');
         return $this->db->get()->result_array();
     }
     public function getIdRuangan()
@@ -58,25 +57,14 @@ class Md_Peminjaman extends CI_model
     }
     public function getIdRuangan1()
     {
-        $query = $this->db->select('r.no_ruangan, r.nama_ruangan, r.status_ruangan, r.id_ruangan, a.nama, d.no_barang')
-            ->from('ruangan r')
-            ->join('data_barang d', 'd.id_ruangan = r.id_ruangan', 'left')
-            ->join('asistenlab a', 'a.id_ail = r.id_ail')
-            ->group_by('r.id_ruangan')
-            ->get();
-
-        if ($query->num_rows() > 0) {
-            $result = $query->result_array();
-            foreach ($result as $row) {
-                $no_ruangan = $row['no_ruangan'];
-                $nama_ruangan = $row['nama_ruangan'];
-                $no_barang = $row['no_barang'];
-
-                return $result;
-            }
-        } else {
-            // Tidak ada data yang ditemukan
-        }
+        $this->db->select('r.no_ruangan, r.nama_ruangan, r.status_ruangan, r.id_ruangan, u.name, u.level, d.no_barang');
+        $this->db->from('ruangan r');
+        $this->db->join('data_barang d', 'd.id_ruangan = r.id_ruangan', 'left');
+        $this->db->join('user u', 'u.id_user = r.id_user');
+        $this->db->where('d.status_barang = "Tersedia"');
+        $this->db->group_by('r.id_ruangan');
+        $query = $this->db->get();
+        return $query->result_array();
     }
     public function getIdR()
     {

@@ -8,6 +8,7 @@ class Peminjaman extends CI_Controller
         parent::__construct();
         $this->load->model('Md_Peminjaman');
         $this->load->model('Md_Ruangan');
+        $this->load->model('Md_Auth');
     }
 
     public function index()
@@ -19,11 +20,10 @@ class Peminjaman extends CI_Controller
         $page_data['nip'] = $this->session->nip;
 
         $page_data['peminjaman'] = $this->Md_Peminjaman->getPeminjaman();
-        $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
-        $page_data['ruangan2'] = $this->Md_Ruangan->getRuanganwithadd();
+        $page_data['ruangan'] = $this->Md_Ruangan->getAll();
+        $page_data['user'] = $this->Md_Auth->getAll();
 
         $page_data['barang'] = $this->Md_Peminjaman->getIdRuangan1();
-
 
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/include_header', $page_data);
