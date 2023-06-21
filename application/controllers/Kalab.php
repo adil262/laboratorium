@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Kajur extends CI_Controller
+class Kalab extends CI_Controller
 {
     public function __construct()
     {
@@ -9,7 +9,7 @@ class Kajur extends CI_Controller
         if (null == $this->session->level) {
             redirect('auth');
         } else {
-            if ($this->session->level != "Kajur") {
+            if ($this->session->level != "Kalab") {
                 redirect('auth', 'refresh');
             }
         }

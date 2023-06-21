@@ -31,7 +31,7 @@ class Lab_database extends CI_Controller
             $this->load->view('templates/include_footer');
         } else {
             $data = [
-                'ail_id' => 2,
+                'ail_id' => 5,
                 'nama' => $this->input->post('nama'),
                 'no_barang' => $this->input->post('no_barang'),
                 'gambar' => 'oke',

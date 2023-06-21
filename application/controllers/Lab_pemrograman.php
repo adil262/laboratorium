@@ -32,7 +32,7 @@ class Lab_pemrograman extends CI_Controller
             $this->load->view('templates/include_footer');
         } else {
             $data = [
-                'ail_id' => 1,
+                'id_user' => 4,
                 'nama' => $this->input->post('nama'),
                 'no_barang' => $this->input->post('no_barang'),
                 'gambar' => 'oke',

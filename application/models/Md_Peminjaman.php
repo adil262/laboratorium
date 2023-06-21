@@ -38,12 +38,7 @@ class Md_Peminjaman extends CI_model
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         return $this->db->get()->result_array();
     }
-    public function getRuangan()
-    {
-        $this->db->select('ruangan.*');
-        $this->db->from('ruangan');
-        return $this->db->get()->result_array();
-    }
+
     public function getIdRuangan()
     {
         $id_ruangan = $this->input->get('id_ruangan'); // Mengambil nilai parameter ID Ruangan dari URL
@@ -72,5 +67,24 @@ class Md_Peminjaman extends CI_model
         $this->db->from('ruangan');
         $this->db->join('data_barang', 'ruangan.id_ruangan = data_barang.id_ruangan');
         return $this->db->get()->result_array();
+    }
+
+    //Yang Dipakai
+    public function getRuangan()
+    {
+        $this->db->select('ruangan.*');
+        return $this->db->get()->result_array();
+    }
+    public function getdatauser($id_ruangan)
+    {
+        $this->db->select('user.*');
+        $this->db->where('id_user', $id_ruangan);
+        return $this->db->get('user')->result_array();
+    }
+    public function getdatabarang($id_ruangan)
+    {
+        $this->db->select('data_barang.*');
+        $this->db->where('id_lab', $id_ruangan);
+        return $this->db->get('data_barang')->result_array();
     }
 }

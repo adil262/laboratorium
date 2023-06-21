@@ -33,6 +33,21 @@
                                 </thead>
                                 <tbody>
                                     <?php $no = 1; ?>
+                                    <?php if ($this->session->userdata('level') == 'Ail') { ?>
+                                        <?php foreach ($peminjaman as $pinjam) : ?>
+                                            <tr>
+                                                <td><?= $no++; ?></td>
+                                                <td><?= $pinjam['name'] ?></td>
+                                                <td><?= $pinjam['no_ruangan'] ?></td>
+                                                <td><?= $pinjam['keterangan'] ?></td>
+                                                <td><a href="" class="badge badge-warning">Detail</a></td>
+                                                <td>
+                                                    <a href="" class="badge badge-success">Terima</a>
+                                                    <a href="" class="badge badge-danger">Tolak</a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php } ?>
                                     <?php foreach ($peminjaman as $pinjam) : ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
@@ -40,12 +55,12 @@
                                             <td><?= $pinjam['no_ruangan'] ?></td>
                                             <td><?= $pinjam['keterangan'] ?></td>
                                             <td><a href="" class="badge badge-warning">Detail</a></td>
-                                            <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
-                                                <td>
+                                            <td>
+                                                <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
                                                     <a href="" class="badge badge-success">Terima</a>
                                                     <a href="" class="badge badge-danger">Tolak</a>
-                                                </td>
-                                            <?php } ?>
+                                                <?php } ?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -104,7 +119,7 @@
                         <div class="form-group row">
                             <label for="ruangan" class="col-sm-5 col-form-label">Ruangan</label>
                             <div class="col-sm-7">
-                                <select class="form-control" name="status_barang" id="status_barang" placeholder="Status">
+                                <select class="form-control" name="id_ruangan" id="id_ruangan" placeholder="Status">
                                     <option value="<?= $no_ruangan; ?>"><?= $no_ruangan; ?></option>
                                 </select>
                             </div>

@@ -33,7 +33,7 @@
                                         <tr>
                                             <td><?= $no++; ?></td>
                                             <td><?= $b['nama_ruangan'] ?></td>
-                                            <td><?= $b['no_ruangan'] ?></td>
+                                            <td>R.<?= $b['no_ruangan'] ?></td>
                                             <td><?= $b['name'] ?></td>
                                             <td>
                                                 <button type="button" data-id_ruangan="<?= $b['id_ruangan']; ?>" class="btn btn-warning btn-sm tambah">Pinjam</button>
@@ -51,16 +51,21 @@
                     <div class="card-body">
                         <h4 class="card-title"><?= $page_judul; ?></h4>
                         <form action="<?= base_url('peminjaman') ?>" method="post">
+                            <!-- <input type="hidden" id="id_user" name="id_user" value=""> -->
                             <div class="form-group">
                                 <label for="nama" class="col-sm-5">Nama</label>
                                 <div class="col-sm">
-                                    <input type="text" readonly class="form-control" name="name" id="name" value="<?= $name; ?>">
+                                    <input type="text" readonly class="form-control" name="name" id="name" value="<?php if (isset($name)) {
+                                                                                                                        echo $name;
+                                                                                                                    } ?>" required="">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="nip" class="col-sm-5">NIM/NIP</label>
                                 <div class="col-sm">
-                                    <input type="text" readonly class="form-control" name="nip" id="nip" value="<?= $nip; ?>">
+                                    <input type="text" readonly class="form-control" name="nip" id="nip" value="<?php if (isset($nip)) {
+                                                                                                                    echo $nip;
+                                                                                                                } ?>" required="">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -72,7 +77,7 @@
                             <div class="form-group">
                                 <label for="kegiatan" class="col-sm-5">Kegiatan</label>
                                 <div class="col-sm">
-                                    <input type="text" class="form-control" name="kegiatan" id="kegiatan" placeholder="Kegiatan">
+                                    <input type="text" class="form-control" name="keterangan" id="keterangan" placeholder="Kegiatan">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -80,12 +85,12 @@
                                 <div class="col-sm">
                                     <select class="form-control" name="level" id="level" placeholder="Level">
                                         <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
-                                            <option value="Level 1">Level 1</option>
-                                            <option value="Level 2">Level 2</option>
-                                            <option value="Level 3">Level 3</option>
+                                            <option value="1">Level 1</option>
+                                            <option value="2">Level 2</option>
+                                            <option value="3">Level 3</option>
                                         <?php } ?>
                                         <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
-                                            <option value="Level 1">Level 1</option>
+                                            <option value="1">Level 1</option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -118,47 +123,33 @@
 
                                     </select>
                                 </div>
-
                             </div>
                             <div class="form-group">
                                 <label for="barang" class="col-sm-5">Barang</label>
                                 <div class="col-sm">
-                                    <?php foreach ($ruangan as $r) : ?>
-                                        <div class="form-check form-check-primary">
-                                            <label class="form-check-label">
-                                                <input id="no_barang" name="no_barang" type="checkbox" class="form-check-input" value="<?= $r['no_barang']; ?>">
-                                                <?= $r['no_barang']; ?>
-                                            </label>
-                                        </div>
-                                    <?php endforeach; ?>
+                                    <select id="id_lab" name="id_lab" class="form-control" placeholder="Ruangan">
+
+                                    </select>
                                 </div>
                             </div>
                             <div class=" form-group">
                                 <label for="Peserta" class="col-sm-5">Peserta</label>
                                 <div class="col-sm">
-                                    <textarea class="form-control" id="exampleTextarea1" rows="4" name="peserta" id="peserta"></textarea>
+                                    <textarea class="form-control" id="peserta" name="peserta" rows="4" name="peserta"></textarea>
                                 </div>
                             </div>
-                            <?php
-                            // Filter data $user berdasarkan level "Kepala Laboratorium"
-                            $filteredAil = array_filter($user, function ($u) {
-                                return $u['level'] == "Asisten Instruktur Laboratorium";
-                            });
-                            ?>
                             <div class="form-group">
                                 <label for="ail" class="col-sm-5">Asisten Instruktur</label>
                                 <div class="col-sm">
-                                    <select id="name" name="name" class="form-control" placeholder="Kepala Laboratorium">
-                                        <?php foreach ($filteredAil as $u) : ?>
-                                            <option value="<?php echo $u['name']; ?>"><?php echo $u['name']; ?></option>
-                                        <?php endforeach; ?>
+                                    <select id="id_ail" name="id_ail" class="form-control" placeholder="Asisten Laboratorium">
+
                                     </select>
                                 </div>
                             </div>
                             <?php
                             // Filter data $user berdasarkan level "Kepala Laboratorium"
                             $filteredKalab = array_filter($user, function ($u) {
-                                return $u['level'] == "Kepala Laboratorium";
+                                return $u['level'] == "Kalab";
                             });
                             ?>
                             <div class="form-group">
@@ -200,7 +191,7 @@
                             <?php
                             // Filter data $user berdasarkan level "Pembantu Direktur 1"
                             $filteredPudir = array_filter($user, function ($u) {
-                                return $u['level'] == "Pembantu Direktur 1";
+                                return $u['level'] == "Pudir1";
                             });
                             ?>
                             <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
@@ -237,8 +228,8 @@
         // Mendapatkan elemen <select> untuk ruangan
         var tambah = document.getElementsByClassName('tambah');
         var ruanganSelect = document.getElementById('id_ruangan');
-        // var barangSelect = document.getElementById('no_barang');
-        var ailSelect = document.getElementById('name');
+        var barangSelect = document.getElementById('id_lab');
+        var ailSelect = document.getElementById('id_ail');
 
         for (var i = 0; i < tambah.length; i++) {
             tambah[i].addEventListener('click', function(event) {
@@ -251,26 +242,21 @@
                     return ruangan.id === selectedRuanganId;
                 });
                 var selectedAil = ruanganData.find(function(ruangan) {
-                    return ruangan.name === selectedRuanganId;
+                    return ruangan.id === selectedRuanganId;
                 });
-                // var selectedBarang = barangData.find(function(barang) {
-                //     return barang.id === selectedRuanganId;
-                // });
+                var selectedBarang = barangData.find(function(barang) {
+                    return barang.id_lab === selectedRuanganId;
+                });
 
                 if (selectedRuangan) {
                     ruanganSelect.innerHTML = '<option value="' + selectedRuangan.id + '">' + selectedRuangan.no_ruangan + '</option>';
                 }
                 if (selectedAil) {
-                    ailSelect.innerHTML = '<option value="' + selectedAil.name + '">' + selectedAil.name + '</option>';
+                    ailSelect.innerHTML = '<option value="' + selectedAil.id + '">' + selectedAil.name + '</option>';
                 }
-                // if (selectedBarang) {
-                //     barangSelect.innerHTML = '<option value="' + selectedBarang.no_barang + '">' + selectedBarang.no_barang + '</option>';
-                // }
-
-                // for ($i = 0; $i <= selectedBarang.length; $i++) {
-                //     barangSelect.innerHTML = '<option value="' + selectedBarang + '">' + selectedBarang + '</option>';
-                //     daftarBarangDiv.style.display = 'block'; // Tampilkan daftar barang
-                // }
+                if (selectedBarang) {
+                    barangSelect.innerHTML = '<option value="' + selectedBarang.id_lab + '">' + selectedBarang.no_barang + '</option>';
+                }
                 if (formTambah.style.display === 'none') {
                     formTambah.style.display = 'block';
                 } else {
@@ -290,15 +276,44 @@
             };
             ruanganData.push(ruangan);
         }
-        // var barangDataFromPHP = <?= json_encode($ruangan); ?>;
-        // var barangData = [];
+        var barangDataFromPHP = <?= json_encode($data_barang); ?>;
+        var barangData = [];
 
-        // for (var j = 0; j < barangDataFromPHP.length; j++) {
-        //     var barang = {
-        //         no_barang: barangDataFromPHP[j]['no_barang']
-        //     };
-        //     barangData.push(barang);
+        for (var k = 0; k < barangDataFromPHP.length; k++) {
+            var barang = {
+                id_lab: barangDataFromPHP[k]['id_ruangan'],
+                no_barang: barangDataFromPHP[k]['no_barang'],
+            };
+            barangData.push(barang);
+        }
+
+        // function loadail() {
+        //     $("#id_ruangan").change(function() {
+        //         var getruangan = $("#id_ruangan").val();
+
+        //         $.ajax({
+        //             type: "POST",
+        //             datType: "JSON",
+        //             url: "<?php base_url() ?>Peminjaman/getdatauser",
+        //             data: {
+        //                 no_ruangan: getruangan
+        //             },
+        //             success: function(data) {
+        //                 console.log(data);
+
+        //                 var html = '';
+        //                 var i;
+        //                 for (i = 0; i < data.length; i++) {
+        //                     html += '<option value="' + data[i.id_user] + '">' + data[i.name] + '</option>';
+        //                 }
+        //                 $("#id_user").html(html);
+        //                 $("#id_user").show();
+
+        //             }
+        //         });
+        //     });
         // }
+
 
         // ruanganSelect.addEventListener('change', function() {
         //     var selectedRuangan = ruanganSelect.value;
