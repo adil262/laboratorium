@@ -20,4 +20,12 @@
     <link rel="stylesheet" href="<?= base_url('assets/') ?>css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="<?= base_url('assets/') ?>images/favicon.png" />
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="<?= base_url('assets/') ?>vendors/select2/select2.min.css">
+    <link rel="stylesheet" href="<?= base_url('assets/') ?>vendors/select2-bootstrap-theme/select2-bootstrap.min.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="<?= base_url('assets/') ?>css/vertical-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="<?= base_url('assets/') ?>images/favicon.png" />
 </head>

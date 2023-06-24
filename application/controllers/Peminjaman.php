@@ -20,12 +20,8 @@ class Peminjaman extends CI_Controller
         $page_data['nip'] = $this->session->nip;
 
 
-        $page_data['ruangan'] = $this->Md_Ruangan->getRuangan();
         $page_data['user'] = $this->Md_Auth->getAll();
-        $page_data['barang'] = $this->Md_Peminjaman->getIdRuangan1();
-
-        $id_ruangan = $this->input->post('no_ruangan');
-        $page_data['data_barang'] = $this->Md_Peminjaman->getdatabarang($id_ruangan);
+        $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
 
         $this->form_validation->set_rules('nama', 'Nama', 'required');
         $this->form_validation->set_rules('no_barang', 'No_barang', 'required');
@@ -78,10 +74,13 @@ class Peminjaman extends CI_Controller
     public function getdatauser()
     {
         $id_ruangan = $this->input->post('no_ruangan');
-        $getdatauser = $this->Md_Peminjaman->getdatauser($id_ruangan);
-        echo json_encode($getdatauser);
+        $page_data = $this->Md_Peminjaman->getdatauser($id_ruangan);
+        echo json_encode($page_data);
     }
     public function getdatabarang()
     {
+        $id_ruangan = $this->input->post('no_ruangan');
+        $page_data = $this->Md_Peminjaman->getdatabarang($id_ruangan);
+        echo json_encode($page_data);
     }
 }

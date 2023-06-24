@@ -16,6 +16,7 @@
                 <div class="card">
                     <div class="card-body">
                         <p class="card-title mb-0"><?= $page_title; ?></p>
+                        <button type="button" id="tambah" style="float: right;" class="btn btn-warning btn-sm tambah">Pinjam</button>
                         <div class="table-responsive">
                             <table class="table table-striped table-borderless">
                                 <thead>
@@ -23,21 +24,16 @@
                                         <th>No</th>
                                         <th>Nama Laboratorium</th>
                                         <th>Ruangan</th>
-                                        <th>Asisten Laboratorium</th>
-                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $no = 1; ?>
-                                    <?php foreach ($barang as $b) : ?>
+                                    <?php foreach ($ruangan as $b) : ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
                                             <td><?= $b['nama_ruangan'] ?></td>
                                             <td>R.<?= $b['no_ruangan'] ?></td>
-                                            <td><?= $b['name'] ?></td>
-                                            <td>
-                                                <button type="button" data-id_ruangan="<?= $b['id_ruangan']; ?>" class="btn btn-warning btn-sm tambah">Pinjam</button>
-                                            </td>
+
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -46,7 +42,7 @@
                     </div>
                 </div>
             </div>
-            <div id="formTambah" style="display: none;" class="col-md-5 stretch-card" aria-hidden="true">
+            <div id="formTambah" style="display:none;" class="col-md-5 stretch-card" aria-hidden="true">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title"><?= $page_judul; ?></h4>
@@ -120,14 +116,17 @@
                                 <label for="ruangan" class="col-sm-5">Ruangan</label>
                                 <div class="col-sm">
                                     <select id="id_ruangan" name="id_ruangan" class="form-control" placeholder="Ruangan">
-
+                                        <option value="">Pilih Ruangan</option>
+                                        <?php foreach ($ruangan as $r) : ?>
+                                            <option value="<?= $r['id_ruangan']; ?>">R.<?= $r['no_ruangan']; ?></option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="barang" class="col-sm-5">Barang</label>
                                 <div class="col-sm">
-                                    <select id="id_lab" name="id_lab" class="form-control" placeholder="Ruangan">
+                                    <select id="id_lab" name="id_lab" class="js-example-basic-multiple w-100" multiple="multiple">
 
                                     </select>
                                 </div>
@@ -166,7 +165,19 @@
                                 <div class="form-group">
                                     <label for="pembina" class="col-sm-5">Pembina</label>
                                     <div class="col-sm">
-                                        <input type="text" class="form-control" name="pembina" id="pembina" placeholder="Pembina">
+                                        <select id="name" name="name" class="form-control" placeholder="Kepala Laboratorium">
+
+                                            <option value=""></option>
+
+                                        </select>
+                                        <input type="file" name="img[]" class="file-upload-default">
+                                        <div class="input-group col-xs-12">
+                                            <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                                            <span class="input-group-append">
+                                                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                                            </span>
+                                        </div>
+
                                     </div>
                                 </div>
                             <?php } ?>
@@ -216,46 +227,76 @@
         </div>
     </div>
     <!-- content-wrapper ends -->
+
     <script>
-        // document.getElementById('tambah').addEventListener('click', function() {
-        //     var formTambah = document.getElementById('formTambah');
-        //     if (formTambah.style.display === 'none') {
-        //         formTambah.style.display = 'block';
-        //     } else {
-        //         formTambah.style.display = 'none';
-        //     }
-        // });
-        // Mendapatkan elemen <select> untuk ruangan
         var tambah = document.getElementsByClassName('tambah');
-        var ruanganSelect = document.getElementById('id_ruangan');
-        var barangSelect = document.getElementById('id_lab');
-        var ailSelect = document.getElementById('id_ail');
 
         for (var i = 0; i < tambah.length; i++) {
             tambah[i].addEventListener('click', function(event) {
                 event.preventDefault();
                 var formTambah = document.getElementById('formTambah');
 
-                var selectedRuanganId = this.getAttribute('data-id_ruangan');
+                $(document).ready(function() {
+                    loadbarang();
+                    loadail();
 
-                var selectedRuangan = ruanganData.find(function(ruangan) {
-                    return ruangan.id === selectedRuanganId;
-                });
-                var selectedAil = ruanganData.find(function(ruangan) {
-                    return ruangan.id === selectedRuanganId;
-                });
-                var selectedBarang = barangData.find(function(barang) {
-                    return barang.id_lab === selectedRuanganId;
                 });
 
-                if (selectedRuangan) {
-                    ruanganSelect.innerHTML = '<option value="' + selectedRuangan.id + '">' + selectedRuangan.no_ruangan + '</option>';
+                function loadbarang() {
+                    $("#id_ruangan").change(function() {
+                        var getruangan = $("#id_ruangan").val();
+
+                        $.ajax({
+                            type: "POST",
+                            dataType: "JSON",
+                            url: "<?= base_url(); ?>Peminjaman/getdatabarang",
+                            data: {
+                                no_ruangan: getruangan,
+                            },
+                            success: function(data) {
+
+                                console.log(data);
+                                var html = '';
+                                var i;
+                                for (i = 0; i < data.length; i++) {
+                                    html += '<option value="' + data[i].id_lab + '">' + data[i].no_barang + '</option>';
+
+                                }
+                                $("#id_lab").html(html);
+                                $("#id_lab").show();
+
+
+                            }
+                        });
+                    });
                 }
-                if (selectedAil) {
-                    ailSelect.innerHTML = '<option value="' + selectedAil.id + '">' + selectedAil.name + '</option>';
-                }
-                if (selectedBarang) {
-                    barangSelect.innerHTML = '<option value="' + selectedBarang.id_lab + '">' + selectedBarang.no_barang + '</option>';
+
+                function loadail() {
+                    $("#id_ruangan").change(function() {
+                        var getruangan = $("#id_ruangan").val();
+
+                        $.ajax({
+                            type: "POST",
+                            dataType: "JSON",
+                            url: "<?= base_url(); ?>Peminjaman/getdatauser",
+                            data: {
+                                no_ruangan: getruangan
+                            },
+                            success: function(data) {
+                                console.log(data);
+
+                                var html = '';
+                                var j;
+                                for (j = 0; j < data.length; j++) {
+                                    html += '<option value = "' + data[j].id_user + '" >' + data[j].name + ' </option>';
+
+                                }
+                                $("#id_ail").html(html);
+                                $("#id_ail").show();
+
+                            }
+                        });
+                    });
                 }
                 if (formTambah.style.display === 'none') {
                     formTambah.style.display = 'block';
@@ -265,27 +306,28 @@
             });
         }
 
-        var ruanganDataFromPHP = <?= json_encode($barang); ?>;
-        var ruanganData = [];
 
-        for (var j = 0; j < ruanganDataFromPHP.length; j++) {
-            var ruangan = {
-                id: ruanganDataFromPHP[j]['id_ruangan'],
-                no_ruangan: ruanganDataFromPHP[j]['no_ruangan'],
-                name: ruanganDataFromPHP[j]['name'],
-            };
-            ruanganData.push(ruangan);
-        }
-        var barangDataFromPHP = <?= json_encode($data_barang); ?>;
-        var barangData = [];
+        // var ruanganDataFromPHP = ;
+        // var ruanganData = [];
 
-        for (var k = 0; k < barangDataFromPHP.length; k++) {
-            var barang = {
-                id_lab: barangDataFromPHP[k]['id_ruangan'],
-                no_barang: barangDataFromPHP[k]['no_barang'],
-            };
-            barangData.push(barang);
-        }
+        // for (var j = 0; j < ruanganDataFromPHP.length; j++) {
+        //     var ruangan = {
+        //         id: ruanganDataFromPHP[j]['id_ruangan'],
+        //         no_ruangan: ruanganDataFromPHP[j]['no_ruangan'],
+        //         name: ruanganDataFromPHP[j]['name'],
+        //     };
+        //     ruanganData.push(ruangan);
+        // }
+        // var barangDataFromPHP = ;
+        // var barangData = [];
+
+        // for (var k = 0; k < barangDataFromPHP.length; k++) {
+        //     var barang = {
+        //         id_lab: barangDataFromPHP[k]['id_ruangan'],
+        //         no_barang: barangDataFromPHP[k]['no_barang'],
+        //     };
+        //     barangData.push(barang);
+        // }
 
         // function loadail() {
         //     $("#id_ruangan").change(function() {
@@ -294,7 +336,7 @@
         //         $.ajax({
         //             type: "POST",
         //             datType: "JSON",
-        //             url: "<?php base_url() ?>Peminjaman/getdatauser",
+        //             url: "Peminjaman/getdatauser",
         //             data: {
         //                 no_ruangan: getruangan
         //             },

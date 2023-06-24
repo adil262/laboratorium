@@ -72,19 +72,22 @@ class Md_Peminjaman extends CI_model
     //Yang Dipakai
     public function getRuangan()
     {
-        $this->db->select('ruangan.*');
-        return $this->db->get()->result_array();
+        return $this->db->get('ruangan')->result_array();
     }
     public function getdatauser($id_ruangan)
     {
-        $this->db->select('user.*');
-        $this->db->where('id_user', $id_ruangan);
-        return $this->db->get('user')->result_array();
+        $this->db->select('ruangan.*, user.*');
+        $this->db->from('ruangan');
+        $this->db->join('user', 'user.id_user = ruangan.id_user');
+        $this->db->where('id_ruangan', $id_ruangan);
+        return $this->db->get()->result_array();
+        // $this->db->select('user.*');
+        // $this->db->where('id_user' == $id_ruangan);
+        // return $this->db->get('user')->result_array();
     }
     public function getdatabarang($id_ruangan)
     {
-        $this->db->select('data_barang.*');
-        $this->db->where('id_lab', $id_ruangan);
-        return $this->db->get('data_barang')->result_array();
+        $query = $this->db->query("SELECT id_lab, no_barang FROM data_barang WHERE id_ruangan = '$id_ruangan'");
+        return $query->result();
     }
 }
