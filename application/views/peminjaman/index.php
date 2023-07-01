@@ -46,8 +46,10 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title"><?= $page_judul; ?></h4>
-                        <form action="<?= base_url('peminjaman') ?>" method="post">
-                            <!-- <input type="hidden" id="id_user" name="id_user" value=""> -->
+                        <form action="<?= base_url('Peminjaman/add') ?>" method="post">
+                            <input type="hidden" id="id_user" name="id_user" value="<?php if (isset($id_user)) {
+                                                                                        echo $id_user;
+                                                                                    } ?>">
                             <div class="form-group">
                                 <label for="nama" class="col-sm-5">Nama</label>
                                 <div class="col-sm">
@@ -64,12 +66,14 @@
                                                                                                                 } ?>" required="">
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <label for="nohp" class="col-sm-5">No Hp</label>
                                 <div class="col-sm">
                                     <input type="text" class="form-control" name="nohp" id="nohp" placeholder="08xxxxxxxxxx">
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <label for="kegiatan" class="col-sm-5">Kegiatan</label>
                                 <div class="col-sm">
@@ -79,14 +83,16 @@
                             <div class="form-group">
                                 <label for="level" class="col-sm-5">Level</label>
                                 <div class="col-sm">
-                                    <select class="form-control" name="level" id="level" placeholder="Level">
+                                    <select class="form-control" name="id_level" id="id_level" placeholder="Level" onchange="loadJamOptions()">
                                         <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
-                                            <option value="1">Level 1</option>
-                                            <option value="2">Level 2</option>
-                                            <option value="3">Level 3</option>
+                                            <?php foreach ($level as $l) : ?>
+                                                <option value="<?= $l['id_level']; ?>">Level <?= $l['id_level']; ?></option>
+                                            <?php endforeach; ?>
                                         <?php } ?>
                                         <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
-                                            <option value="1">Level 1</option>
+                                            <?php foreach ($level as $l) : ?>
+                                                <option value="<?= $l['id_level']; ?>">Level <?= $l['id_level']; ?></option>
+                                            <?php endforeach; ?>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -95,20 +101,20 @@
                                 <label for="waktu" class="col-sm-5">Waktu Pelaksanaan</label>
                                 <div class="col-sm">
                                     <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
-                                        <input type="date" class="form-control" name="tgl" id="tgl" placeholder="Tanggal" value="<?php echo date('Y-m-d', time()); ?>">
-                                        <input type="time" class="form-control" name="awal" id="awal" placeholder="Mulai" value="<?php echo date('H:i') ?>">
-                                        <input type="time" class="form-control" name="akhir" id="akhir" placeholder="Selesai" value="<?php $time = new DateTime(date('H:i'));
-                                                                                                                                        $time->modify('+2 hours');
-                                                                                                                                        echo $time->format('H:i'); ?>">
+                                        <input type="date" class="form-control" name="tanggal" id="tanggal" placeholder="Tanggal" value="<?php echo date('Y-m-d', time()); ?>">
+                                        <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" min="07:00" placeholder="Mulai" onchange="validateJam(this)" value="<?php echo date('H:i') ?>">
+                                        <input type="time" class="form-control" name="jam_berakhir" id="jam_berakhir" max="16:00" placeholder="Selesai" onchange="validateJam(this)" value="<?php $time = new DateTime(date('H:i'));
+                                                                                                                                                                                            $time->modify('+2 hours');
+                                                                                                                                                                                            echo $time->format('H:i'); ?>">
                                     <?php } ?>
                                     <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
-                                        <input type="date" class="form-control" name="tgl" id="tgl" placeholder="Tanggal" value="<?php $time = new DateTime(date('Y-m-d', time()));
-                                                                                                                                    $time->modify('+3 days');
-                                                                                                                                    echo $time->format('Y-m-d'); ?>">
-                                        <input type="time" class="form-control" name="awal" id="awal" placeholder="Mulai" value="<?php echo date('H:i') ?>">
-                                        <input type="time" class="form-control" name="akhir" id="akhir" placeholder="Selesai" value="<?php $time = new DateTime(date('H:i'));
-                                                                                                                                        $time->modify('+2 hours');
-                                                                                                                                        echo $time->format('H:i'); ?>">
+                                        <input type="date" class="form-control" name="tanggal" id="tanggal" placeholder="Tanggal" value="<?php $time = new DateTime(date('Y-m-d', time()));
+                                                                                                                                            $time->modify('+3 days');
+                                                                                                                                            echo $time->format('Y-m-d'); ?>">
+                                        <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" placeholder="Mulai" value="<?php echo date('H:i') ?>">
+                                        <input type="time" class="form-control" name="jam_berakhir" id="jam_berakhir" placeholder="Selesai" value="<?php $time = new DateTime(date('H:i'));
+                                                                                                                                                    $time->modify('+2 hours');
+                                                                                                                                                    echo $time->format('H:i'); ?>">
                                     <?php } ?>
                                 </div>
                             </div>
@@ -126,7 +132,7 @@
                             <div class="form-group">
                                 <label for="barang" class="col-sm-5">Barang</label>
                                 <div class="col-sm">
-                                    <select id="id_lab" name="id_lab" class="js-example-basic-multiple w-100" multiple="multiple">
+                                    <select id="id_lab" name="id_lab[]" class="js-example-basic-multiple w-100" multiple>
 
                                     </select>
                                 </div>
@@ -217,11 +223,11 @@
                                     </div>
                                 </div>
                             <?php } ?>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Pinjam</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Pinjam</button>
-                    </div>
-                    </form>
                 </div>
             </div>
         </div>
@@ -264,8 +270,6 @@
                                 }
                                 $("#id_lab").html(html);
                                 $("#id_lab").show();
-
-
                             }
                         });
                     });
@@ -305,82 +309,4 @@
                 }
             });
         }
-
-
-        // var ruanganDataFromPHP = ;
-        // var ruanganData = [];
-
-        // for (var j = 0; j < ruanganDataFromPHP.length; j++) {
-        //     var ruangan = {
-        //         id: ruanganDataFromPHP[j]['id_ruangan'],
-        //         no_ruangan: ruanganDataFromPHP[j]['no_ruangan'],
-        //         name: ruanganDataFromPHP[j]['name'],
-        //     };
-        //     ruanganData.push(ruangan);
-        // }
-        // var barangDataFromPHP = ;
-        // var barangData = [];
-
-        // for (var k = 0; k < barangDataFromPHP.length; k++) {
-        //     var barang = {
-        //         id_lab: barangDataFromPHP[k]['id_ruangan'],
-        //         no_barang: barangDataFromPHP[k]['no_barang'],
-        //     };
-        //     barangData.push(barang);
-        // }
-
-        // function loadail() {
-        //     $("#id_ruangan").change(function() {
-        //         var getruangan = $("#id_ruangan").val();
-
-        //         $.ajax({
-        //             type: "POST",
-        //             datType: "JSON",
-        //             url: "Peminjaman/getdatauser",
-        //             data: {
-        //                 no_ruangan: getruangan
-        //             },
-        //             success: function(data) {
-        //                 console.log(data);
-
-        //                 var html = '';
-        //                 var i;
-        //                 for (i = 0; i < data.length; i++) {
-        //                     html += '<option value="' + data[i.id_user] + '">' + data[i.name] + '</option>';
-        //                 }
-        //                 $("#id_user").html(html);
-        //                 $("#id_user").show();
-
-        //             }
-        //         });
-        //     });
-        // }
-
-
-        // ruanganSelect.addEventListener('change', function() {
-        //     var selectedRuangan = ruanganSelect.value;
-        //     noBarangDiv.innerHTML = selectedRuangan;
-
-        //     var selectedBarang = barangData[selectedRuangan];
-        //     barangSelect.innerHTML = '';
-        //     if (selectedBarang) {
-        //         selectedBarang.forEach(function(barang) {
-        //             var option = document.createElement('option');
-        //             option.value = barang.id;
-        //             option.text = barang.no_barang;
-        //             barangSelect.appendChild(option);
-        //         });
-        //         daftarBarangDiv.style.display = 'block'; // Tampilkan daftar barang
-        //     } else {
-        //         daftarBarangDiv.style.display = 'none'; // Sembunyikan daftar barang
-        //     }
-        // });
-        // ruanganSelect.innerHTML = '';
-        // // Menambahkan opsi ruangan yang baru
-        // ruanganData.forEach(function(ruangan) {
-        //     var option = document.createElement('option');
-        //     option.value = ruangan.id;
-        //     option.text = ruangan.no_ruangan;
-        //     ruanganSelect.appendChild(option);
-        // });
     </script>

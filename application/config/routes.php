@@ -50,5 +50,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'auth';
+$route['peminjaman'] = 'Peminjaman';
+$route['peminjaman/submitApproval/(:any)/(:any)'] = 'Peminjaman/submitApproval/$1/$2';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

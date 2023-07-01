@@ -8,28 +8,6 @@ class Md_Peminjaman extends CI_model
         parent::__construct();
         $this->load->database();
     }
-    public function getByPeminjamanid($id)
-    {
-        $query = $this->db->get_where('peminjaman', array('id_peminjaman' => $id));
-        return $query->row();
-    }
-    public function add($data)
-    {
-        $this->db->insert('peminjaman', $data);
-        return $this->db->insert_id();
-    }
-
-    public function updateByLabpemrograman($id, $data)
-    {
-        $this->db->where('id_peminjaman', $id);
-        $this->db->update('peminjaman', $data);
-    }
-
-    public function deleteByLabpemrograman($id)
-    {
-        $this->db->where('id_peminjaman', $id);
-        $this->db->delete('peminjaman');
-    }
     public function getPeminjaman()
     {
         $this->db->select('peminjaman.*, ruangan.*, user.*');
@@ -39,41 +17,50 @@ class Md_Peminjaman extends CI_model
         return $this->db->get()->result_array();
     }
 
-    public function getIdRuangan()
+    public function add($data)
     {
-        $id_ruangan = $this->input->get('id_ruangan'); // Mengambil nilai parameter ID Ruangan dari URL
-        $this->db->distinct();
-        // Mengambil data barang berdasarkan ID Ruangan
-        $this->db->select('data_barang.*, ruangan.*');
-        $this->db->from('data_barang');
-        // $this->db->where('ruangan.id_ruangan', $id_ruangan);
-        $this->db->join('ruangan', 'data_barang.id_ruangan = ruangan.id_ruangan');
-        return $this->db->get()->result_array();
+        // Simpan data peminjaman ke tabel peminjaman
+        $this->db->insert('peminjaman', $data);
+        return $this->db->insert_id();
     }
-    public function getIdRuangan1()
+    public function addPeminjamanLab($data_peminjaman)
     {
-        $this->db->select('r.no_ruangan, r.nama_ruangan, r.status_ruangan, r.id_ruangan, u.name, u.level, d.no_barang');
-        $this->db->from('ruangan r');
-        $this->db->join('data_barang d', 'd.id_ruangan = r.id_ruangan', 'left');
-        $this->db->join('user u', 'u.id_user = r.id_user');
-        $this->db->where('d.status_barang = "Tersedia"');
-        $this->db->group_by('r.id_ruangan');
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-    public function getIdR()
-    {
-        $this->db->select('ruangan.*, data_barang.*');
-        $this->db->from('ruangan');
-        $this->db->join('data_barang', 'ruangan.id_ruangan = data_barang.id_ruangan');
-        return $this->db->get()->result_array();
+        // Simpan data peminjaman ke tabel peminjaman
+
+        $this->db->insert('peminjaman_barang',  $data_peminjaman);
+        return $this->db->insert_id();
     }
 
-    //Yang Dipakai
+    public function getByPeminjamanId($id_peminjaman)
+    {
+        // Ambil data peminjaman berdasarkan id_peminjaman
+        $this->db->where('id_peminjaman', $id_peminjaman);
+        return $this->db->get('peminjaman')->row_array();
+    }
+
+    public function update($id_peminjaman, $approval_column, $status)
+    {
+        $this->db->where('id_peminjaman', $id_peminjaman);
+        $this->db->set($approval_column, $status);
+        $this->db->update('peminjaman');
+    }
+
+    public function updateStatus($id_peminjaman, $status_peminjaman, $status_barang)
+    {
+        $this->db->where('id_peminjaman', $id_peminjaman);
+        $this->db->set('status', $status_peminjaman);
+        $this->db->update('peminjaman');
+
+        $this->db->where('id_lab', $id_peminjaman);
+        $this->db->set('status_barang', $status_barang);
+        $this->db->update('data_barang');
+    }
+
     public function getRuangan()
     {
         return $this->db->get('ruangan')->result_array();
     }
+
     public function getdatauser($id_ruangan)
     {
         $this->db->select('ruangan.*, user.*');
@@ -81,13 +68,16 @@ class Md_Peminjaman extends CI_model
         $this->db->join('user', 'user.id_user = ruangan.id_user');
         $this->db->where('id_ruangan', $id_ruangan);
         return $this->db->get()->result_array();
-        // $this->db->select('user.*');
-        // $this->db->where('id_user' == $id_ruangan);
-        // return $this->db->get('user')->result_array();
     }
+
     public function getdatabarang($id_ruangan)
     {
         $query = $this->db->query("SELECT id_lab, no_barang FROM data_barang WHERE id_ruangan = '$id_ruangan'");
         return $query->result();
+    }
+
+    public function getLevel()
+    {
+        return $this->db->get('level')->result_array();
     }
 }

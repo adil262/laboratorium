@@ -45,8 +45,9 @@ class Auth extends CI_Controller
                         'name' => $cek_email['name'],
                         'nip' => $cek_email['nip'],
                     ];
+                    // echo json_encode(strtolower($cek_email['level']));
                     $this->session->set_userdata($userdata);
-                    redirect(strtolower($cek_email['level']));
+                    redirect($cek_email['level']);
                 } else {
                     $this->session->set_flashdata('message', '<div class="alert
                     alert-danger" role="alert">Wrong password!</div>');
