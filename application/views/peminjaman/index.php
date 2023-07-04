@@ -33,7 +33,6 @@
                                             <td><?= $no++; ?></td>
                                             <td><?= $b['nama_ruangan'] ?></td>
                                             <td>R.<?= $b['no_ruangan'] ?></td>
-
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -102,10 +101,10 @@
                                 <div class="col-sm">
                                     <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
                                         <input type="date" class="form-control" name="tanggal" id="tanggal" placeholder="Tanggal" value="<?php echo date('Y-m-d', time()); ?>">
-                                        <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" min="07:00" placeholder="Mulai" onchange="validateJam(this)" value="<?php echo date('H:i') ?>">
-                                        <input type="time" class="form-control" name="jam_berakhir" id="jam_berakhir" max="16:00" placeholder="Selesai" onchange="validateJam(this)" value="<?php $time = new DateTime(date('H:i'));
-                                                                                                                                                                                            $time->modify('+2 hours');
-                                                                                                                                                                                            echo $time->format('H:i'); ?>">
+                                        <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" placeholder="Mulai" value="<?php echo date('H:i') ?>">
+                                        <input type="time" class="form-control" name="jam_berakhir" id="jam_berakhir" placeholder="Selesai" value="<?php $time = new DateTime(date('H:i'));
+                                                                                                                                                    $time->modify('+2 hours');
+                                                                                                                                                    echo $time->format('H:i'); ?>">
                                     <?php } ?>
                                     <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
                                         <input type="date" class="form-control" name="tanggal" id="tanggal" placeholder="Tanggal" value="<?php $time = new DateTime(date('Y-m-d', time()));
@@ -137,7 +136,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class=" form-group">
+                            <div class="form-group">
                                 <label for="Peserta" class="col-sm-5">Peserta</label>
                                 <div class="col-sm">
                                     <textarea class="form-control" id="peserta" name="peserta" rows="4" name="peserta"></textarea>
@@ -193,36 +192,32 @@
                                 return $u['level'] == "Kajur";
                             });
                             ?>
-                            <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
-                                <div class="form-group">
-                                    <label for="kajur" class="col-sm-5">Ketua Jurusan</label>
-                                    <div class="col-sm">
-                                        <select id="name" name="name" class="form-control" placeholder="Kepala Laboratorium">
-                                            <?php foreach ($filteredKajur as $u) : ?>
-                                                <option value="<?php echo $u['name']; ?>"><?php echo $u['name']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
+                            <div class="form-group">
+                                <label for="kajur" class="col-sm-5">Ketua Jurusan</label>
+                                <div class="col-sm">
+                                    <select id="name" name="name" class="form-control" placeholder="Kepala Laboratorium">
+                                        <?php foreach ($filteredKajur as $u) : ?>
+                                            <option value="<?php echo $u['name']; ?>"><?php echo $u['name']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
-                            <?php } ?>
+                            </div>
                             <?php
                             // Filter data $user berdasarkan level "Pembantu Direktur 1"
                             $filteredPudir = array_filter($user, function ($u) {
                                 return $u['level'] == "Pudir1";
                             });
                             ?>
-                            <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
-                                <div class="form-group">
-                                    <label for="pudir" class="col-sm-5">Pembantu Direktur 1</label>
-                                    <div class="col-sm">
-                                        <select id="name" name="name" class="form-control" placeholder="Kepala Laboratorium">
-                                            <?php foreach ($filteredPudir as $u) : ?>
-                                                <option value="<?php echo $u['name']; ?>"><?php echo $u['name']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
+                            <div class="form-group">
+                                <label for="pudir" class="col-sm-5">Pembantu Direktur 1</label>
+                                <div class="col-sm">
+                                    <select id="name" name="name" class="form-control" placeholder="Kepala Laboratorium">
+                                        <?php foreach ($filteredPudir as $u) : ?>
+                                            <option value="<?php echo $u['name']; ?>"><?php echo $u['name']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
-                            <?php } ?>
+                            </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary">Pinjam</button>
                             </div>
@@ -292,7 +287,7 @@
                                 var html = '';
                                 var j;
                                 for (j = 0; j < data.length; j++) {
-                                    html += '<option value = "' + data[j].id_user + '" >' + data[j].name + ' </option>';
+                                    html += '<option value = "' + data[j].id_ail + '" >' + data[j].name + ' </option>';
 
                                 }
                                 $("#id_ail").html(html);
@@ -302,6 +297,7 @@
                         });
                     });
                 }
+
                 if (formTambah.style.display === 'none') {
                     formTambah.style.display = 'block';
                 } else {

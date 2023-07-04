@@ -31,9 +31,10 @@ class Md_Lab_pemrograman extends CI_model
     public function getId1()
     {
         $this->db->distinct();
-        $this->db->select('data_barang.*,'); // Ganti 'column_name' dengan kolom yang ingin Anda tampilkan
-        $this->db->where('id_ruangan = 1');
-        $query = $this->db->get('data_barang'); // Ganti 'projects' dengan nama tabel Anda
-        return $query->result_array();
+        $this->db->select('data_barang.*, ruangan.*');
+        $this->db->from('data_barang');
+        $this->db->join('ruangan', 'data_barang.id_ruangan = ruangan.id_ruangan');
+        $this->db->where('data_barang.id_ruangan = 1');
+        return $this->db->get()->result_array();
     }
 }

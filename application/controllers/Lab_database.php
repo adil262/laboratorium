@@ -12,6 +12,7 @@ class Lab_database extends CI_Controller
     {
         $page_data['page_title'] = 'Lab Database - R.302';
         $page_data['page_judul'] = 'Tambah Data Laboratorium';
+        $page_data['page_detail'] = 'Detail Data Laboratorium';
         $page_data['email'] = $this->session->email;
         $page_data['name'] = $this->session->name;
 

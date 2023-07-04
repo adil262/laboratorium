@@ -16,7 +16,7 @@
                   </a>
                   <div class="collapse" id="ui-basic">
                       <ul class="nav flex-column sub-menu">
-                          <li class="nav-item"> <a class="nav-link" href="<?= base_url('peminjaman') ?>">Daftar Peminjaman</a></li>
+                          <li class="nav-item"> <a class="nav-link" href="<?= base_url('peminjaman') ?>">Ajukan Peminjaman</a></li>
                           <li class="nav-item"> <a class="nav-link" href="<?= base_url('peminjaman/riwayat') ?>">Riwayat Peminjaman</a></li>
                       </ul>
                   </div>
@@ -29,7 +29,6 @@
                   </a>
                   <div class="collapse" id="form-elements">
                       <ul class="nav flex-column sub-menu">
-                          <li class="nav-item"><a class="nav-link" href="<?= base_url('ail') ?>">Asisten Laboratorium</a></li>
                           <li class="nav-item"><a class="nav-link" href="<?= base_url('lab_pemrograman') ?>">R.301</a></li>
                           <li class="nav-item"><a class="nav-link" href="<?= base_url('lab_database') ?>">R.302</a></li>
                           <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">R.303</a></li>

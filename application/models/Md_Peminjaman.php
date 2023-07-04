@@ -10,10 +10,11 @@ class Md_Peminjaman extends CI_model
     }
     public function getPeminjaman()
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*');
+        $this->db->select('peminjaman.*, ruangan.*, user.*, level.*');
         $this->db->from('peminjaman');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
+        $this->db->join('level', 'peminjaman.id_level = level.id_level');
         return $this->db->get()->result_array();
     }
 
@@ -26,7 +27,6 @@ class Md_Peminjaman extends CI_model
     public function addPeminjamanLab($data_peminjaman)
     {
         // Simpan data peminjaman ke tabel peminjaman
-
         $this->db->insert('peminjaman_barang',  $data_peminjaman);
         return $this->db->insert_id();
     }
@@ -45,13 +45,18 @@ class Md_Peminjaman extends CI_model
         $this->db->update('peminjaman');
     }
 
-    public function updateStatus($id_peminjaman, $status_peminjaman, $status_barang)
+    public function updateStatus($id_peminjaman, $status_peminjaman)
     {
         $this->db->where('id_peminjaman', $id_peminjaman);
         $this->db->set('status', $status_peminjaman);
         $this->db->update('peminjaman');
-
-        $this->db->where('id_lab', $id_peminjaman);
+    }
+    public function updateStatusBarang($status_barang)
+    {
+        $this->db->select('peminjaman_barang.*, peminjaman.*');
+        $this->db->from('peminjaman_barang');
+        $this->db->join('peminjaman', 'peminjaman_ruangan.id_peminjaman = peminjaman.id_peminjaman');
+        $this->db->where('id_lab', 'id_peminjaman');
         $this->db->set('status_barang', $status_barang);
         $this->db->update('data_barang');
     }
@@ -63,17 +68,20 @@ class Md_Peminjaman extends CI_model
 
     public function getdatauser($id_ruangan)
     {
-        $this->db->select('ruangan.*, user.*');
-        $this->db->from('ruangan');
-        $this->db->join('user', 'user.id_user = ruangan.id_user');
-        $this->db->where('id_ruangan', $id_ruangan);
+        $this->db->select('ail.*, user.*');
+        $this->db->from('ail');
+        $this->db->join('user', 'user.id_user = ail.id_user');
+        $this->db->where('id_ail', $id_ruangan);
         return $this->db->get()->result_array();
     }
 
     public function getdatabarang($id_ruangan)
     {
-        $query = $this->db->query("SELECT id_lab, no_barang FROM data_barang WHERE id_ruangan = '$id_ruangan'");
-        return $query->result();
+        $this->db->select('data_barang.*,'); // Ganti 'column_name' dengan kolom yang ingin Anda tampilkan
+        $this->db->where('status_barang = "Tersedia"');
+        $this->db->where('id_ruangan', $id_ruangan);
+        $query = $this->db->get('data_barang'); // Ganti 'projects' dengan nama tabel Anda
+        return $query->result_array();
     }
 
     public function getLevel()
