@@ -44,50 +44,52 @@
                                             </td>
                                             <td>
                                                 <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $pinjam['id_peminjaman']; ?>" class="badge badge-info">Detail</a>
+
                                                 <?php if ($pinjam['id_level'] == 1) : ?>
                                                     <?php if ($level == 'Ail' && $pinjam['approval_ail'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_ail'); ?>" class="badge badge-success">Terima</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_ail'); ?>" class="badge badge-success">Terima</a>
                                                         <a href="" class="badge badge-danger">Tolak</a>
-
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Kalab' && $pinjam['approval_kalab'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kalab'); ?>" class="badge badge-success">Terima</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kalab'); ?>" class="badge badge-success">Terima</a>
                                                         <a href="" class="badge badge-danger">Tolak</a>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
+
                                                 <?php if ($pinjam['id_level'] == 2) : ?>
                                                     <?php if ($level == 'Ail' && $pinjam['approval_ail'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_ail'); ?>" class="badge badge-success">Terima</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_ail'); ?>" class="badge badge-success">Terima</a>
                                                         <a href="" class="badge badge-danger">Tolak</a>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Kalab' && $pinjam['approval_kalab'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kalab'); ?>" class="badge badge-success">Terima</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kalab'); ?>" class="badge badge-success">Terima</a>
                                                         <a href="" class="badge badge-danger">Tolak</a>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Kajur' && $pinjam['approval_kajur'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kajur'); ?>" class="badge badge-success">Terima</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kajur'); ?>" class="badge badge-success">Terima</a>
                                                         <a href="" class="badge badge-danger">Tolak</a>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
+
                                                 <?php if ($pinjam['id_level'] == 3) : ?>
                                                     <?php if ($level == 'Ail' && $pinjam['approval_ail'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_ail'); ?>" class="badge badge-success">Terima</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_ail'); ?>" class="badge badge-success">Terima</a>
                                                         <a href="" class="badge badge-danger">Tolak</a>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Kalab' && $pinjam['approval_kalab'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kalab'); ?>" class="badge badge-success">Terima</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kalab'); ?>" class="badge badge-success">Terima</a>
                                                         <a href="" class="badge badge-danger">Tolak</a>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Kajur' && $pinjam['approval_kajur'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kajur'); ?>" class="badge badge-success">Terima</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kajur'); ?>" class="badge badge-success">Terima</a>
                                                         <a href="" class="badge badge-danger">Tolak</a>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Pudir1' && $pinjam['approval_pudir1'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_pudir1'); ?>" class="badge badge-success">Terima</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_pudir1'); ?>" class="badge badge-success">Terima</a>
                                                         <a href="" class="badge badge-danger">Tolak</a>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
-
+                                                <a href="" class="badge badge-warning">Kembalikan</a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

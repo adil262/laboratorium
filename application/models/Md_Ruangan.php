@@ -40,4 +40,10 @@ class Md_Ruangan extends CI_model
         $this->db->where('status_ruangan = "Tersedia"');
         return $this->db->get()->result_array();
     }
+
+    public function getTotalRuangan()
+    {
+        $query = $this->db->select_sum('is_active')->get('ruangan');
+        return $query->row()->is_active;
+    }
 }

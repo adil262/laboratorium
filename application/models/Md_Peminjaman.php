@@ -8,6 +8,7 @@ class Md_Peminjaman extends CI_model
         parent::__construct();
         $this->load->database();
     }
+    // Peminjaman
     public function getPeminjaman()
     {
         $this->db->select('peminjaman.*, ruangan.*, user.*, level.*');
@@ -24,12 +25,7 @@ class Md_Peminjaman extends CI_model
         $this->db->insert('peminjaman', $data);
         return $this->db->insert_id();
     }
-    public function addPeminjamanLab($data_peminjaman)
-    {
-        // Simpan data peminjaman ke tabel peminjaman
-        $this->db->insert('peminjaman_barang',  $data_peminjaman);
-        return $this->db->insert_id();
-    }
+
 
     public function getByPeminjamanId($id_peminjaman)
     {
@@ -51,21 +47,42 @@ class Md_Peminjaman extends CI_model
         $this->db->set('status', $status_peminjaman);
         $this->db->update('peminjaman');
     }
-    public function updateStatusBarang($status_barang)
+
+    // // Peminjaman Barang
+    public function addPeminjamanLab($data_peminjaman)
     {
-        $this->db->select('peminjaman_barang.*, peminjaman.*');
+        // Simpan data peminjaman ke tabel peminjaman
+        $this->db->insert('peminjaman_barang',  $data_peminjaman);
+        return $this->db->insert_id();
+    }
+
+    public function updateStatusBarang($id_peminjaman)
+    {
+        $this->db->select('data_barang.id_lab');
         $this->db->from('peminjaman_barang');
-        $this->db->join('peminjaman', 'peminjaman_ruangan.id_peminjaman = peminjaman.id_peminjaman');
-        $this->db->where('id_lab', 'id_peminjaman');
+        $this->db->join('peminjaman', 'peminjaman_barang.id_peminjaman = peminjaman.id_peminjaman');
+        $this->db->join('data_barang', 'data_barang.id_lab = peminjaman_barang.id_lab');
+        $this->db->where('peminjaman_barang.id_peminjaman', $id_peminjaman);
+        return $this->db->get()->result_array();
+        // $this->db->set('data_barang.status_barang', $status_barang);
+    }
+
+    // Data Barang
+    public function updateStatusData($id_peminjaman, $status_barang)
+    {
+        $this->db->where('id_lab', $id_peminjaman);
         $this->db->set('status_barang', $status_barang);
         $this->db->update('data_barang');
     }
 
+    //Ruangan
     public function getRuangan()
     {
+        // Ambil data peminjaman berdasarkan id_peminjaman
         return $this->db->get('ruangan')->result_array();
     }
 
+    // Get Data
     public function getdatauser($id_ruangan)
     {
         $this->db->select('ail.*, user.*');

@@ -22,13 +22,10 @@ class Peminjam extends CI_Controller
 
 
 
-        if ($this->form_validation->run() == false) {
-            $this->load->view('templates/include_header', $page_data);
-            $this->load->view('templates/include_topbar', $page_data);
-            $this->load->view('templates/include_sidebar', $page_data);
-            $this->load->view('dashboard/index', $page_data);
-            $this->load->view('templates/include_footer');
-        } else {
-        }
+        $this->load->view('templates/include_header', $page_data);
+        $this->load->view('templates/include_topbar', $page_data);
+        $this->load->view('templates/include_sidebar', $page_data);
+        $this->load->view('dashboard/index', $page_data);
+        $this->load->view('templates/include_footer');
     }
 }
