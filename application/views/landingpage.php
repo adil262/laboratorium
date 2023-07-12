@@ -142,7 +142,7 @@
                 </div>
                 <div class="col-sm-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.3s">
                     <i class="fa fa-check fa-3x text-white mb-3"></i>
-                    <h1 class="display-4 text-white" data-toggle="counter-up">0</h1>
+                    <h1 class="display-4 text-white" data-toggle="counter-up"><?= $paktif; ?></h1>
                     <span class="fs-5 text-white">Peminjaman Aktif</span>
                     <hr class="bg-white w-25 mx-auto mb-0">
                 </div>
@@ -190,11 +190,11 @@
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <p class="text-success">Tanggal Mulai </p>
-                                        <p><?= $p['tanggal'] ?></p>
+                                        <p><?= $p['tanggal_awal'] ?></p>
                                     </div>
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <p class="text-success">Tanggal Selesai</p>
-                                        <p><?= $p['tanggal'] ?></p>
+                                        <p><?= $p['tanggal_akhir'] ?></p>
                                     </div>
                                 </div>
                                 <div class="form-group row">

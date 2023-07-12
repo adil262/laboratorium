@@ -11,13 +11,17 @@
                 </div>
             </div>
         </div>
-        <?= form_error('lab_pemrograman', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
+        <?= form_error('Riwayat', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
         <div class="row">
             <div class="col-md-10 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
                         <p class="card-title mb-0"><?= $page_title; ?></p>
-                        <div class="table-responsive">
+                        <div class="template-demo">
+                            <button type="button" onclick="tampilkanSukses()" class="btn btn-inverse-primary btn-fw btn-sm">Sukses</button>
+                            <button type="button" onclick="tampilkanProses()" class="btn btn-inverse-primary btn-fw btn-sm">Proses</button>
+                        </div>
+                        <div class="table-responsive" id="tampilanSukses">
                             <table class="table table-striped table-borderless">
                                 <thead>
                                     <tr>
@@ -33,7 +37,41 @@
                                 </thead>
                                 <tbody>
                                     <?php $no = 1; ?>
-                                    <?php foreach ($peminjaman as $pinjam) : ?>
+                                    <?php foreach ($sukses as $pinjam) : ?>
+                                        <tr>
+                                            <td><?= $no++; ?></td>
+                                            <td><?= $pinjam['name'] ?></td>
+                                            <td><?= $pinjam['no_ruangan'] ?></td>
+                                            <td><?= $pinjam['keterangan'] ?></td>
+                                            <td>
+                                                <a href="" class="badge badge-warning"><?= $pinjam['status'] ?></a>
+                                            </td>
+                                            <td>
+                                                <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $pinjam['id_peminjaman']; ?>" class="badge badge-info">Detail</a>
+                                                <!-- <a href="" class="badge badge-warning">Kembalikan</a> -->
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="table-responsive" id="tampilanProses">
+                            <table class="table table-striped table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama Peminjam</th>
+                                        <th>Ruangan</th>
+                                        <th>Keterangan</th>
+                                        <th>Status</th>
+                                        <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
+                                            <th>Aksi</th>
+                                        <?php } ?>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $no = 1; ?>
+                                    <?php foreach ($proses as $pinjam) : ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
                                             <td><?= $pinjam['name'] ?></td>
@@ -89,7 +127,7 @@
                                                         <a href="" class="badge badge-danger">Tolak</a>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
-                                                <a href="" class="badge badge-warning">Kembalikan</a>
+                                                <!-- <a href="" class="badge badge-warning">Kembalikan</a> -->
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -137,11 +175,11 @@
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Tanggal Mulai </p>
-                                    <p><?= $pinjam['tanggal'] ?></p>
+                                    <p><?= $pinjam['tanggal_awal'] ?></p>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Tanggal Selesai</p>
-                                    <p><?= $pinjam['tanggal'] ?></p>
+                                    <p><?= $pinjam['tanggal_akhir'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -186,3 +224,28 @@
         </div>
     <?php } ?>
     <!-- /.container-fluid -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var lastView = localStorage.getItem("lastView");
+            if (lastView === "proses") {
+                tampilkanProses();
+            } else {
+                tampilkanSukses();
+            }
+        });
+
+        function tampilkanSukses() {
+            document.getElementById("tampilanSukses").style.display = "block";
+            document.getElementById("tampilanProses").style.display = "none";
+            // Menyimpan status tampilan terakhir ke localStorage
+            localStorage.setItem("lastView", "sukses");
+        }
+
+        function tampilkanProses() {
+            document.getElementById("tampilanSukses").style.display = "none";
+            document.getElementById("tampilanProses").style.display = "block";
+            // Menyimpan status tampilan terakhir ke localStorage
+            localStorage.setItem("lastView", "proses");
+        }
+    </script>
+    </script>

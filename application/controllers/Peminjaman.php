@@ -21,7 +21,6 @@ class Peminjaman extends CI_Controller
         $page_data['nip'] = $this->session->nip;
 
         $page_data['user'] = $this->Md_Auth->getAll();
-        $page_data['peminjaman1'] = $this->Md_Peminjaman->getByPeminjamanuser();
         $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
         $page_data['level'] = $this->Md_Peminjaman->getLevel();
 

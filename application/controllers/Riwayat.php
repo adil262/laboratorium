@@ -20,7 +20,9 @@ class Riwayat extends CI_Controller
         $page_data['nip'] = $this->session->nip;
         $page_data['level'] = $this->session->level;
 
-        $page_data['peminjaman'] = $this->Md_Peminjaman->getPeminjaman();
+        $page_data['sukses'] = $this->Md_Peminjaman->getByPeminjamanSukses();
+        $page_data['proses'] = $this->Md_Peminjaman->getByPeminjamanProses();
+        $page_data['peminjaman'] = $this->Md_Peminjaman->getByPeminjaman();
         $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
 
         $this->load->view('templates/include_header', $page_data);
@@ -53,6 +55,7 @@ class Riwayat extends CI_Controller
                 // Update status approval KALAB menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Peminjaman Sukses");
+                $this->Md_Peminjaman->updateAktif($id_peminjaman, 1);
                 foreach ($barang as $data) {
                     $this->Md_Peminjaman->updateStatusData($data['id_lab'], $status_barang);
                 }
@@ -73,6 +76,7 @@ class Riwayat extends CI_Controller
                 // Update status approval KAJUR menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Peminjaman Sukses");
+                $this->Md_Peminjaman->updateAktif($id_peminjaman, 1);
                 foreach ($barang as $data) {
                     $this->Md_Peminjaman->updateStatusData($data['id_lab'], $status_barang);
                 }
@@ -80,7 +84,6 @@ class Riwayat extends CI_Controller
         }
         if ($peminjaman['id_level'] == 3) {
             if ($level == 'Ail' && $peminjaman['approval_ail'] == 0) {
-                // Update status approval AIL menjadi disetujui
                 // Update status approval AIL menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Ail");
@@ -99,6 +102,7 @@ class Riwayat extends CI_Controller
                 // Update status approval PUDIR1 menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Peminjaman Sukses");
+                $this->Md_Peminjaman->updateAktif($id_peminjaman, 1);
                 foreach ($barang as $data) {
                     $this->Md_Peminjaman->updateStatusData($data['id_lab'], $status_barang);
                 }

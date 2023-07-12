@@ -89,9 +89,7 @@
                                             <?php endforeach; ?>
                                         <?php } ?>
                                         <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
-                                            <?php foreach ($level as $l) : ?>
-                                                <option value="<?= $l['id_level']; ?>">Level <?= $l['id_level']; ?></option>
-                                            <?php endforeach; ?>
+                                            <option value="1">Level 1</option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -100,7 +98,8 @@
                                 <label for="waktu" class="col-sm-5">Waktu Pelaksanaan</label>
                                 <div class="col-sm">
                                     <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
-                                        <input type="date" class="form-control" name="tanggal" id="tanggal" placeholder="Tanggal" value="<?php echo date('Y-m-d', time()); ?>">
+                                        <input type="date" class="form-control" name="tanggal_awal" id="tanggal_awal" placeholder="Tanggal" value="<?php echo date('Y-m-d', time()); ?>">
+                                        <input type="date" class="form-control" name="tanggal_akhir" id="tanggal_akhir" placeholder="Tanggal" value="<?php echo date('Y-m-d', time()); ?>">
                                         <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" placeholder="Mulai" value="<?php echo date('H:i') ?>">
                                         <input type="time" class="form-control" name="jam_berakhir" id="jam_berakhir" placeholder="Selesai" value="<?php $time = new DateTime(date('H:i'));
                                                                                                                                                     $time->modify('+2 hours');
