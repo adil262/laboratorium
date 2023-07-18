@@ -27,10 +27,7 @@
                                         <th>Nama Barang</th>
                                         <th>No Barang</th>
                                         <th>Status</th>
-                                        <?php if ($this->session->userdata('level') == 'Kajur') { ?>
-                                            <th>Aksi</th>
-                                        <?php } ?>
-
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -42,9 +39,9 @@
                                             <td><?= $lab['no_barang'] ?></td>
                                             <td><?= $lab['status_barang'] ?></td>
                                             <td>
-                                                <a href="" data-toggle="modal" data-target="#detailLab<?= $lab['id_lab']; ?>" class="badge badge-info">Detail</a>
-                                                <?php if ($this->session->userdata('level') == 'Kajur') { ?>
-                                                    <a href="" data-id="<?= $lab['id_lab']; ?>" class="btn btn-warning btn-sm edit">Edit</a>
+                                                <a href="" data-toggle="modal" data-target="#detailLab<?= $lab['id_lab']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
+                                                <?php if ($this->session->userdata('level') == 'Kajur' && $this->session->userdata('level') == 'Kalab' && $this->session->userdata('level') == 'Ail') { ?>
+                                                    <a href="" data-id="<?= $lab['id_lab']; ?>" class="btn btn-inverse-warning btn-sm mdi mdi-border-color edit"></a>
                                                 <?php } ?>
                                             </td>
                                         </tr>
@@ -59,6 +56,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title"><?= $page_judul; ?></h4>
+                        <?= $this->session->flashdata('message'); ?>
                         <form action="<?= base_url('lab_pemrograman/add') ?>" enctype="multipart/form-data" method="post">
                             <div class="form-group">
                                 <label for="nama" class="col-sm-5">Nama Barang</label>
@@ -120,6 +118,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title"><?= $page_judul; ?></h4>
+                        <?= $this->session->flashdata('message'); ?>
                         <?php foreach ($lab_pemrograman as $lab) { ?>
                             <form action="<?= base_url('lab_pemrograman/update') ?>" enctype="multipart/form-data" method="post">
                                 <div class="form-group">

@@ -9,13 +9,25 @@ class Md_Peminjaman extends CI_model
         $this->load->database();
     }
     // Peminjaman
-    public function getByPeminjaman()
+    public function getByPeminjamanUser()
     {
         $this->db->select('peminjaman.*, ruangan.*, user.*, level.*');
         $this->db->from('peminjaman');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->join('level', 'peminjaman.id_level = level.id_level');
+        $this->db->where('id_peminjaman');
+        return $this->db->get()->result_array();
+    }
+    public function getByPeminjaman()
+    {
+        $this->db->select('peminjaman.*, ruangan.*, user.*, level.*, peminjaman_barang.*, data_barang.*');
+        $this->db->from('peminjaman');
+        $this->db->from('peminjaman_barang');
+        $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
+        $this->db->join('user', 'peminjaman.id_user = user.id_user');
+        $this->db->join('level', 'peminjaman.id_level = level.id_level');
+        $this->db->join('data_barang', 'peminjaman_barang.id_lab = data_barang.id_lab');
         return $this->db->get()->result_array();
     }
 

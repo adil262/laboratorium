@@ -28,4 +28,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/') ?>css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="<?= base_url('assets/') ?>images/favicon.png" />
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="<?= base_url('assets/') ?>vendors/mdi/css/materialdesignicons.min.css">
+
 </head>

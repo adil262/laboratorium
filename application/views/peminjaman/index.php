@@ -22,17 +22,21 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Nama Laboratorium</th>
+                                        <th>Nama</th>
                                         <th>Ruangan</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $no = 1; ?>
-                                    <?php foreach ($ruangan as $b) : ?>
+                                    <?php foreach ($ruangan1 as $b) : ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
-                                            <td><?= $b['nama_ruangan'] ?></td>
+                                            <td><?= $b['name'] ?></td>
                                             <td>R.<?= $b['no_ruangan'] ?></td>
+                                            <td>
+                                                <a href="" data-toggle="modal" data-target="#detailLab<?= $b['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -45,6 +49,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title"><?= $page_judul; ?></h4>
+                        <?= $this->session->flashdata('message'); ?>
                         <form action="<?= base_url('Peminjaman/add') ?>" method="post">
                             <input type="hidden" id="id_user" name="id_user" value="<?php if (isset($id_user)) {
                                                                                         echo $id_user;
@@ -100,19 +105,22 @@
                                     <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
                                         <input type="date" class="form-control" name="tanggal_awal" id="tanggal_awal" placeholder="Tanggal" value="<?php echo date('Y-m-d', time()); ?>">
                                         <input type="date" class="form-control" name="tanggal_akhir" id="tanggal_akhir" placeholder="Tanggal" value="<?php echo date('Y-m-d', time()); ?>">
-                                        <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" placeholder="Mulai" value="<?php echo date('H:i') ?>">
-                                        <input type="time" class="form-control" name="jam_berakhir" id="jam_berakhir" placeholder="Selesai" value="<?php $time = new DateTime(date('H:i'));
-                                                                                                                                                    $time->modify('+2 hours');
-                                                                                                                                                    echo $time->format('H:i'); ?>">
+                                        <input type="time" class="form-control" name="jam_awal" id="jam_awal" placeholder="Mulai" value="<?php echo date('H:i') ?>">
+                                        <input type="time" class="form-control" name="jam_akhir" id="jam_akhir" placeholder="Selesai" value="<?php $time = new DateTime(date('H:i'));
+                                                                                                                                                $time->modify('+2 hours');
+                                                                                                                                                echo $time->format('H:i'); ?>">
                                     <?php } ?>
                                     <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
-                                        <input type="date" class="form-control" name="tanggal" id="tanggal" placeholder="Tanggal" value="<?php $time = new DateTime(date('Y-m-d', time()));
-                                                                                                                                            $time->modify('+3 days');
-                                                                                                                                            echo $time->format('Y-m-d'); ?>">
-                                        <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" placeholder="Mulai" value="<?php echo date('H:i') ?>">
-                                        <input type="time" class="form-control" name="jam_berakhir" id="jam_berakhir" placeholder="Selesai" value="<?php $time = new DateTime(date('H:i'));
-                                                                                                                                                    $time->modify('+2 hours');
-                                                                                                                                                    echo $time->format('H:i'); ?>">
+                                        <input type="date" class="form-control" name="tanggal_awal" id="tanggal_awal" placeholder="Tanggal Mulai" value="<?php $time = new DateTime(date('Y-m-d', time()));
+                                                                                                                                                            $time->modify('+3 days');
+                                                                                                                                                            echo $time->format('Y-m-d'); ?>">
+                                        <input type="date" class="form-control" name="tanggal_akhir" id="tanggal_akhir" placeholder="Tanggal Mulai" value="<?php $time = new DateTime(date('Y-m-d', time()));
+                                                                                                                                                            $time->modify('+3 days');
+                                                                                                                                                            echo $time->format('Y-m-d'); ?>">
+                                        <input type="time" class="form-control" name="jam_awal" id="jam_awal" placeholder="Mulai" value="<?php echo date('H:i') ?>">
+                                        <input type="time" class="form-control" name="jam_akhir" id="jam_akhir" placeholder="Selesai" value="<?php $time = new DateTime(date('H:i'));
+                                                                                                                                                $time->modify('+2 hours');
+                                                                                                                                                echo $time->format('H:i'); ?>">
                                     <?php } ?>
                                 </div>
                             </div>

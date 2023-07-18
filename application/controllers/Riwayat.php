@@ -111,6 +111,19 @@ class Riwayat extends CI_Controller
         redirect('riwayat/index');
     }
 
+    public function disaccrequest($id_peminjaman)
+    {
+        $disaccrequest = $this->db->delete('peminjaman', array('id_peminjaman' => $id_peminjaman));
+        $disaccrequest1 = $this->db->delete('peminjaman_barang', array('id_peminjaman' => $id_peminjaman));
+        if ($disaccrequest && $disaccrequest1) {
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Request ditolak!</div>');
+            redirect('riwayat/index');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Request gagal ditolak!</div>');
+            redirect('riwayat/index');
+        }
+    }
+
     // public function getdatauser()
     // {
     //     $id_ruangan = $this->input->post('no_ruangan');

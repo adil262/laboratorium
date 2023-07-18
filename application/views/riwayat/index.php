@@ -47,7 +47,7 @@
                                                 <a href="" class="badge badge-warning"><?= $pinjam['status'] ?></a>
                                             </td>
                                             <td>
-                                                <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $pinjam['id_peminjaman']; ?>" class="badge badge-info">Detail</a>
+                                                <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $pinjam['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
                                                 <!-- <a href="" class="badge badge-warning">Kembalikan</a> -->
                                             </td>
                                         </tr>
@@ -64,9 +64,7 @@
                                         <th>Ruangan</th>
                                         <th>Keterangan</th>
                                         <th>Status</th>
-                                        <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
-                                            <th>Aksi</th>
-                                        <?php } ?>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -81,50 +79,50 @@
                                                 <a href="" class="badge badge-warning"><?= $pinjam['status'] ?></a>
                                             </td>
                                             <td>
-                                                <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $pinjam['id_peminjaman']; ?>" class="badge badge-info">Detail</a>
+                                                <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $pinjam['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
 
                                                 <?php if ($pinjam['id_level'] == 1) : ?>
                                                     <?php if ($level == 'Ail' && $pinjam['approval_ail'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_ail'); ?>" class="badge badge-success">Terima</a>
-                                                        <a href="" class="badge badge-danger">Tolak</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="<?php echo base_url('riwayat/disaccrequest/' . $pinjam['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Kalab' && $pinjam['approval_kalab'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kalab'); ?>" class="badge badge-success">Terima</a>
-                                                        <a href="" class="badge badge-danger">Tolak</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="<?php echo base_url('riwayat/disaccrequest/' . $pinjam['id_peminjaman']); ?>" class=" btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
 
                                                 <?php if ($pinjam['id_level'] == 2) : ?>
                                                     <?php if ($level == 'Ail' && $pinjam['approval_ail'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_ail'); ?>" class="badge badge-success">Terima</a>
-                                                        <a href="" class="badge badge-danger">Tolak</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Kalab' && $pinjam['approval_kalab'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kalab'); ?>" class="badge badge-success">Terima</a>
-                                                        <a href="" class="badge badge-danger">Tolak</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Kajur' && $pinjam['approval_kajur'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kajur'); ?>" class="badge badge-success">Terima</a>
-                                                        <a href="" class="badge badge-danger">Tolak</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kajur'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
 
                                                 <?php if ($pinjam['id_level'] == 3) : ?>
                                                     <?php if ($level == 'Ail' && $pinjam['approval_ail'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_ail'); ?>" class="badge badge-success">Terima</a>
-                                                        <a href="" class="badge badge-danger">Tolak</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Kalab' && $pinjam['approval_kalab'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kalab'); ?>" class="badge badge-success">Terima</a>
-                                                        <a href="" class="badge badge-danger">Tolak</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Kajur' && $pinjam['approval_kajur'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kajur'); ?>" class="badge badge-success">Terima</a>
-                                                        <a href="" class="badge badge-danger">Tolak</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kajur'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Pudir1' && $pinjam['approval_pudir1'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_pudir1'); ?>" class="badge badge-success">Terima</a>
-                                                        <a href="" class="badge badge-danger">Tolak</a>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_pudir1'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
                                                 <!-- <a href="" class="badge badge-warning">Kembalikan</a> -->
@@ -185,11 +183,11 @@
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Jam Mulai </p>
-                                    <p><?= $pinjam['jam_mulai'] ?></p>
+                                    <p><?= $pinjam['jam_awal'] ?></p>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Jam Selesai</p>
-                                    <p><?= $pinjam['jam_selesai'] ?></p>
+                                    <p><?= $pinjam['jam_akhir'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -205,7 +203,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <p class="text-success">Barang </p>
-                                    <p></p>
+                                    <p><?= $pinjam['no_barang'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">

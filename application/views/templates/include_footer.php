@@ -47,6 +47,10 @@
         <script src="<?= base_url('assets/') ?>js/typeahead.js"></script>
         <script src="<?= base_url('assets/') ?>js/select2.js"></script>
         <!-- End custom js for this page-->
+        <!-- inject:js -->
+        <!-- endinject -->
+        <!-- Custom js for this page-->
+        <!-- End custom js for this page-->
         </body>
 
         </html>

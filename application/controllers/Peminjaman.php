@@ -21,7 +21,7 @@ class Peminjaman extends CI_Controller
         $page_data['nip'] = $this->session->nip;
 
         $page_data['user'] = $this->Md_Auth->getAll();
-        $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
+        $page_data['ruangan1'] = $this->Md_Peminjaman->getByPeminjamanUser();
         $page_data['level'] = $this->Md_Peminjaman->getLevel();
 
         $this->form_validation->set_rules('nohp', 'Nohp', 'required');
@@ -54,7 +54,10 @@ class Peminjaman extends CI_Controller
             'id_level' => $this->input->post('id_level'),
             'id_ail' => $this->input->post('id_ail'),
             'nohp' => $this->input->post('nohp'),
-            'tanggal' => $this->input->post('tanggal'),
+            'tanggal_awal' => $this->input->post('tanggal_awal'),
+            'tanggal_akhir' => $this->input->post('tanggal_akhir'),
+            'jam_awal' => $this->input->post('jam_awal'),
+            'jam_akhir' => $this->input->post('jam_akhir'),
             'keterangan' => $this->input->post('keterangan'),
             'peserta' => $this->input->post('peserta'),
             'status' => 'Pending',

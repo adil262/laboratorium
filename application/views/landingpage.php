@@ -200,11 +200,11 @@
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <p class="text-success">Jam Mulai </p>
-                                        <p><?= $p['jam_mulai'] ?></p>
+                                        <p><?= $p['jam_awal'] ?></p>
                                     </div>
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <p class="text-success">Jam Selesai</p>
-                                        <p><?= $p['jam_selesai'] ?></p>
+                                        <p><?= $p['jam_akhir'] ?></p>
                                     </div>
                                 </div>
                             </div>

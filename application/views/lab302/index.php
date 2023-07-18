@@ -27,9 +27,7 @@
                                         <th>Nama Barang</th>
                                         <th>No Barang</th>
                                         <th>Status</th>
-                                        <?php if ($this->session->userdata('level') == 'Kajur') { ?>
-                                            <th>Aksi</th>
-                                        <?php } ?>
+                                        <th>Aksi</th>
 
                                     </tr>
                                 </thead>
@@ -42,7 +40,7 @@
                                             <td><?= $lab['no_barang'] ?></td>
                                             <td><?= $lab['status_barang'] ?></td>
                                             <td>
-                                                <a href="" data-toggle="modal" data-target="#detailLab<?= $lab['id_lab']; ?>" class="badge badge-info">Detail</a>
+                                                <a href="" data-toggle="modal" data-target="#detailLab<?= $lab['id_lab']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant">Detail</a>
                                                 <?php if ($this->session->userdata('level') == 'Kajur') { ?>
                                                     <a href="" class="badge badge-success">Edit</a>
                                                 <?php } ?>
