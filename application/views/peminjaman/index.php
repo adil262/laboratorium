@@ -29,13 +29,22 @@
                                 </thead>
                                 <tbody>
                                     <?php $no = 1; ?>
-                                    <?php foreach ($ruangan1 as $b) : ?>
+                                    <?php foreach ($riwayat_peminjaman as $b) : ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
                                             <td><?= $b['name'] ?></td>
                                             <td>R.<?= $b['no_ruangan'] ?></td>
                                             <td>
-                                                <a href="" data-toggle="modal" data-target="#detailLab<?= $b['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
+                                                <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $b['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
+                                                <?php if ($b['status'] == "Peminjaman Sukses") : ?>
+                                                    <form method="post" action="<?php echo base_url('peminjaman/proses_pengembalian'); ?>">
+                                                        <input type="hidden" name="id_peminjaman" value="<?= $b['id_peminjaman']; ?>">
+                                                        <button class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline" type="submit">Kembalikan</button>
+                                                    </form>
+                                                <?php endif; ?>
+                                                <?php if ($b['status'] == "Pending") : ?>
+                                                    <a href="<?php echo site_url('peminjaman/batalpinjam/' . $b['id_peminjaman']); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -234,6 +243,90 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <?php foreach ($peminjaman as $pinjam) { ?>
+        <div class="modal fade bd-example-modal-lg" id="detailPeminjaman<?= $pinjam['id_peminjaman']; ?>" tabindex="-1" role="dialog" aria-labelledby="detailPeminjamanLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailPeminjamanLabel"><?= $page_judul; ?></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Nama </p>
+                                    <p><?= $pinjam['name'] ?></p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="text-success">No Hp </p>
+                                    <p><?= $pinjam['nohp'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Ruangan </p>
+                                    <p>R.<?= $pinjam['no_ruangan'] ?></p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="text-success">Level</p>
+                                    <p><?= $pinjam['id_level'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Tanggal Mulai </p>
+                                    <p><?= $pinjam['tanggal_awal'] ?></p>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Tanggal Selesai</p>
+                                    <p><?= $pinjam['tanggal_akhir'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Jam Mulai </p>
+                                    <p><?= $pinjam['jam_awal'] ?></p>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Jam Selesai</p>
+                                    <p><?= $pinjam['jam_akhir'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Keterangan </p>
+                                    <p><?= $pinjam['keterangan'] ?></p>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Peserta</p>
+                                    <p><?= $pinjam['peserta'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <p class="text-success">Barang </p>
+                                    <p><?= $pinjam['no_barang'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Status </p>
+                                    <p class="badge badge-warning"><?= $pinjam['status'] ?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
     <!-- content-wrapper ends -->
 
     <script>

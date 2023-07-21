@@ -40,7 +40,7 @@
                                             <td><?= $lab['status_barang'] ?></td>
                                             <td>
                                                 <a href="" data-toggle="modal" data-target="#detailLab<?= $lab['id_lab']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
-                                                <?php if ($this->session->userdata('level') == 'Kajur' && $this->session->userdata('level') == 'Kalab' && $this->session->userdata('level') == 'Ail') { ?>
+                                                <?php if ($this->session->userdata('level') == 'Kajur') { ?>
                                                     <a href="" data-id="<?= $lab['id_lab']; ?>" class="btn btn-inverse-warning btn-sm mdi mdi-border-color edit"></a>
                                                 <?php } ?>
                                             </td>

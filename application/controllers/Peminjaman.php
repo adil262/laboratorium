@@ -15,20 +15,25 @@ class Peminjaman extends CI_Controller
     {
         $page_data['page_title'] = "Ajukan Peminjaman";
         $page_data['page_judul'] = "Tambah Peminjaman";
-        $page_data['id_user'] = $this->session->id_user;
         $page_data['email'] = $this->session->email;
         $page_data['name'] = $this->session->name;
         $page_data['nip'] = $this->session->nip;
 
+        $id_user = $this->session->userdata('id_user');
+
+        if (!$id_user) {
+            // Jika tidak ada ID user dalam sesi, mungkin pengguna belum login
+            // Lakukan aksi sesuai kebijakan Anda, misalnya arahkan ke halaman login
+            // ...
+            return;
+        }
+        $page_data['riwayat_peminjaman'] = $this->Md_Peminjaman->getPeminjamanByUser($id_user);
+
+        $page_data['peminjaman'] = $this->Md_Peminjaman->getByPeminjaman();
         $page_data['user'] = $this->Md_Auth->getAll();
         $page_data['ruangan1'] = $this->Md_Peminjaman->getByPeminjamanUser();
         $page_data['level'] = $this->Md_Peminjaman->getLevel();
-
-        $this->form_validation->set_rules('nohp', 'Nohp', 'required');
-        $this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
-        $this->form_validation->set_rules('level', 'Level', 'required');
-        $this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
-        $this->form_validation->set_rules('jam_mulai', 'Jam_mulai', 'required');
+        $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
 
         $this->load->view('templates/include_header', $page_data);
         $this->load->view('templates/include_topbar', $page_data);
@@ -66,6 +71,21 @@ class Peminjaman extends CI_Controller
             'approval_kajur' => 0,
             'approval_pudir1' => 0,
         );
+        // Cek apakah ada foto yang diunggah
+        if (!empty($_FILES['gambar']['name'])) {
+            $config['upload_path'] = './assets/gambar';
+            $config['allowed_types'] = 'jpg|png|gif';
+
+            $this->upload->initialize($config);
+
+            if ($this->upload->do_upload('gambar')) {
+                $data['gambar'] = $this->upload->data('file_name');
+            } else {
+                // Foto gagal diunggah, tampilkan pesan error atau lakukan aksi lain
+                // ...
+            }
+        }
+
         $id_peminjaman = $this->Md_Peminjaman->add($data);
         $id_lab = $this->input->post('id_lab');
         foreach ($id_lab as $data) {
@@ -91,6 +111,38 @@ class Peminjaman extends CI_Controller
         $id_ruangan = $this->input->post('no_ruangan');
         $page_data = $this->Md_Peminjaman->getdatabarang($id_ruangan);
         echo json_encode($page_data);
+    }
+
+    public function proses_pengembalian()
+    {
+        // Lakukan validasi data pengembalian barang, seperti ID peminjaman
+        // ...
+        $id_peminjaman = $this->input->post('id_peminjaman');
+
+        // Panggil fungsi di model untuk memproses pengembalian barang
+        $this->Md_Peminjaman->pengembalian_barang($id_peminjaman);
+
+        // Tampilkan pesan sukses atau lakukan aksi lain setelah pengembalian berhasil
+        // ...
+    }
+
+    public function kembalikan($id_peminjaman, $is_active)
+    {
+        $level = $this->session->userdata('level');
+
+        if ($level == 'Ail') {
+        }
+    }
+
+    public function batalpinjam($id_peminjaman)
+    {
+        $batalpinjam = $this->Md_Peminjaman->deletedata('peminjaman', array('id_peminjaman' => $id_peminjaman));
+        if ($batalpinjam) {
+            $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				<h5><i class="icon fas fa-check"></i> Dibatalkan!</h5></div>');
+            redirect('peminjaman');
+        }
     }
 
     // public function riwayat()

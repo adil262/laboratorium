@@ -95,7 +95,12 @@ class Md_Peminjaman extends CI_model
         $this->db->update('peminjaman');
     }
 
-    // // Peminjaman Barang
+    public function deletedata($table, $where)
+    {
+        return $this->db->delete($table, $where);
+    }
+
+    // Peminjaman Barang
     public function addPeminjamanLab($data_peminjaman)
     {
         // Simpan data peminjaman ke tabel peminjaman
@@ -120,6 +125,19 @@ class Md_Peminjaman extends CI_model
         $this->db->where('id_lab', $id_peminjaman);
         $this->db->set('status_barang', $status_barang);
         $this->db->update('data_barang');
+    }
+
+    public function getPeminjamanByUser($id_user)
+    {
+        $this->db->select('peminjaman.*, ruangan.*, user.*, level.*');
+        $this->db->from('peminjaman');
+        $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
+        $this->db->join('user', 'peminjaman.id_user = user.id_user');
+        $this->db->join('level', 'peminjaman.id_level = level.id_level');
+        $this->db->where('peminjaman.id_user', $id_user);
+        $this->db->order_by('tanggal_awal', 'desc');
+        $query = $this->db->get();
+        return $query->result_array();
     }
 
     //Ruangan

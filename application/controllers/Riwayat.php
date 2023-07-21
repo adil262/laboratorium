@@ -43,7 +43,6 @@ class Riwayat extends CI_Controller
         $barang = $this->Md_Peminjaman->updateStatusBarang($id_peminjaman);
         // $peminjaman1 = $this->Md_Peminjaman->updateStatusBarang($id_peminjaman);
 
-
         // // Cek apakah pengguna memiliki hak akses untuk melakukan approval
         if ($peminjaman['id_level'] == 1) {
             if ($level == 'Ail' && $peminjaman['approval_ail'] == 0) {
