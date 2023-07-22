@@ -100,6 +100,32 @@ class Md_Peminjaman extends CI_model
         return $this->db->delete($table, $where);
     }
 
+    public function pengembalian_barang($id_peminjaman)
+    {
+        // Ambil data peminjaman berdasarkan ID
+        $this->db->where('id_peminjaman', $id_peminjaman);
+        $query = $this->db->get('peminjaman');
+
+        if ($query->num_rows() > 0) {
+            $peminjaman = $query->row_array();
+
+            // Pastikan peminjaman belum dikembalikan sebelum melakukan proses pengembalian
+            if ($peminjaman['status'] == 'Peminjaman Sukses') {
+                // Update data peminjaman dengan status "Dikembalikan" dan tanggal kembali saat ini
+                $data = array(
+                    'status' => 'Menunggu Konfirmasi',
+                );
+
+                $this->db->where('id_peminjaman', $id_peminjaman);
+                $this->db->update('peminjaman', $data);
+
+                return true; // Pengembalian berhasil
+            }
+        }
+
+        return false; // Pengembalian gagal atau ID peminjaman tidak ditemukan
+    }
+
     // Peminjaman Barang
     public function addPeminjamanLab($data_peminjaman)
     {

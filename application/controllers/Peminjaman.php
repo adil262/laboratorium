@@ -121,6 +121,7 @@ class Peminjaman extends CI_Controller
 
         // Panggil fungsi di model untuk memproses pengembalian barang
         $this->Md_Peminjaman->pengembalian_barang($id_peminjaman);
+        redirect('peminjaman');
 
         // Tampilkan pesan sukses atau lakukan aksi lain setelah pengembalian berhasil
         // ...

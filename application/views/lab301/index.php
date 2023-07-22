@@ -55,7 +55,7 @@
             <div id="formTambah" style="display:none;" class="col-md-4 stretch-card" aria-hidden="true">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title"><?= $page_judul; ?></h4>
+                        <h4 class="card-title"><?= $page_tambah; ?></h4>
                         <?= $this->session->flashdata('message'); ?>
                         <form action="<?= base_url('lab_pemrograman/add') ?>" enctype="multipart/form-data" method="post">
                             <div class="form-group">
@@ -114,12 +114,12 @@
                     </div>
                 </div>
             </div>
-            <div id="formEdit<?= $lab['id_lab']; ?>" style="display:none;" class="col-md-4 stretch-card" aria-hidden="true">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title"><?= $page_judul; ?></h4>
-                        <?= $this->session->flashdata('message'); ?>
-                        <?php foreach ($lab_pemrograman as $lab) { ?>
+            <?php foreach ($lab_pemrograman as $lab) { ?>
+                <div id="formEdit<?= $lab['id_lab']; ?>" style="display:none;" class="col-md-4 stretch-card" aria-hidden="true">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title"><?= $page_edit; ?></h4>
+                            <?= $this->session->flashdata('message'); ?>
                             <form action="<?= base_url('lab_pemrograman/update') ?>" enctype="multipart/form-data" method="post">
                                 <div class="form-group">
                                     <label for="nama" class="col-sm-5">Nama Barang</label>
@@ -174,10 +174,11 @@
                                     <button type="submit" class="btn btn-primary">Simpan</button>
                                 </div>
                             </form>
-                        <?php } ?>
+
+                        </div>
                     </div>
                 </div>
-            </div>
+            <?php } ?>
         </div>
     </div>
     <!-- content-wrapper ends -->
@@ -256,5 +257,15 @@
                     formTambah.style.display = 'none';
                 }
             });
+            edit[i].addEventListener('click', function(event) {
+                event.preventDefault();
+                var formEdit = document.getElementById('formEdit<?= $lab['id_lab']; ?>');
+                if (formEdit.style.display === 'none') {
+                    formEdit.style.display = 'block';
+                } else {
+                    formEdit.style.display = 'none';
+                }
+            });
+
         }
     </script>

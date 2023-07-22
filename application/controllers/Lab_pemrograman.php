@@ -12,7 +12,8 @@ class Lab_pemrograman extends CI_Controller
     public function index()
     {
         $page_data['page_title'] = 'Lab Pemrograman - R.301';
-        $page_data['page_judul'] = 'Tambah Data Laboratorium';
+        $page_data['page_tambah'] = 'Tambah Data Laboratorium';
+        $page_data['page_edit'] = 'Edit Data Laboratorium';
         $page_data['page_detail'] = 'Detail Data Laboratorium';
         $page_data['email'] = $this->session->email;
         $page_data['name'] = $this->session->name;

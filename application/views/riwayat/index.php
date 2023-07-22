@@ -30,24 +30,22 @@
                                         <th>Ruangan</th>
                                         <th>Keterangan</th>
                                         <th>Status</th>
-                                        <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
-                                            <th>Aksi</th>
-                                        <?php } ?>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $no = 1; ?>
-                                    <?php foreach ($sukses as $pinjam) : ?>
+                                    <?php foreach ($sukses as $s) : ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
-                                            <td><?= $pinjam['name'] ?></td>
-                                            <td><?= $pinjam['no_ruangan'] ?></td>
-                                            <td><?= $pinjam['keterangan'] ?></td>
+                                            <td><?= $s['name'] ?></td>
+                                            <td><?= $s['no_ruangan'] ?></td>
+                                            <td><?= $s['keterangan'] ?></td>
                                             <td>
-                                                <a href="" class="badge badge-warning"><?= $pinjam['status'] ?></a>
+                                                <a href="" class="badge badge-warning"><?= $s['status'] ?></a>
                                             </td>
                                             <td>
-                                                <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $pinjam['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
+                                                <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $s['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
                                                 <!-- <a href="" class="badge badge-warning">Kembalikan</a> -->
                                             </td>
                                         </tr>
@@ -69,59 +67,59 @@
                                 </thead>
                                 <tbody>
                                     <?php $no = 1; ?>
-                                    <?php foreach ($proses as $pinjam) : ?>
+                                    <?php foreach ($proses as $p) : ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
-                                            <td><?= $pinjam['name'] ?></td>
-                                            <td><?= $pinjam['no_ruangan'] ?></td>
-                                            <td><?= $pinjam['keterangan'] ?></td>
+                                            <td><?= $p['name'] ?></td>
+                                            <td><?= $p['no_ruangan'] ?></td>
+                                            <td><?= $p['keterangan'] ?></td>
                                             <td>
-                                                <a href="" class="badge badge-warning"><?= $pinjam['status'] ?></a>
+                                                <a href="" class="badge badge-warning"><?= $p['status'] ?></a>
                                             </td>
                                             <td>
-                                                <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $pinjam['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
+                                                <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $p['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
 
-                                                <?php if ($pinjam['id_level'] == 1) : ?>
-                                                    <?php if ($level == 'Ail' && $pinjam['approval_ail'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
-                                                        <a href="<?php echo base_url('riwayat/disaccrequest/' . $pinjam['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                <?php if ($p['id_level'] == 1) : ?>
+                                                    <?php if ($level == 'Ail' && $p['approval_ail'] == 0) : ?>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $p['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="<?php echo base_url('riwayat/disaccrequest/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
-                                                    <?php if ($level == 'Kalab' && $pinjam['approval_kalab'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
-                                                        <a href="<?php echo base_url('riwayat/disaccrequest/' . $pinjam['id_peminjaman']); ?>" class=" btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                    <?php if ($level == 'Kalab' && $p['approval_kalab'] == 0) : ?>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $p['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="<?php echo base_url('riwayat/disaccrequest/' . $p['id_peminjaman']); ?>" class=" btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
 
-                                                <?php if ($pinjam['id_level'] == 2) : ?>
-                                                    <?php if ($level == 'Ail' && $pinjam['approval_ail'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                <?php if ($p['id_level'] == 2) : ?>
+                                                    <?php if ($level == 'Ail' && $p['approval_ail'] == 0) : ?>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $p['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
                                                         <a href="" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
-                                                    <?php if ($level == 'Kalab' && $pinjam['approval_kalab'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                    <?php if ($level == 'Kalab' && $p['approval_kalab'] == 0) : ?>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $p['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
                                                         <a href="" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
-                                                    <?php if ($level == 'Kajur' && $pinjam['approval_kajur'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kajur'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                    <?php if ($level == 'Kajur' && $p['approval_kajur'] == 0) : ?>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $p['id_peminjaman'] . '/approval_kajur'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
                                                         <a href="" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
 
-                                                <?php if ($pinjam['id_level'] == 3) : ?>
-                                                    <?php if ($level == 'Ail' && $pinjam['approval_ail'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                <?php if ($p['id_level'] == 3) : ?>
+                                                    <?php if ($level == 'Ail' && $p['approval_ail'] == 0) : ?>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $p['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
                                                         <a href="" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
-                                                    <?php if ($level == 'Kalab' && $pinjam['approval_kalab'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                    <?php if ($level == 'Kalab' && $p['approval_kalab'] == 0) : ?>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $p['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
                                                         <a href="" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
-                                                    <?php if ($level == 'Kajur' && $pinjam['approval_kajur'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_kajur'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                    <?php if ($level == 'Kajur' && $p['approval_kajur'] == 0) : ?>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $p['id_peminjaman'] . '/approval_kajur'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
                                                         <a href="" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
-                                                    <?php if ($level == 'Pudir1' && $pinjam['approval_pudir1'] == 0) : ?>
-                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $pinjam['id_peminjaman'] . '/approval_pudir1'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                    <?php if ($level == 'Pudir1' && $p['approval_pudir1'] == 0) : ?>
+                                                        <a href="<?php echo site_url('riwayat/submitApproval/' . $p['id_peminjaman'] . '/approval_pudir1'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
                                                         <a href="" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
@@ -138,8 +136,8 @@
         </div>
     </div>
     <!-- Modal -->
-    <?php foreach ($peminjaman as $pinjam) { ?>
-        <div class="modal fade bd-example-modal-lg" id="detailPeminjaman<?= $pinjam['id_peminjaman']; ?>" tabindex="-1" role="dialog" aria-labelledby="detailPeminjamanLabel" aria-hidden="true">
+    <?php foreach ($sukses as $s) { ?>
+        <div class="modal fade bd-example-modal-lg" id="detailPeminjaman<?= $s['id_peminjaman']; ?>" tabindex="-1" role="dialog" aria-labelledby="detailPeminjamanLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -153,63 +151,146 @@
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Nama </p>
-                                    <p><?= $pinjam['name'] ?></p>
+                                    <p><?= $s['name'] ?></p>
                                 </div>
                                 <div class="col-sm-6">
                                     <p class="text-success">No Hp </p>
-                                    <p><?= $pinjam['nohp'] ?></p>
+                                    <p><?= $s['nohp'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Ruangan </p>
-                                    <p>R.<?= $pinjam['no_ruangan'] ?></p>
+                                    <p>R.<?= $s['no_ruangan'] ?></p>
                                 </div>
                                 <div class="col-sm-6">
                                     <p class="text-success">Level</p>
-                                    <p><?= $pinjam['id_level'] ?></p>
+                                    <p><?= $s['id_level'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Tanggal Mulai </p>
-                                    <p><?= $pinjam['tanggal_awal'] ?></p>
+                                    <p><?= $s['tanggal_awal'] ?></p>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Tanggal Selesai</p>
-                                    <p><?= $pinjam['tanggal_akhir'] ?></p>
+                                    <p><?= $s['tanggal_akhir'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Jam Mulai </p>
-                                    <p><?= $pinjam['jam_awal'] ?></p>
+                                    <p><?= $s['jam_awal'] ?></p>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Jam Selesai</p>
-                                    <p><?= $pinjam['jam_akhir'] ?></p>
+                                    <p><?= $s['jam_akhir'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Keterangan </p>
-                                    <p><?= $pinjam['keterangan'] ?></p>
+                                    <p><?= $s['keterangan'] ?></p>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Peserta</p>
-                                    <p><?= $pinjam['peserta'] ?></p>
+                                    <p><?= $s['peserta'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <p class="text-success">Barang </p>
-                                    <p><?= $pinjam['no_barang'] ?></p>
+                                    <p><?= $s['no_barang'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Status </p>
-                                    <p class="badge badge-warning"><?= $pinjam['status'] ?></p>
+                                    <p class="badge badge-warning"><?= $s['status'] ?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+    <?php foreach ($proses as $p) { ?>
+        <div class="modal fade bd-example-modal-lg" id="detailPeminjaman<?= $p['id_peminjaman']; ?>" tabindex="-1" role="dialog" aria-labelledby="detailPeminjamanLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailPeminjamanLabel"><?= $page_judul; ?></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Nama </p>
+                                    <p><?= $p['name'] ?></p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="text-success">No Hp </p>
+                                    <p><?= $p['nohp'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Ruangan </p>
+                                    <p>R.<?= $p['no_ruangan'] ?></p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="text-success">Level</p>
+                                    <p><?= $p['id_level'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Tanggal Mulai </p>
+                                    <p><?= $p['tanggal_awal'] ?></p>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Tanggal Selesai</p>
+                                    <p><?= $p['tanggal_akhir'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Jam Mulai </p>
+                                    <p><?= $p['jam_awal'] ?></p>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Jam Selesai</p>
+                                    <p><?= $p['jam_akhir'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Keterangan </p>
+                                    <p><?= $p['keterangan'] ?></p>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Peserta</p>
+                                    <p><?= $p['peserta'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <p class="text-success">Barang </p>
+                                    <p><?= $p['no_barang'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Status </p>
+                                    <p class="badge badge-warning"><?= $p['status'] ?></p>
                                 </div>
                             </div>
                         </div>

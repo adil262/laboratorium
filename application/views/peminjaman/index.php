@@ -244,8 +244,8 @@
         </div>
     </div>
     <!-- Modal -->
-    <?php foreach ($peminjaman as $pinjam) { ?>
-        <div class="modal fade bd-example-modal-lg" id="detailPeminjaman<?= $pinjam['id_peminjaman']; ?>" tabindex="-1" role="dialog" aria-labelledby="detailPeminjamanLabel" aria-hidden="true">
+    <?php foreach ($riwayat_peminjaman as $b) { ?>
+        <div class="modal fade bd-example-modal-lg" id="detailPeminjaman<?= $b['id_peminjaman']; ?>" tabindex="-1" role="dialog" aria-labelledby="detailPeminjamanLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -259,63 +259,63 @@
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Nama </p>
-                                    <p><?= $pinjam['name'] ?></p>
+                                    <p><?= $b['name'] ?></p>
                                 </div>
                                 <div class="col-sm-6">
                                     <p class="text-success">No Hp </p>
-                                    <p><?= $pinjam['nohp'] ?></p>
+                                    <p><?= $b['nohp'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Ruangan </p>
-                                    <p>R.<?= $pinjam['no_ruangan'] ?></p>
+                                    <p>R.<?= $b['no_ruangan'] ?></p>
                                 </div>
                                 <div class="col-sm-6">
                                     <p class="text-success">Level</p>
-                                    <p><?= $pinjam['id_level'] ?></p>
+                                    <p><?= $b['id_level'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Tanggal Mulai </p>
-                                    <p><?= $pinjam['tanggal_awal'] ?></p>
+                                    <p><?= $b['tanggal_awal'] ?></p>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Tanggal Selesai</p>
-                                    <p><?= $pinjam['tanggal_akhir'] ?></p>
+                                    <p><?= $b['tanggal_akhir'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Jam Mulai </p>
-                                    <p><?= $pinjam['jam_awal'] ?></p>
+                                    <p><?= $b['jam_awal'] ?></p>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Jam Selesai</p>
-                                    <p><?= $pinjam['jam_akhir'] ?></p>
+                                    <p><?= $b['jam_akhir'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Keterangan </p>
-                                    <p><?= $pinjam['keterangan'] ?></p>
+                                    <p><?= $b['keterangan'] ?></p>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Peserta</p>
-                                    <p><?= $pinjam['peserta'] ?></p>
+                                    <p><?= $b['peserta'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <p class="text-success">Barang </p>
-                                    <p><?= $pinjam['no_barang'] ?></p>
+                                    <p><?= $b['no_barang'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <p class="text-success">Status </p>
-                                    <p class="badge badge-warning"><?= $pinjam['status'] ?></p>
+                                    <p class="badge badge-warning"><?= $b['status'] ?></p>
                                 </div>
                             </div>
                         </div>
