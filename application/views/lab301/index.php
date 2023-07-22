@@ -41,7 +41,7 @@
                                             <td>
                                                 <a href="" data-toggle="modal" data-target="#detailLab<?= $lab['id_lab']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
                                                 <?php if ($this->session->userdata('level') == 'Kajur') { ?>
-                                                    <a href="" data-id="<?= $lab['id_lab']; ?>" class="btn btn-inverse-warning btn-sm mdi mdi-border-color edit"></a>
+                                                    <a href="" data-id="formEdit<?= $lab['id_lab']; ?>" class="btn btn-inverse-warning btn-sm mdi mdi-border-color edit"></a>
                                                 <?php } ?>
                                             </td>
                                         </tr>
@@ -119,7 +119,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title"><?= $page_edit; ?></h4>
-                            <?= $this->session->flashdata('message'); ?>
+
                             <form action="<?= base_url('lab_pemrograman/update') ?>" enctype="multipart/form-data" method="post">
                                 <div class="form-group">
                                     <label for="nama" class="col-sm-5">Nama Barang</label>

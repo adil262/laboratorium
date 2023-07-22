@@ -20,6 +20,7 @@ class Welcome extends CI_Controller
 		$page_data['peminjaman'] = $this->Md_Peminjaman->getByPeminjamanSukses();
 		$page_data['ruangan'] = $this->Md_Ruangan->getTotalRuangan();
 		$page_data['barang'] = $this->Md_Lab_pemrograman->getTotalBarang();
+		$page_data['request'] = $this->Md_Peminjaman->getTotalRequest();
 		$page_data['paktif'] = $this->Md_Peminjaman->getTotalPeminjaman();
 
 		$this->load->view('landingpage', $page_data);

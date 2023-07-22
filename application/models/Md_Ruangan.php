@@ -43,7 +43,10 @@ class Md_Ruangan extends CI_model
 
     public function getTotalRuangan()
     {
-        $query = $this->db->select_sum('is_active')->get('ruangan');
-        return $query->row()->is_active;
+        $this->db->select('count(id_ruangan) as total_ruangan');
+        $query = $this->db->get('ruangan');
+        $result = $query->row();
+
+        return $totalRuangan = $result->total_ruangan;
     }
 }

@@ -17,6 +17,10 @@
                     <div class="card-body">
                         <p class="card-title mb-0"><?= $page_title; ?></p>
                         <button type="button" id="tambah" style="float: right;" class="btn btn-warning btn-sm tambah">Pinjam</button>
+                        <div class="template-demo">
+                            <button type="button" onclick="tampilkanSukses()" class="btn btn-inverse-primary btn-fw btn-sm">Sukses</button>
+                            <button type="button" onclick="tampilkanProses()" class="btn btn-inverse-primary btn-fw btn-sm">Proses</button>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-striped table-borderless">
                                 <thead>
@@ -60,9 +64,7 @@
                         <h4 class="card-title"><?= $page_judul; ?></h4>
                         <?= $this->session->flashdata('message'); ?>
                         <form action="<?= base_url('Peminjaman/add') ?>" method="post">
-                            <input type="hidden" id="id_user" name="id_user" value="<?php if (isset($id_user)) {
-                                                                                        echo $id_user;
-                                                                                    } ?>">
+                            <input type="hidden" id="id_user" name="id_user" value="<?php $id_user; ?>">
                             <div class="form-group">
                                 <label for="nama" class="col-sm-5">Nama</label>
                                 <div class="col-sm">
@@ -309,7 +311,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <p class="text-success">Barang </p>
-                                    <p><?= $b['no_barang'] ?></p>
+                                    <p></p>
                                 </div>
                             </div>
                             <div class="form-group row">

@@ -38,7 +38,7 @@ class Md_Peminjaman extends CI_model
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->join('level', 'peminjaman.id_level = level.id_level');
-        $this->db->where('peminjaman.is_active', 0);
+        $this->db->where('peminjaman.status_peminjaman', 0);
         return $this->db->get()->result_array();
     }
 
@@ -49,14 +49,28 @@ class Md_Peminjaman extends CI_model
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->join('level', 'peminjaman.id_level = level.id_level');
-        $this->db->where('peminjaman.is_active', 1);
+        $this->db->where('peminjaman.status_peminjaman', 1);
         return $this->db->get()->result_array();
     }
 
     public function getTotalPeminjaman()
     {
-        $query = $this->db->select_sum('is_active')->get('peminjaman');
-        return $query->row()->is_active;
+        $this->db->select('count(id_peminjaman) as total_peminjaman');
+        $this->db->where('status_peminjaman', 1);
+        $query = $this->db->get('peminjaman');
+        $result = $query->row();
+
+        return $totalPeminjaman = $result->total_peminjaman;
+    }
+
+    public function getTotalRequest()
+    {
+        $this->db->select('count(id_peminjaman) as total_peminjaman');
+        $this->db->where('status_peminjaman', 0);
+        $query = $this->db->get('peminjaman');
+        $result = $query->row();
+
+        return $totalPeminjaman = $result->total_peminjaman;
     }
 
     public function add($data)
@@ -88,10 +102,10 @@ class Md_Peminjaman extends CI_model
         $this->db->update('peminjaman');
     }
 
-    public function updateAktif($id_peminjaman, $active)
+    public function updateAktif($id_peminjaman, $status_peminjman)
     {
         $this->db->where('id_peminjaman', $id_peminjaman);
-        $this->db->set('is_active', $active);
+        $this->db->set('status_peminjaman', $status_peminjman);
         $this->db->update('peminjaman');
     }
 

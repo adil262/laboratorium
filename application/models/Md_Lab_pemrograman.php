@@ -40,7 +40,10 @@ class Md_Lab_pemrograman extends CI_model
 
     public function getTotalBarang()
     {
-        $query = $this->db->select_sum('is_active')->get('data_barang');
-        return $query->row()->is_active;
+        $this->db->select('count(id_lab) as total_barang');
+        $query = $this->db->get('data_barang');
+        $result = $query->row();
+
+        return $totalBarang = $result->total_barang;
     }
 }

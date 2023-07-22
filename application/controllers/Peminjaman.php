@@ -52,13 +52,13 @@ class Peminjaman extends CI_Controller
 
         $page_data['user'] = $this->Md_Auth->getAll();
         $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
-
+        $nohp = '085161762468';
         $data = array(
-            'id_user' => $this->input->post('id_user'),
+            'id_user' =>  $this->session->id_user,
             'id_ruangan' => $this->input->post('id_ruangan'),
             'id_level' => $this->input->post('id_level'),
             'id_ail' => $this->input->post('id_ail'),
-            'nohp' => $this->input->post('nohp'),
+            'nohp' => $nohp,
             'tanggal_awal' => $this->input->post('tanggal_awal'),
             'tanggal_akhir' => $this->input->post('tanggal_akhir'),
             'jam_awal' => $this->input->post('jam_awal'),
@@ -71,6 +71,8 @@ class Peminjaman extends CI_Controller
             'approval_kajur' => 0,
             'approval_pudir1' => 0,
         );
+        // var_dump($data);
+        // die;
         // Cek apakah ada foto yang diunggah
         if (!empty($_FILES['gambar']['name'])) {
             $config['upload_path'] = './assets/gambar';
@@ -93,6 +95,7 @@ class Peminjaman extends CI_Controller
                 'id_peminjaman' => $id_peminjaman,
                 'id_lab' => $data,
             );
+
             $this->Md_Peminjaman->addPeminjamanLab($data_peminjaman);
         }
         $this->session->set_flashdata('message', 'Peminjaman berhasil diajukan!');
@@ -121,6 +124,7 @@ class Peminjaman extends CI_Controller
 
         // Panggil fungsi di model untuk memproses pengembalian barang
         $this->Md_Peminjaman->pengembalian_barang($id_peminjaman);
+        $this->Md_Peminjaman->updateAktif($id_peminjaman, 2);
         redirect('peminjaman');
 
         // Tampilkan pesan sukses atau lakukan aksi lain setelah pengembalian berhasil
