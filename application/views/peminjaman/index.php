@@ -18,10 +18,15 @@
                         <p class="card-title mb-0"><?= $page_title; ?></p>
                         <button type="button" id="tambah" style="float: right;" class="btn btn-warning btn-sm tambah">Pinjam</button>
                         <div class="template-demo">
-                            <button type="button" onclick="tampilkanSukses()" class="btn btn-inverse-primary btn-fw btn-sm">Sukses</button>
-                            <button type="button" onclick="tampilkanProses()" class="btn btn-inverse-primary btn-fw btn-sm">Proses</button>
+                            <button type="button" onclick="tampilkanPeminjaman()" class="btn btn-inverse-primary btn-fw btn-sm">Peminjaman</button>
+                            <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
+                                <button type="button" onclick="tampilkanPengajuan()" class="btn btn-inverse-primary btn-fw btn-sm">Pengajuan</button>
+                            <?php } ?>
+                            <?php if ($this->session->userdata('level') == 'Ail') { ?>
+                                <button type="button" onclick="tampilkanPengembalian()" class="btn btn-inverse-primary btn-fw btn-sm">Pengembalian</button>
+                            <?php } ?>
                         </div>
-                        <div class="table-responsive">
+                        <div class="table-responsive" id="tampilanPeminjaman">
                             <table class="table table-striped table-borderless">
                                 <thead>
                                     <tr>
@@ -48,6 +53,104 @@
                                                 <?php endif; ?>
                                                 <?php if ($b['status'] == "Pending") : ?>
                                                     <a href="<?php echo site_url('peminjaman/batalpinjam/' . $b['id_peminjaman']); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="table-responsive" id="tampilanPengajuan">
+                            <table class="table table-striped table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>Ruangan</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $no = 1; ?>
+                                    <?php foreach ($pengajuan as $p) : ?>
+                                        <tr>
+                                            <td><?= $no++; ?></td>
+                                            <td><?= $p['name'] ?></td>
+                                            <td>R.<?= $p['no_ruangan'] ?></td>
+                                            <td>
+                                                <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $p['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
+
+                                                <?php if ($p['id_level'] == 1) : ?>
+                                                    <?php if ($level == 'Ail' && $p['approval_ail'] == 0) : ?>
+                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                    <?php endif; ?>
+                                                    <?php if ($level == 'Kalab' && $p['approval_kalab'] == 0) : ?>
+                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class=" btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                    <?php endif; ?>
+                                                <?php endif; ?>
+
+                                                <?php if ($p['id_level'] == 2) : ?>
+                                                    <?php if ($level == 'Ail' && $p['approval_ail'] == 0) : ?>
+                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                    <?php endif; ?>
+                                                    <?php if ($level == 'Kalab' && $p['approval_kalab'] == 0) : ?>
+                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                    <?php endif; ?>
+                                                    <?php if ($level == 'Kajur' && $p['approval_kajur'] == 0) : ?>
+                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_kajur'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                    <?php endif; ?>
+                                                <?php endif; ?>
+
+                                                <?php if ($p['id_level'] == 3) : ?>
+                                                    <?php if ($level == 'Ail' && $p['approval_ail'] == 0) : ?>
+                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                    <?php endif; ?>
+                                                    <?php if ($level == 'Kalab' && $p['approval_kalab'] == 0) : ?>
+                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                    <?php endif; ?>
+                                                    <?php if ($level == 'Kajur' && $p['approval_kajur'] == 0) : ?>
+                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_kajur'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                    <?php endif; ?>
+                                                    <?php if ($level == 'Pudir1' && $p['approval_pudir1'] == 0) : ?>
+                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_pudir1'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                    <?php endif; ?>
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="table-responsive" id="tampilanPengembalian">
+                            <table class="table table-striped table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>Ruangan</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $no = 1; ?>
+                                    <?php foreach ($pengembalian as $b) : ?>
+                                        <tr>
+                                            <td><?= $no++; ?></td>
+                                            <td><?= $b['name'] ?></td>
+                                            <td>R.<?= $b['no_ruangan'] ?></td>
+                                            <td>
+                                                <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $b['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
+                                                <?php if ($level == 'Ail' && $b['status_peminjaman'] == 2) : ?>
+                                                    <a href="<?php echo site_url('peminjaman/konfirmasipengembalian/' . $b['id_peminjaman']); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline">Konfirmasi</a>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>
@@ -114,8 +217,8 @@
                                 <label for="waktu" class="col-sm-5">Waktu Pelaksanaan</label>
                                 <div class="col-sm">
                                     <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
-                                        <input type="date" class="form-control" name="tanggal_awal" id="tanggal_awal" placeholder="Tanggal" value="<?php echo date('Y-m-d', time()); ?>">
-                                        <input type="date" class="form-control" name="tanggal_akhir" id="tanggal_akhir" placeholder="Tanggal" value="<?php echo date('Y-m-d', time()); ?>">
+                                        <input type="date" class="form-control" name="tanggal_awal" id="tanggal_awal" placeholder="Tanggal Mulai" value="<?php echo date('Y-m-d', time()); ?>">
+                                        <input type="date" class="form-control" name="tanggal_akhir" id="tanggal_akhir" placeholder="Tanggal Selesai" value="<?php echo date('Y-m-d', time()); ?>">
                                         <input type="time" class="form-control" name="jam_awal" id="jam_awal" placeholder="Mulai" value="<?php echo date('H:i') ?>">
                                         <input type="time" class="form-control" name="jam_akhir" id="jam_akhir" placeholder="Selesai" value="<?php $time = new DateTime(date('H:i'));
                                                                                                                                                 $time->modify('+2 hours');
@@ -246,7 +349,179 @@
         </div>
     </div>
     <!-- Modal -->
+
+    <!-- Detail Peminjaman User -->
     <?php foreach ($riwayat_peminjaman as $b) { ?>
+        <div class="modal fade bd-example-modal-lg" id="detailPeminjaman<?= $b['id_peminjaman']; ?>" tabindex="-1" role="dialog" aria-labelledby="detailPeminjamanLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailPeminjamanLabel"><?= $page_judul; ?></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Nama </p>
+                                    <p><?= $b['name'] ?></p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="text-success">No Hp </p>
+                                    <p><?= $b['nohp'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Ruangan </p>
+                                    <p>R.<?= $b['no_ruangan'] ?></p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="text-success">Level</p>
+                                    <p><?= $b['id_level'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Tanggal Mulai </p>
+                                    <p><?= $b['tanggal_awal'] ?></p>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Tanggal Selesai</p>
+                                    <p><?= $b['tanggal_akhir'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Jam Mulai </p>
+                                    <p><?= $b['jam_awal'] ?></p>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Jam Selesai</p>
+                                    <p><?= $b['jam_akhir'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Keterangan </p>
+                                    <p><?= $b['keterangan'] ?></p>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Peserta</p>
+                                    <p><?= $b['peserta'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <p class="text-success">Barang </p>
+                                    <p></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Status </p>
+                                    <p class="badge badge-warning"><?= $b['status'] ?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+
+    <!-- Detail Peminjaman Pengajuan -->
+    <?php foreach ($pengajuan as $p) { ?>
+        <div class="modal fade bd-example-modal-lg" id="detailPeminjaman<?= $p['id_peminjaman']; ?>" tabindex="-1" role="dialog" aria-labelledby="detailPeminjamanLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailPeminjamanLabel"><?= $page_judul; ?></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Nama </p>
+                                    <p><?= $p['name'] ?></p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="text-success">No Hp </p>
+                                    <p><?= $p['nohp'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Ruangan </p>
+                                    <p>R.<?= $p['no_ruangan'] ?></p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="text-success">Level</p>
+                                    <p><?= $p['id_level'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Tanggal Mulai </p>
+                                    <p><?= $p['tanggal_awal'] ?></p>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Tanggal Selesai</p>
+                                    <p><?= $p['tanggal_akhir'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Jam Mulai </p>
+                                    <p><?= $p['jam_awal'] ?></p>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Jam Selesai</p>
+                                    <p><?= $p['jam_akhir'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Keterangan </p>
+                                    <p><?= $p['keterangan'] ?></p>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Peserta</p>
+                                    <p><?= $p['peserta'] ?></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <p class="text-success">Barang </p>
+                                    <p></p>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="text-success">Status </p>
+                                    <p class="badge badge-warning"><?= $p['status'] ?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+
+    <!-- Detail Peminjaman Pengembalian -->
+    <?php foreach ($pengembalian as $b) { ?>
         <div class="modal fade bd-example-modal-lg" id="detailPeminjaman<?= $b['id_peminjaman']; ?>" tabindex="-1" role="dialog" aria-labelledby="detailPeminjamanLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -332,6 +607,43 @@
     <!-- content-wrapper ends -->
 
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var lastView = localStorage.getItem("lastView");
+            if (lastView == "peminjaman") {
+                tampilkanPeminjaman();
+            }
+            if (lastView == "pengajuan") {
+                tampilkanPengajuan();
+            }
+            if (lastView == "pengembalian") {
+                tampilkanPengembalian();
+            }
+        });
+
+        function tampilkanPeminjaman() {
+            document.getElementById("tampilanPeminjaman").style.display = "block";
+            document.getElementById("tampilanPengajuan").style.display = "none";
+            document.getElementById("tampilanPengembalian").style.display = "none";
+            // Menyimpan status tampilan terakhir ke localStorage
+            localStorage.setItem("lastView", "peminjaman");
+        }
+
+        function tampilkanPengajuan() {
+            document.getElementById("tampilanPeminjaman").style.display = "none";
+            document.getElementById("tampilanPengajuan").style.display = "block";
+            document.getElementById("tampilanPengembalian").style.display = "none";
+            // Menyimpan status tampilan terakhir ke localStorage
+            localStorage.setItem("lastView", "pengajuan");
+        }
+
+        function tampilkanPengembalian() {
+            document.getElementById("tampilanPeminjaman").style.display = "none";
+            document.getElementById("tampilanPengajuan").style.display = "none";
+            document.getElementById("tampilanPengembalian").style.display = "block";
+            // Menyimpan status tampilan terakhir ke localStorage
+            localStorage.setItem("lastView", "pengembalian");
+        }
+
         var tambah = document.getElementsByClassName('tambah');
 
         for (var i = 0; i < tambah.length; i++) {

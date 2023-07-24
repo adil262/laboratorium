@@ -18,6 +18,7 @@ class Peminjaman extends CI_Controller
         $page_data['email'] = $this->session->email;
         $page_data['name'] = $this->session->name;
         $page_data['nip'] = $this->session->nip;
+        $page_data['level'] = $this->session->level;
 
         $id_user = $this->session->userdata('id_user');
 
@@ -28,11 +29,12 @@ class Peminjaman extends CI_Controller
             return;
         }
         $page_data['riwayat_peminjaman'] = $this->Md_Peminjaman->getPeminjamanByUser($id_user);
+        $page_data['pengajuan'] = $this->Md_Peminjaman->getByPeminjamanProses();
+        $page_data['pengembalian'] = $this->Md_Peminjaman->getByPengembalian();
 
         $page_data['peminjaman'] = $this->Md_Peminjaman->getByPeminjaman();
         $page_data['user'] = $this->Md_Auth->getAll();
         $page_data['ruangan1'] = $this->Md_Peminjaman->getByPeminjamanUser();
-        $page_data['level'] = $this->Md_Peminjaman->getLevel();
         $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
 
         $this->load->view('templates/include_header', $page_data);
@@ -116,6 +118,84 @@ class Peminjaman extends CI_Controller
         echo json_encode($page_data);
     }
 
+    public function submitApproval($id_peminjaman, $level_approval)
+    {
+        $status = 1; // Approval diset menjadi 1
+        $status_barang = "Tidak Tersedia";
+
+        $level = $this->session->userdata('level');
+
+        $peminjaman = $this->Md_Peminjaman->getByPeminjamanId($id_peminjaman);
+        $barang = $this->Md_Peminjaman->updateStatusBarang($id_peminjaman);
+        // $peminjaman1 = $this->Md_Peminjaman->updateStatusBarang($id_peminjaman);
+
+        // // Cek apakah pengguna memiliki hak akses untuk melakukan approval
+        if ($peminjaman['id_level'] == 1) {
+            if ($level == 'Ail' && $peminjaman['approval_ail'] == 0) {
+                // Update status approval AIL menjadi disetujui
+                $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
+                $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Ail");
+            }
+            if ($level == 'Kalab' && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 0) {
+                // Update status approval KALAB menjadi disetujui
+                $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
+                $this->Md_Peminjaman->updateStatus($id_peminjaman, "Peminjaman Sukses");
+                $this->Md_Peminjaman->updateAktif($id_peminjaman, 1);
+                foreach ($barang as $data) {
+                    $this->Md_Peminjaman->updateStatusData($data['id_lab'], $status_barang);
+                }
+            }
+        }
+        if ($peminjaman['id_level'] == 2) {
+            if ($level == 'Ail' && $peminjaman['approval_ail'] == 0) {
+                // Update status approval AIL menjadi disetujui
+                $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
+                $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Ail");
+            }
+            if ($level == 'Kalab' && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 0) {
+                // Update status approval KALAB menjadi disetujui
+                $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
+                $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Kalab");
+            }
+            if ($level == 'Kajur' && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 1 && $peminjaman['approval_kajur'] == 0) {
+                // Update status approval KAJUR menjadi disetujui
+                $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
+                $this->Md_Peminjaman->updateStatus($id_peminjaman, "Peminjaman Sukses");
+                $this->Md_Peminjaman->updateAktif($id_peminjaman, 1);
+                foreach ($barang as $data) {
+                    $this->Md_Peminjaman->updateStatusData($data['id_lab'], $status_barang);
+                }
+            }
+        }
+        if ($peminjaman['id_level'] == 3) {
+            if ($level == 'Ail' && $peminjaman['approval_ail'] == 0) {
+                // Update status approval AIL menjadi disetujui
+                $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
+                $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Ail");
+            }
+            if ($level == 'Kalab' && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 0) {
+                // Update status approval KALAB menjadi disetujui
+                $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
+                $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Kalab");
+            }
+            if ($level == 'Kajur' && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 1 && $peminjaman['approval_kajur'] == 0) {
+                // Update status approval KAJUR menjadi disetujui
+                $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
+                $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Kajur");
+            }
+            if ($level == 'Pudir1'  && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 1 && $peminjaman['approval_kajur'] == 1 && $peminjaman['approval_pudir1'] == 0) {
+                // Update status approval PUDIR1 menjadi disetujui
+                $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
+                $this->Md_Peminjaman->updateStatus($id_peminjaman, "Peminjaman Sukses");
+                $this->Md_Peminjaman->updateAktif($id_peminjaman, 1);
+                foreach ($barang as $data) {
+                    $this->Md_Peminjaman->updateStatusData($data['id_lab'], $status_barang);
+                }
+            }
+        }
+        redirect('riwayat/index');
+    }
+
     public function proses_pengembalian()
     {
         // Lakukan validasi data pengembalian barang, seperti ID peminjaman
@@ -131,12 +211,28 @@ class Peminjaman extends CI_Controller
         // ...
     }
 
-    public function kembalikan($id_peminjaman, $is_active)
-    {
-        $level = $this->session->userdata('level');
 
-        if ($level == 'Ail') {
+
+    public function konfirmasipengembalian($id_peminjaman)
+    {
+        $peminjaman = $this->Md_Peminjaman->getByPeminjamanId($id_peminjaman);
+        $barang = $this->Md_Peminjaman->updateStatusBarang($id_peminjaman);
+
+        if ($peminjaman['status_peminjaman'] == 2) {
+            $this->Md_Peminjaman->updateAktif($id_peminjaman, 3);
+            $this->Md_Peminjaman->updateStatus($id_peminjaman, "Peminjaman Selesai");
+            foreach ($barang as $data) {
+                $this->Md_Peminjaman->updateStatusData($data['id_lab'], "Tersedia");
+            }
         }
+        redirect('peminjaman');
+    }
+
+    public function ditolak($id_peminjaman)
+    {
+        $this->Md_Peminjaman->updateAktif($id_peminjaman, 4);
+        $this->Md_Peminjaman->updateStatus($id_peminjaman, "Peminjaman Ditolak");
+        redirect('peminjaman');
     }
 
     public function batalpinjam($id_peminjaman)

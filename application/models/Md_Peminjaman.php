@@ -53,6 +53,52 @@ class Md_Peminjaman extends CI_model
         return $this->db->get()->result_array();
     }
 
+    public function getByPengembalian()
+    {
+        $this->db->select('peminjaman.*, ruangan.*, user.*, level.*');
+        $this->db->from('peminjaman');
+        $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
+        $this->db->join('user', 'peminjaman.id_user = user.id_user');
+        $this->db->join('level', 'peminjaman.id_level = level.id_level');
+        $this->db->where('peminjaman.status_peminjaman', 2);
+        return $this->db->get()->result_array();
+    }
+
+    public function getByPeminjamanSelesai()
+    {
+        $this->db->select('peminjaman.*, ruangan.*, user.*, level.*');
+        $this->db->from('peminjaman');
+        $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
+        $this->db->join('user', 'peminjaman.id_user = user.id_user');
+        $this->db->join('level', 'peminjaman.id_level = level.id_level');
+        $this->db->where('peminjaman.status_peminjaman', 3);
+        return $this->db->get()->result_array();
+    }
+
+    public function getByPeminjamanDitolak()
+    {
+        $this->db->select('peminjaman.*, ruangan.*, user.*, level.*');
+        $this->db->from('peminjaman');
+        $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
+        $this->db->join('user', 'peminjaman.id_user = user.id_user');
+        $this->db->join('level', 'peminjaman.id_level = level.id_level');
+        $this->db->where('peminjaman.status_peminjaman', 4);
+        return $this->db->get()->result_array();
+    }
+
+    public function getPeminjamanByUser($id_user)
+    {
+        $this->db->select('peminjaman.*, ruangan.*, user.*, level.*');
+        $this->db->from('peminjaman');
+        $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
+        $this->db->join('user', 'peminjaman.id_user = user.id_user');
+        $this->db->join('level', 'peminjaman.id_level = level.id_level');
+        $this->db->where('peminjaman.id_user', $id_user);
+        $this->db->order_by('tanggal_awal', 'desc');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     public function getTotalPeminjaman()
     {
         $this->db->select('count(id_peminjaman) as total_peminjaman');
@@ -167,18 +213,7 @@ class Md_Peminjaman extends CI_model
         $this->db->update('data_barang');
     }
 
-    public function getPeminjamanByUser($id_user)
-    {
-        $this->db->select('peminjaman.*, ruangan.*, user.*, level.*');
-        $this->db->from('peminjaman');
-        $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
-        $this->db->join('user', 'peminjaman.id_user = user.id_user');
-        $this->db->join('level', 'peminjaman.id_level = level.id_level');
-        $this->db->where('peminjaman.id_user', $id_user);
-        $this->db->order_by('tanggal_awal', 'desc');
-        $query = $this->db->get();
-        return $query->result_array();
-    }
+
 
     //Ruangan
     public function getRuangan()
