@@ -1,29 +1,28 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Lab_pemrograman extends CI_Controller
+class R312 extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('md_lab_pemrograman');
+        $this->load->model('Md_r312');
     }
-
     public function index()
     {
-        $page_data['page_title'] = 'Lab Pemrograman - R.301';
+        $page_data['page_title'] = 'Lab Web Pemrograman 1 - R.312';
         $page_data['page_tambah'] = 'Tambah Data Laboratorium';
         $page_data['page_edit'] = 'Edit Data Laboratorium';
         $page_data['page_detail'] = 'Detail Data Laboratorium';
         $page_data['email'] = $this->session->email;
         $page_data['name'] = $this->session->name;
 
-        $page_data['lab_pemrograman'] = $this->md_lab_pemrograman->getId1();
+        $page_data['data'] = $this->Md_r312->getId1();
 
         $this->load->view('templates/include_header', $page_data);
         $this->load->view('templates/include_topbar', $page_data);
         $this->load->view('templates/include_sidebar', $page_data);
-        $this->load->view('lab301/index', $page_data);
+        $this->load->view('lab312/index', $page_data);
         $this->load->view('templates/include_footer');
     }
     public function add()
@@ -52,10 +51,10 @@ class Lab_pemrograman extends CI_Controller
                     'id_ruangan' => 1
                 );
 
-                $this->md_lab_pemrograman->add($data);
+                $this->Md_r312->add($data);
                 $this->session->set_flashdata('message', '<div class="alert alert-success" 
                 role="alert">Barang Berhasil Ditambahkan!</div>');
-                redirect('lab_pemrograman');
+                redirect('r312');
             } else {
                 $error = $this->upload->display_errors();
                 echo $error;
@@ -64,9 +63,9 @@ class Lab_pemrograman extends CI_Controller
     }
     public function update($id_lab)
     {
-        $page_data['lab_pemrograman'] = $this->Md_Lab_Pemrograman->getByLabpemrogramanid($id_lab);
+        $page_data['data'] = $this->Md_r312->getByLabId($id_lab);
 
-        if (empty($page_data['lab_pemrograman'])) {
+        if (empty($page_data['data'])) {
             // Tangani jika data barang tidak ditemukan
             show_404();
         }
@@ -101,11 +100,11 @@ class Lab_pemrograman extends CI_Controller
                         'id_ruangan' => 1
                     );
 
-                    $this->Md_Lab_Pemrograman->updateByLabpemrograman($id_lab, $data_update);
+                    $this->Md_r312->updateByLab($id_lab, $data_update);
 
                     $this->session->set_flashdata('message', '<div class="alert alert-success" 
                     role="alert">Data Berhasil Diperbarui!</div>');
-                    redirect('lab_pemrograman');
+                    redirect('r312');
                 } else {
                     $error = $this->upload->display_errors();
                     echo $error;
@@ -122,29 +121,15 @@ class Lab_pemrograman extends CI_Controller
                     'id_ruangan' => 1
                 );
 
-                $this->Md_Lab_Pemrograman->updateByLabpemrograman($id_lab, $data_update);
+                $this->Md_r312->updateByLab($id_lab, $data_update);
 
                 $this->session->set_flashdata('message', '<div class="alert alert-success" 
                 role="alert">Data Berhasil Diperbarui!</div>');
-                redirect('lab_pemrograman');
+                redirect('r312');
             }
         } else {
             // Tampilkan tampilan form edit dengan data barang
             // $this->load->view('barang/edit', $page_data);
         }
     }
-    // public function lab()
-    // {
-    //     $page_data['page_title'] = 'Lab Pemrograman - R.301';
-    //     $page_data['email'] = $this->session->email;
-    //     $page_data['name'] = $this->session->name;
-
-    //     $page_data['lab_pemrograman'] = $this->Md_Lab_pemrograman->getAll();
-
-    //     $this->load->view('templates/include_header', $page_data);
-    //     $this->load->view('templates/include_sidebar', $page_data);
-    //     $this->load->view('templates/include_topbar', $page_data);
-    //     $this->load->view('peminjam/lab301/index', $page_data);
-    //     $this->load->view('templates/include_footer');
-    // }
 }

@@ -30,10 +30,14 @@
                   <div class="collapse" id="form-elements">
                       <ul class="nav flex-column sub-menu">
                           <li class="nav-item"><a class="nav-link" href="<?= base_url('ruangan') ?>">Ruangan</a></li>
-                          <li class="nav-item"><a class="nav-link" href="<?= base_url('lab_pemrograman') ?>">R.301</a></li>
-                          <li class="nav-item"><a class="nav-link" href="<?= base_url('lab_database') ?>">R.302</a></li>
-                          <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">R.303</a></li>
-                          <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">R.304</a></li>
+                          <li class="nav-item"><a class="nav-link" href="<?= base_url('r225') ?>">R.225</a></li>
+                          <li class="nav-item"><a class="nav-link" href="<?= base_url('r312') ?>">R.312</a></li>
+                          <li class="nav-item"><a class="nav-link" href="<?= base_url('r313') ?>">R.313</a></li>
+                          <li class="nav-item"><a class="nav-link" href="<?= base_url('r316') ?>">R.316</a></li>
+                          <li class="nav-item"><a class="nav-link" href="<?= base_url('r317') ?>">R.317</a></li>
+                          <li class="nav-item"><a class="nav-link" href="<?= base_url('r319') ?>">R.319</a></li>
+                          <li class="nav-item"><a class="nav-link" href="<?= base_url('r320') ?>">R.320</a></li>
+                          <li class="nav-item"><a class="nav-link" href="<?= base_url('r324') ?>">R.324</a></li>
                       </ul>
                   </div>
               </li>

@@ -211,8 +211,6 @@ class Peminjaman extends CI_Controller
         // ...
     }
 
-
-
     public function konfirmasipengembalian($id_peminjaman)
     {
         $peminjaman = $this->Md_Peminjaman->getByPeminjamanId($id_peminjaman);

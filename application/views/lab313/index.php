@@ -33,7 +33,7 @@
                                 </thead>
                                 <tbody>
                                     <?php $no = 1; ?>
-                                    <?php foreach ($lab_database as $lab) : ?>
+                                    <?php foreach ($data as $lab) : ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
                                             <td><?= $lab['nama'] ?></td>
@@ -57,7 +57,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title"><?= $page_judul; ?></h4>
-                        <form action="<?= base_url('lab_database') ?>" method="post">
+                        <form action="<?= base_url('r312') ?>" method="post">
                             <div class="form-group">
                                 <label for="nama" class="col-sm-5">Nama Barang</label>
                                 <div class="col-sm">
@@ -107,7 +107,7 @@
     </div>
     <!-- content-wrapper ends -->
     <!-- Modal -->
-    <?php foreach ($lab_database as $lab) { ?>
+    <?php foreach ($data as $lab) { ?>
         <div class="modal fade bd-example-modal-lg" id="detailLab<?= $lab['id_lab']; ?>" tabindex="-1" role="dialog" aria-labelledby="detailLabLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

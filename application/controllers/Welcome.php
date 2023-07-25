@@ -9,7 +9,7 @@ class Welcome extends CI_Controller
 		parent::__construct();
 		$this->load->model('Md_Peminjaman');
 		$this->load->model('Md_Ruangan');
-		$this->load->model('Md_Lab_pemrograman');
+		$this->load->model('Md_r225');
 	}
 
 	public function index()
@@ -19,7 +19,7 @@ class Welcome extends CI_Controller
 
 		$page_data['peminjaman'] = $this->Md_Peminjaman->getByPeminjamanSukses();
 		$page_data['ruangan'] = $this->Md_Ruangan->getTotalRuangan();
-		$page_data['barang'] = $this->Md_Lab_pemrograman->getTotalBarang();
+		$page_data['barang'] = $this->Md_r225->getTotalBarang();
 		$page_data['request'] = $this->Md_Peminjaman->getTotalRequest();
 		$page_data['paktif'] = $this->Md_Peminjaman->getTotalPeminjaman();
 
