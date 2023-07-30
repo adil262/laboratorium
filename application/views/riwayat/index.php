@@ -225,7 +225,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <p class="text-success">Barang </p>
-                                    <p><?= $s['no_barang'] ?></p>
+                                    <p></p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -309,7 +309,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <p class="text-success">Barang </p>
-                                    <p><?= $p['no_barang'] ?></p>
+                                    <p></p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -393,7 +393,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <p class="text-success">Barang </p>
-                                    <p><?= $p['no_barang'] ?></p>
+                                    <p></p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -477,7 +477,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <p class="text-success">Barang </p>
-                                    <p><?= $p['no_barang'] ?></p>
+                                    <p></p>
                                 </div>
                             </div>
                             <div class="form-group row">

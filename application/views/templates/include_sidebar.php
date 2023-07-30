@@ -41,11 +41,11 @@
                       </ul>
                   </div>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                   <a class="nav-link" href="pages/documentation/documentation.html">
                       <i class="icon-paper menu-icon"></i>
                       <span class="menu-title">Documentation</span>
                   </a>
-              </li>
+              </li> -->
           </ul>
       </nav>

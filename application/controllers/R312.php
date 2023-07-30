@@ -48,7 +48,7 @@ class R312 extends CI_Controller
                     'jumlah' => $this->input->post('jumlah'),
                     'keterangan' => $this->input->post('keterangan'),
                     'status_barang' => $this->input->post('status_barang'),
-                    'id_ruangan' => 1
+                    'id_ruangan' => 2
                 );
 
                 $this->Md_r312->add($data);

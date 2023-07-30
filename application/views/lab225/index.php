@@ -15,8 +15,8 @@
             <div class="col-md-7 grid-margin">
                 <div class="card">
                     <div class="card-body">
-                        <p class="card-title mb-0"><?= $page_title; ?></p>
-                        <?php if ($this->session->userdata('level') == 'Kajur') { ?>
+                        <p class="card-title mb-0">Data Barang</p>
+                        <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
                             <button type="button" id="tambah" style="float: right;" class="btn btn-warning btn-sm tambah">Tambah</button>
                         <?php } ?>
                         <div class="table-responsive">
@@ -40,8 +40,8 @@
                                             <td><?= $lab['status_barang'] ?></td>
                                             <td>
                                                 <a href="" data-toggle="modal" data-target="#detailLab<?= $lab['id_lab']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
-                                                <?php if ($this->session->userdata('level') == 'Kajur') { ?>
-                                                    <a href="" data-id="formEdit<?= $lab['id_lab']; ?>" class="btn btn-inverse-warning btn-sm mdi mdi-border-color edit"></a>
+                                                <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
+                                                    <button type="button" id="edit" class="btn btn-inverse-warning btn-sm mdi mdi-border-color edit"></button>
                                                 <?php } ?>
                                             </td>
                                         </tr>
@@ -56,7 +56,6 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title"><?= $page_tambah; ?></h4>
-                        <?= $this->session->flashdata('message'); ?>
                         <form action="<?= base_url('r225/add') ?>" enctype="multipart/form-data" method="post">
                             <div class="form-group">
                                 <label for="nama" class="col-sm-5">Nama Barang</label>
@@ -93,8 +92,8 @@
                                 <label for="keterangan" class="col-sm-5">Keterangan</label>
                                 <div class="col-sm">
                                     <select type="text" class="form-control form-control-user" name="keterangan" id="keterangan" placeholder="Keterangan">
-                                        <option value="Bagus">Bagus</option>
-                                        <option value="Rusak">Rusak</option>
+                                        <option value="Aset">Aset</option>
+                                        <option value="Non Aset">Non Aset</option>
                                     </select>
                                 </div>
                             </div>

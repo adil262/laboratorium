@@ -82,8 +82,8 @@
                                 <label for="keterangan" class="col-sm-5">Keterangan</label>
                                 <div class="col-sm">
                                     <select type="text" class="form-control form-control-user" name="keterangan" id="keterangan" placeholder="Keterangan">
-                                        <option value="Bagus">Bagus</option>
-                                        <option value="Rusak">Rusak</option>
+                                        <option value="Aset">Aset</option>
+                                        <option value="Non Aset">Non Aset</option>
                                     </select>
                                 </div>
                             </div>

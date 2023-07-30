@@ -10,7 +10,7 @@ class R313 extends CI_Controller
     }
     public function index()
     {
-        $page_data['page_title'] = 'Lab Web Pemrograman 2 - R.312';
+        $page_data['page_title'] = 'Lab Web Pemrograman 2 - R.313';
         $page_data['page_tambah'] = 'Tambah Data Laboratorium';
         $page_data['page_edit'] = 'Edit Data Laboratorium';
         $page_data['page_detail'] = 'Detail Data Laboratorium';
@@ -48,7 +48,7 @@ class R313 extends CI_Controller
                     'jumlah' => $this->input->post('jumlah'),
                     'keterangan' => $this->input->post('keterangan'),
                     'status_barang' => $this->input->post('status_barang'),
-                    'id_ruangan' => 1
+                    'id_ruangan' => 3
                 );
 
                 $this->Md_r313->add($data);

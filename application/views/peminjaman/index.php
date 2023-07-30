@@ -52,7 +52,7 @@
                                                     </form>
                                                 <?php endif; ?>
                                                 <?php if ($b['status'] == "Pending") : ?>
-                                                    <a href="<?php echo site_url('peminjaman/batalpinjam/' . $b['id_peminjaman']); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
+                                                    <a href="<?php echo site_url('peminjaman/batalpinjam/' . $b['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-minus-circle-outline"></a>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>
@@ -203,7 +203,7 @@
                                 <div class="col-sm">
                                     <select class="form-control" name="id_level" id="id_level" placeholder="Level" onchange="loadJamOptions()">
                                         <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
-                                            <?php foreach ($level as $l) : ?>
+                                            <?php foreach ($level1 as $l) : ?>
                                                 <option value="<?= $l['id_level']; ?>">Level <?= $l['id_level']; ?></option>
                                             <?php endforeach; ?>
                                         <?php } ?>

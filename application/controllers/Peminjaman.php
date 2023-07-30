@@ -31,7 +31,7 @@ class Peminjaman extends CI_Controller
         $page_data['riwayat_peminjaman'] = $this->Md_Peminjaman->getPeminjamanByUser($id_user);
         $page_data['pengajuan'] = $this->Md_Peminjaman->getByPeminjamanProses();
         $page_data['pengembalian'] = $this->Md_Peminjaman->getByPengembalian();
-
+        $page_data['level1'] = $this->Md_Peminjaman->getLevel();
         $page_data['peminjaman'] = $this->Md_Peminjaman->getByPeminjaman();
         $page_data['user'] = $this->Md_Auth->getAll();
         $page_data['ruangan1'] = $this->Md_Peminjaman->getByPeminjamanUser();
@@ -54,13 +54,13 @@ class Peminjaman extends CI_Controller
 
         $page_data['user'] = $this->Md_Auth->getAll();
         $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
-        $nohp = '085161762468';
+
         $data = array(
             'id_user' =>  $this->session->id_user,
             'id_ruangan' => $this->input->post('id_ruangan'),
             'id_level' => $this->input->post('id_level'),
             'id_ail' => $this->input->post('id_ail'),
-            'nohp' => $nohp,
+            'nohp' => $this->input->post('nohp'),
             'tanggal_awal' => $this->input->post('tanggal_awal'),
             'tanggal_akhir' => $this->input->post('tanggal_akhir'),
             'jam_awal' => $this->input->post('jam_awal'),
@@ -76,14 +76,14 @@ class Peminjaman extends CI_Controller
         // var_dump($data);
         // die;
         // Cek apakah ada foto yang diunggah
-        if (!empty($_FILES['gambar']['name'])) {
+        if (!empty($_FILES['bukti']['name'])) {
             $config['upload_path'] = './assets/gambar';
             $config['allowed_types'] = 'jpg|png|gif';
 
             $this->upload->initialize($config);
 
-            if ($this->upload->do_upload('gambar')) {
-                $data['gambar'] = $this->upload->data('file_name');
+            if ($this->upload->do_upload('bukti')) {
+                $data['bukti'] = $this->upload->data('file_name');
             } else {
                 // Foto gagal diunggah, tampilkan pesan error atau lakukan aksi lain
                 // ...
@@ -193,7 +193,7 @@ class Peminjaman extends CI_Controller
                 }
             }
         }
-        redirect('riwayat/index');
+        redirect('peminjaman');
     }
 
     public function proses_pengembalian()
@@ -236,7 +236,8 @@ class Peminjaman extends CI_Controller
     public function batalpinjam($id_peminjaman)
     {
         $batalpinjam = $this->Md_Peminjaman->deletedata('peminjaman', array('id_peminjaman' => $id_peminjaman));
-        if ($batalpinjam) {
+        $batalpinjam1 = $this->Md_Peminjaman->deletedata('peminjaman_barang', array('id_peminjaman' => $id_peminjaman));
+        if ($batalpinjam && $batalpinjam1) {
             $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 				<h5><i class="icon fas fa-check"></i> Dibatalkan!</h5></div>');
