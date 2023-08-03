@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                         <h3 class="font-weight-bold"><?= $page_title; ?></h3>
-                        <h6 class="font-weight-normal mb-0">All systems are running smoothly! You have <span class="text-primary">3 unread alerts!</span></h6>
+                        <!-- <h6 class="font-weight-normal mb-0">All systems are running smoothly! You have <span class="text-primary">3 unread alerts!</span></h6> -->
                     </div>
                 </div>
             </div>
@@ -15,7 +15,7 @@
             <div class="col-md-7 grid-margin">
                 <div class="card">
                     <div class="card-body">
-                        <p class="card-title mb-0"><?= $page_title; ?></p>
+                        <p class="card-title mb-0">Daftar Peminjaman</p>
                         <button type="button" id="tambah" style="float: right;" class="btn btn-warning btn-sm tambah">Pinjam</button>
                         <div class="template-demo">
                             <button type="button" onclick="tampilkanPeminjaman()" class="btn btn-inverse-primary btn-fw btn-sm">Peminjaman</button>
@@ -44,16 +44,16 @@
                                             <td><?= $b['name'] ?></td>
                                             <td>R.<?= $b['no_ruangan'] ?></td>
                                             <td>
-                                                <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $b['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
-                                                <?php if ($b['status'] == "Peminjaman Sukses") : ?>
-                                                    <form method="post" action="<?php echo base_url('peminjaman/proses_pengembalian'); ?>">
-                                                        <input type="hidden" name="id_peminjaman" value="<?= $b['id_peminjaman']; ?>">
-                                                        <button class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline" type="submit">Kembalikan</button>
-                                                    </form>
-                                                <?php endif; ?>
-                                                <?php if ($b['status'] == "Pending") : ?>
-                                                    <a href="<?php echo site_url('peminjaman/batalpinjam/' . $b['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-minus-circle-outline"></a>
-                                                <?php endif; ?>
+                                                <abbr title="detail"><a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $b['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
+                                                    <?php if ($b['status'] == "Peminjaman Sukses") : ?>
+                                                        <form method="post" action="<?php echo base_url('peminjaman/proses_pengembalian'); ?>">
+                                                            <input type="hidden" name="id_peminjaman" value="<?= $b['id_peminjaman']; ?>">
+                                                            <button class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline" type="submit">Kembalikan</button>
+                                                        </form>
+                                                    <?php endif; ?>
+                                                    <?php if ($b['status'] == "Pending") : ?>
+                                                        <a href="<?php echo site_url('peminjaman/batalpinjam/' . $b['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-minus-circle-outline"></a>
+                                                    <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -78,7 +78,7 @@
                                             <td><?= $p['name'] ?></td>
                                             <td>R.<?= $p['no_ruangan'] ?></td>
                                             <td>
-                                                <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $p['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
+                                                <abbr title="detail"> <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $p['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a></abbr>
 
                                                 <?php if ($p['id_level'] == 1) : ?>
                                                     <?php if ($level == 'Ail' && $p['approval_ail'] == 0) : ?>
@@ -167,6 +167,14 @@
                         <h4 class="card-title"><?= $page_judul; ?></h4>
                         <?= $this->session->flashdata('message'); ?>
                         <form action="<?= base_url('Peminjaman/add') ?>" method="post">
+                            <div class="alert alert-primary" role="alert">
+                                <i class="icon-bell mx-0 lg"></i>
+                                <p style="margin-left:40px;"><b> Perhatikan waktu dalam peminjaman </br>
+                                        Level 1 : 07.00 WIB s/d 16.00 WIB, Hari Kerja </br>
+                                        Level 2 : 16.00 WIB s/d 22.00 WIB, Hari Kerja </br>
+                                        Level 3 : 07.00 WIB s/d 22.00 WIB, Hari Kerja dan Hari Libur</b></p>
+
+                            </div>
                             <input type="hidden" id="id_user" name="id_user" value="<?php $id_user; ?>">
                             <div class="form-group">
                                 <label for="nama" class="col-sm-5">Nama</label>
@@ -213,28 +221,54 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="waktu" class="col-sm-5">Waktu Pelaksanaan</label>
-                                <div class="col-sm">
+                            <label for="waktu" class="col-sm-5">Waktu Pelaksanaan</label>
+                            <div class="form-group ml-0 row">
+                                <div class="col-sm-5" style="margin-right: -40px;">
                                     <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
                                         <input type="date" class="form-control" name="tanggal_awal" id="tanggal_awal" placeholder="Tanggal Mulai" value="<?php echo date('Y-m-d', time()); ?>">
-                                        <input type="date" class="form-control" name="tanggal_akhir" id="tanggal_akhir" placeholder="Tanggal Selesai" value="<?php echo date('Y-m-d', time()); ?>">
-                                        <input type="time" class="form-control" name="jam_awal" id="jam_awal" placeholder="Mulai" value="<?php echo date('H:i') ?>">
-                                        <input type="time" class="form-control" name="jam_akhir" id="jam_akhir" placeholder="Selesai" value="<?php $time = new DateTime(date('H:i'));
-                                                                                                                                                $time->modify('+2 hours');
-                                                                                                                                                echo $time->format('H:i'); ?>">
                                     <?php } ?>
                                     <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
                                         <input type="date" class="form-control" name="tanggal_awal" id="tanggal_awal" placeholder="Tanggal Mulai" value="<?php $time = new DateTime(date('Y-m-d', time()));
                                                                                                                                                             $time->modify('+3 days');
                                                                                                                                                             echo $time->format('Y-m-d'); ?>">
+                                    <?php } ?>
+                                </div>
+                                <div style="margin-left: 10px; margin-right:-40px;">
+                                    <input style="width: 70px;" type="text" class="form-control" readonly placeholder="s/d">
+                                </div>
+                                <div class="col-sm-5">
+                                    <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
+                                        <input type="date" class="form-control" name="tanggal_akhir" id="tanggal_akhir" placeholder="Tanggal Selesai" value="<?php echo date('Y-m-d', time()); ?>">
+                                    <?php } ?>
+                                    <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
                                         <input type="date" class="form-control" name="tanggal_akhir" id="tanggal_akhir" placeholder="Tanggal Mulai" value="<?php $time = new DateTime(date('Y-m-d', time()));
                                                                                                                                                             $time->modify('+3 days');
                                                                                                                                                             echo $time->format('Y-m-d'); ?>">
-                                        <input type="time" class="form-control" name="jam_awal" id="jam_awal" placeholder="Mulai" value="<?php echo date('H:i') ?>">
-                                        <input type="time" class="form-control" name="jam_akhir" id="jam_akhir" placeholder="Selesai" value="<?php $time = new DateTime(date('H:i'));
-                                                                                                                                                $time->modify('+2 hours');
-                                                                                                                                                echo $time->format('H:i'); ?>">
+                                    <?php } ?>
+                                </div>
+                            </div>
+                            <div class="form-group ml-0 row">
+                                <div class="col-5" style="margin-right: -40px;">
+                                    <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
+                                        <input type="time" class="form-control" name="jam_awal" id="jam_awal" placeholder="Jam Mulai" value="<?php echo date('H:i') ?>">
+                                    <?php } ?>
+                                    <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
+                                        <input type="time" class="form-control" name="jam_awal" id="jam_awal" placeholder="Jam Mulai" value="<?php echo date('H:i') ?>">
+                                    <?php } ?>
+                                </div>
+                                <div style="margin-left: 10px; margin-right:-40px;">
+                                    <input style="width: 70px;" type="text" class="form-control" readonly placeholder="s/d">
+                                </div>
+                                <div class="col-5">
+                                    <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
+                                        <input type="time" class="form-control" name="jam_akhir" id="jam_akhir" placeholder="Jam Selesai" value="<?php $time = new DateTime(date('H:i'));
+                                                                                                                                                    $time->modify('+2 hours');
+                                                                                                                                                    echo $time->format('H:i'); ?>">
+                                    <?php } ?>
+                                    <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
+                                        <input type="time" class="form-control" name="jam_akhir" id="jam_akhir" placeholder="Jam Selesai" value="<?php $time = new DateTime(date('H:i'));
+                                                                                                                                                    $time->modify('+2 hours');
+                                                                                                                                                    echo $time->format('H:i'); ?>">
                                     <?php } ?>
                                 </div>
                             </div>
@@ -252,7 +286,7 @@
                             <div class="form-group">
                                 <label for="barang" class="col-sm-5">Barang</label>
                                 <div class="col-sm">
-                                    <select id="id_lab" name="id_lab[]" class="js-example-basic-multiple w-100" multiple>
+                                    <select id="id_lab" name="id_lab[]" style="width:575px;" class="js-example-basic-multiple w-100" multiple>
 
                                     </select>
                                 </div>
@@ -287,22 +321,22 @@
                                     </select>
                                 </div>
                             </div>
+                            <?php
+                            // Filter data $user berdasarkan level "Ketua Jurusan"
+                            $filteredDosen = array_filter($user, function ($u) {
+                                return $u['level'] == "Dosen";
+                            });
+                            ?>
                             <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
                                 <div class="form-group">
                                     <label for="pembina" class="col-sm-5">Pembina</label>
                                     <div class="col-sm">
                                         <select id="name" name="name" class="form-control" placeholder="Kepala Laboratorium">
-
-                                            <option value=""></option>
-
+                                            <option value="">Pilih Pembina</option>
+                                            <?php foreach ($filteredDosen as $u) : ?>
+                                                <option value="<?php echo $u['name']; ?>"><?php echo $u['name']; ?></option>
+                                            <?php endforeach; ?>
                                         </select>
-                                        <input type="file" name="img[]" class="file-upload-default">
-                                        <div class="input-group col-xs-12">
-                                            <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                                            <span class="input-group-append">
-                                                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                                            </span>
-                                        </div>
 
                                     </div>
                                 </div>
