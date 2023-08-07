@@ -1,28 +1,28 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class R312 extends CI_Controller
+class R284 extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Md_r312');
+        $this->load->model('Md_r284');
     }
     public function index()
     {
-        $page_data['page_title'] = 'Lab Web Pemrograman 1 - R.312';
+        $page_data['page_title'] = 'Lab IoT & Embedded System - R.284';
         $page_data['page_tambah'] = 'Tambah Data Laboratorium';
         $page_data['page_edit'] = 'Edit Data Laboratorium';
         $page_data['page_detail'] = 'Detail Data Laboratorium';
         $page_data['email'] = $this->session->email;
         $page_data['name'] = $this->session->name;
 
-        $page_data['data'] = $this->Md_r312->getId1();
+        $page_data['data'] = $this->Md_r284->getId1();
 
         $this->load->view('templates/include_header', $page_data);
         $this->load->view('templates/include_topbar', $page_data);
         $this->load->view('templates/include_sidebar', $page_data);
-        $this->load->view('lab312/index', $page_data);
+        $this->load->view('lab284/index', $page_data);
         $this->load->view('templates/include_footer');
     }
     public function add()
@@ -42,19 +42,18 @@ class R312 extends CI_Controller
 
                 $data = array(
                     'gambar' => $gambar,
-                    'id_user' => 4,
                     'nama' => $this->input->post('nama'),
                     'no_barang' => $this->input->post('no_barang'),
                     'jumlah' => $this->input->post('jumlah'),
                     'keterangan' => $this->input->post('keterangan'),
                     'status_barang' => $this->input->post('status_barang'),
-                    'id_ruangan' => 2
+                    'id_ruangan' => 13
                 );
 
-                $this->Md_r312->add($data);
+                $this->Md_r284->add($data);
                 $this->session->set_flashdata('message', '<div class="alert alert-success" 
                 role="alert">Barang Berhasil Ditambahkan!</div>');
-                redirect('r312');
+                redirect('r284');
             } else {
                 $error = $this->upload->display_errors();
                 echo $error;
@@ -63,7 +62,7 @@ class R312 extends CI_Controller
     }
     public function update($id_lab)
     {
-        $page_data['data'] = $this->Md_r312->getByLabId($id_lab);
+        $page_data['data'] = $this->Md_r284->getByLabId($id_lab);
 
         if (empty($page_data['data'])) {
             // Tangani jika data barang tidak ditemukan
@@ -91,20 +90,19 @@ class R312 extends CI_Controller
                     // Update data barang dengan gambar baru
                     $data_update = array(
                         'gambar' => $gambar,
-                        'id_user' => 4,
                         'nama' => $this->input->post('nama'),
                         'no_barang' => $this->input->post('no_barang'),
                         'jumlah' => $this->input->post('jumlah'),
                         'keterangan' => $this->input->post('keterangan'),
                         'status_barang' => $this->input->post('status_barang'),
-                        'id_ruangan' => 1
+                        'id_ruangan' => 13
                     );
 
-                    $this->Md_r312->updateByLab($id_lab, $data_update);
+                    $this->Md_r284->updateByLab($id_lab, $data_update);
 
                     $this->session->set_flashdata('message', '<div class="alert alert-success" 
                     role="alert">Data Berhasil Diperbarui!</div>');
-                    redirect('r312');
+                    redirect('r284');
                 } else {
                     $error = $this->upload->display_errors();
                     echo $error;
@@ -112,20 +110,19 @@ class R312 extends CI_Controller
             } else {
                 // Update data barang tanpa perubahan gambar
                 $data_update = array(
-                    'id_user' => 4,
                     'nama' => $this->input->post('nama'),
                     'no_barang' => $this->input->post('no_barang'),
                     'jumlah' => $this->input->post('jumlah'),
                     'keterangan' => $this->input->post('keterangan'),
                     'status_barang' => $this->input->post('status_barang'),
-                    'id_ruangan' => 1
+                    'id_ruangan' => 13
                 );
 
-                $this->Md_r312->updateByLab($id_lab, $data_update);
+                $this->Md_r284->updateByLab($id_lab, $data_update);
 
                 $this->session->set_flashdata('message', '<div class="alert alert-success" 
                 role="alert">Data Berhasil Diperbarui!</div>');
-                redirect('r312');
+                redirect('r284');
             }
         } else {
             // Tampilkan tampilan form edit dengan data barang

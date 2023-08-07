@@ -1,28 +1,28 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class R324 extends CI_Controller
+class R252 extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Md_r324');
+        $this->load->model('Md_r252');
     }
     public function index()
     {
-        $page_data['page_title'] = 'Lab Computer Networking 1 - R.324';
+        $page_data['page_title'] = 'Lab Mobile Programming 2 - R.252';
         $page_data['page_tambah'] = 'Tambah Data Laboratorium';
         $page_data['page_edit'] = 'Edit Data Laboratorium';
         $page_data['page_detail'] = 'Detail Data Laboratorium';
         $page_data['email'] = $this->session->email;
         $page_data['name'] = $this->session->name;
 
-        $page_data['data'] = $this->Md_r324->getId1();
+        $page_data['data'] = $this->Md_r252->getId1();
 
         $this->load->view('templates/include_header', $page_data);
         $this->load->view('templates/include_topbar', $page_data);
         $this->load->view('templates/include_sidebar', $page_data);
-        $this->load->view('lab324/index', $page_data);
+        $this->load->view('lab252/index', $page_data);
         $this->load->view('templates/include_footer');
     }
     public function add()
@@ -47,13 +47,13 @@ class R324 extends CI_Controller
                     'jumlah' => $this->input->post('jumlah'),
                     'keterangan' => $this->input->post('keterangan'),
                     'status_barang' => $this->input->post('status_barang'),
-                    'id_ruangan' => 7
+                    'id_ruangan' => 14
                 );
 
-                $this->Md_r324->add($data);
+                $this->Md_r252->add($data);
                 $this->session->set_flashdata('message', '<div class="alert alert-success" 
                 role="alert">Barang Berhasil Ditambahkan!</div>');
-                redirect('r324');
+                redirect('r252');
             } else {
                 $error = $this->upload->display_errors();
                 echo $error;
@@ -62,7 +62,7 @@ class R324 extends CI_Controller
     }
     public function update($id_lab)
     {
-        $page_data['data'] = $this->Md_r320->getByLabId($id_lab);
+        $page_data['data'] = $this->Md_r252->getByLabId($id_lab);
 
         if (empty($page_data['data'])) {
             // Tangani jika data barang tidak ditemukan
@@ -95,14 +95,14 @@ class R324 extends CI_Controller
                         'jumlah' => $this->input->post('jumlah'),
                         'keterangan' => $this->input->post('keterangan'),
                         'status_barang' => $this->input->post('status_barang'),
-                        'id_ruangan' => 7
+                        'id_ruangan' => 14
                     );
 
-                    $this->Md_r324->updateByLab($id_lab, $data_update);
+                    $this->Md_r252->updateByLab($id_lab, $data_update);
 
                     $this->session->set_flashdata('message', '<div class="alert alert-success" 
                     role="alert">Data Berhasil Diperbarui!</div>');
-                    redirect('r324');
+                    redirect('r252');
                 } else {
                     $error = $this->upload->display_errors();
                     echo $error;
@@ -115,14 +115,14 @@ class R324 extends CI_Controller
                     'jumlah' => $this->input->post('jumlah'),
                     'keterangan' => $this->input->post('keterangan'),
                     'status_barang' => $this->input->post('status_barang'),
-                    'id_ruangan' => 7
+                    'id_ruangan' => 14
                 );
 
-                $this->Md_r324->updateByLab($id_lab, $data_update);
+                $this->Md_r252->updateByLab($id_lab, $data_update);
 
                 $this->session->set_flashdata('message', '<div class="alert alert-success" 
                 role="alert">Data Berhasil Diperbarui!</div>');
-                redirect('r324');
+                redirect('r252');
             }
         } else {
             // Tampilkan tampilan form edit dengan data barang

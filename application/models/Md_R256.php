@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Md_R324 extends CI_model
+class Md_R256 extends CI_model
 {
     public function getAll()
     {
@@ -33,7 +33,7 @@ class Md_R324 extends CI_model
         $this->db->select('data_barang.*, ruangan.*');
         $this->db->from('data_barang');
         $this->db->join('ruangan', 'data_barang.id_ruangan = ruangan.id_ruangan');
-        $this->db->where('data_barang.id_ruangan = 7');
+        $this->db->where('data_barang.id_ruangan = 15');
         return $this->db->get()->result_array();
     }
 

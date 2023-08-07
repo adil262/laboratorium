@@ -42,13 +42,12 @@ class R317 extends CI_Controller
 
                 $data = array(
                     'gambar' => $gambar,
-                    'id_user' => 4,
                     'nama' => $this->input->post('nama'),
                     'no_barang' => $this->input->post('no_barang'),
                     'jumlah' => $this->input->post('jumlah'),
                     'keterangan' => $this->input->post('keterangan'),
                     'status_barang' => $this->input->post('status_barang'),
-                    'id_ruangan' => 1
+                    'id_ruangan' => 4
                 );
 
                 $this->Md_r317->add($data);
@@ -91,13 +90,12 @@ class R317 extends CI_Controller
                     // Update data barang dengan gambar baru
                     $data_update = array(
                         'gambar' => $gambar,
-                        'id_user' => 4,
                         'nama' => $this->input->post('nama'),
                         'no_barang' => $this->input->post('no_barang'),
                         'jumlah' => $this->input->post('jumlah'),
                         'keterangan' => $this->input->post('keterangan'),
                         'status_barang' => $this->input->post('status_barang'),
-                        'id_ruangan' => 1
+                        'id_ruangan' => 4
                     );
 
                     $this->Md_r317->updateByLab($id_lab, $data_update);
@@ -112,13 +110,12 @@ class R317 extends CI_Controller
             } else {
                 // Update data barang tanpa perubahan gambar
                 $data_update = array(
-                    'id_user' => 4,
                     'nama' => $this->input->post('nama'),
                     'no_barang' => $this->input->post('no_barang'),
                     'jumlah' => $this->input->post('jumlah'),
                     'keterangan' => $this->input->post('keterangan'),
                     'status_barang' => $this->input->post('status_barang'),
-                    'id_ruangan' => 1
+                    'id_ruangan' => 4
                 );
 
                 $this->Md_r317->updateByLab($id_lab, $data_update);

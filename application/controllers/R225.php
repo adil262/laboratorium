@@ -43,7 +43,6 @@ class R225 extends CI_Controller
 
                 $data = array(
                     'gambar' => $gambar,
-                    'id_user' => 4,
                     'nama' => $this->input->post('nama'),
                     'no_barang' => $this->input->post('no_barang'),
                     'jumlah' => $this->input->post('jumlah'),
@@ -92,7 +91,6 @@ class R225 extends CI_Controller
                     // Update data barang dengan gambar baru
                     $data_update = array(
                         'gambar' => $gambar,
-                        'id_user' => 4,
                         'nama' => $this->input->post('nama'),
                         'no_barang' => $this->input->post('no_barang'),
                         'jumlah' => $this->input->post('jumlah'),
@@ -113,7 +111,6 @@ class R225 extends CI_Controller
             } else {
                 // Update data barang tanpa perubahan gambar
                 $data_update = array(
-                    'id_user' => 4,
                     'nama' => $this->input->post('nama'),
                     'no_barang' => $this->input->post('no_barang'),
                     'jumlah' => $this->input->post('jumlah'),

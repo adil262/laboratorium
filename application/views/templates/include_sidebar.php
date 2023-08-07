@@ -29,9 +29,14 @@
                   </a>
                   <div class="collapse" id="form-elements">
                       <ul class="nav flex-column sub-menu">
+
                           <li class="nav-item"><a class="nav-link" href="<?= base_url('ruangan') ?>">Ruangan</a></li>
-                          <li class="nav-item"><a class="nav-link" href="<?= base_url('r225') ?>">R.225</a></li>
-                          <li class="nav-item"><a class="nav-link" href="<?= base_url('r312') ?>">R.312</a></li>
+                          <?php if ($this->session->userdata('id_user') == 4) { ?>
+                              <li class="nav-item"><a class="nav-link" href="<?= base_url('r225') ?>">R.225</a></li>
+                          <?php } ?>
+                          <?php if ($this->session->userdata('id_user') == 5) { ?>
+                              <li class="nav-item"><a class="nav-link" href="<?= base_url('r312') ?>">R.312</a></li>
+                          <?php } ?>
                           <li class="nav-item"><a class="nav-link" href="<?= base_url('r313') ?>">R.313</a></li>
                           <li class="nav-item"><a class="nav-link" href="<?= base_url('r316') ?>">R.316</a></li>
                           <li class="nav-item"><a class="nav-link" href="<?= base_url('r317') ?>">R.317</a></li>

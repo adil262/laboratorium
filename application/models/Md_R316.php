@@ -33,7 +33,7 @@ class Md_R316 extends CI_model
         $this->db->select('data_barang.*, ruangan.*');
         $this->db->from('data_barang');
         $this->db->join('ruangan', 'data_barang.id_ruangan = ruangan.id_ruangan');
-        $this->db->where('data_barang.id_ruangan = 4');
+        $this->db->where('data_barang.id_ruangan = 3');
         return $this->db->get()->result_array();
     }
 
