@@ -42,6 +42,9 @@
         <script src="<?= base_url('assets/') ?>js/file-upload.js"></script>
         <script src="<?= base_url('assets/') ?>js/typeahead.js"></script>
         <script src="<?= base_url('assets/') ?>js/select2.js"></script>
+        <!-- <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script> -->
         <!-- End custom js for this page-->
         <!-- inject:js -->
         <!-- endinject -->

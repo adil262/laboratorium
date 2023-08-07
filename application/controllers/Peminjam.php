@@ -20,8 +20,6 @@ class Peminjam extends CI_Controller
         $page_data['email'] = $this->session->email;
         $page_data['name'] = $this->session->name;
 
-
-
         $this->load->view('templates/include_header', $page_data);
         $this->load->view('templates/include_topbar', $page_data);
         $this->load->view('templates/include_sidebar', $page_data);

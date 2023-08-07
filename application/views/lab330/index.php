@@ -56,7 +56,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title"><?= $page_tambah; ?></h4>
-                        <form action="<?= base_url('r312/add') ?>" enctype="multipart/form-data" method="post">
+                        <form action="<?= base_url('r330/add') ?>" enctype="multipart/form-data" method="post">
                             <div class="form-group">
                                 <label for="nama" class="col-sm-5">Nama Barang</label>
                                 <div class="col-sm">
@@ -119,7 +119,7 @@
                         <div class="card-body">
                             <h4 class="card-title"><?= $page_edit; ?></h4>
 
-                            <form action="<?= base_url('r312/update') ?>" enctype="multipart/form-data" method="post">
+                            <form action="<?= base_url('r330/update') ?>" enctype="multipart/form-data" method="post">
                                 <div class="form-group">
                                     <label for="nama" class="col-sm-5">Nama Barang</label>
                                     <div class="col-sm">

@@ -20,7 +20,7 @@
                             <button type="button" id="tambah" style="float: right;" class="btn btn-warning btn-sm tambah">Tambah</button>
                         <?php } ?>
                         <div class="table-responsive">
-                            <table id="table" class="table table-striped table-borderless">
+                            <table class="table table-striped table-borderless">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -41,7 +41,7 @@
                                             <td>
                                                 <a href="" data-toggle="modal" data-target="#detailLab<?= $lab['id_lab']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
                                                 <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
-                                                    <button type="button" id="edit" class="btn btn-inverse-warning btn-sm mdi mdi-border-color edit"></button>
+                                                    <button type="button" id="edit<?= $lab['id_lab']; ?>" class="btn btn-inverse-warning btn-sm mdi mdi-border-color edit"></button>
                                                 <?php } ?>
                                             </td>
                                         </tr>
@@ -56,7 +56,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title"><?= $page_tambah; ?></h4>
-                        <form action="<?= base_url('r225/add') ?>" enctype="multipart/form-data" method="post">
+                        <form action="<?= base_url('r252/add') ?>" enctype="multipart/form-data" method="post">
                             <div class="form-group">
                                 <label for="nama" class="col-sm-5">Nama Barang</label>
                                 <div class="col-sm">
@@ -119,7 +119,7 @@
                         <div class="card-body">
                             <h4 class="card-title"><?= $page_edit; ?></h4>
 
-                            <form action="<?= base_url('r225/update') ?>" enctype="multipart/form-data" method="post">
+                            <form action="<?= base_url('r252/update') ?>" enctype="multipart/form-data" method="post">
                                 <div class="form-group">
                                     <label for="nama" class="col-sm-5">Nama Barang</label>
                                     <div class="col-sm">
@@ -242,8 +242,6 @@
     <?php } ?>
 
     <script>
-        new DataTable('#table');
-
         var tambah = document.getElementsByClassName('tambah');
         var edit = document.getElementsByClassName('edit');
 
