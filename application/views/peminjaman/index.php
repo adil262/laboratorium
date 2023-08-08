@@ -209,12 +209,8 @@
                             <div class="form-group">
                                 <label for="level" class="col-sm-5">Level</label>
                                 <div class="col-sm">
-                                    <select class="form-control" name="id_level" id="id_level" placeholder="Level" onchange="loadJamOptions()">
-                                        <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
-                                            <?php foreach ($level1 as $l) : ?>
-                                                <option value="<?= $l['id_level']; ?>">Level <?= $l['id_level']; ?></option>
-                                            <?php endforeach; ?>
-                                        <?php } ?>
+                                    <select class="form-control" disabled name="id_level" id="id_level" placeholder="Level" onchange="loadJamOptions()">
+
                                         <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
                                             <option value="1">Level 1</option>
                                         <?php } ?>
@@ -261,7 +257,7 @@
                                 </div>
                                 <div class="col-5">
                                     <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
-                                        <input type="time" class="form-control" name="jam_akhir" id="jam_akhir" placeholder="Jam Selesai" value="<?php $time = new DateTime(date('H:i'));
+                                        <input tyxpe="time" class="form-control" name="jam_akhir" id="jam_akhir" placeholder="Jam Selesai" value="<?php $time = new DateTime(date('H:i'));
                                                                                                                                                     $time->modify('+2 hours');
                                                                                                                                                     echo $time->format('H:i'); ?>">
                                     <?php } ?>
@@ -297,6 +293,7 @@
                                     <textarea class="form-control" id="peserta" name="peserta" rows="4" name="peserta"></textarea>
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <label for="ail" class="col-sm-5">Asisten Instruktur</label>
                                 <div class="col-sm">
@@ -314,9 +311,9 @@
                             <div class="form-group">
                                 <label for="kalab" class="col-sm-5">Kepala Laboratorium</label>
                                 <div class="col-sm">
-                                    <select id="name" name="name" class="form-control" placeholder="Kepala Laboratorium">
+                                    <select id="id_kalab" name="id_kalab" class="form-control" placeholder="Kepala Laboratorium">
                                         <?php foreach ($filteredKalab as $u) : ?>
-                                            <option value="<?php echo $u['name']; ?>"><?php echo $u['name']; ?></option>
+                                            <option value="<?php echo $u['id_user']; ?>"><?php echo $u['name']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -687,8 +684,40 @@
 
                 $(document).ready(function() {
                     loadbarang();
+
                     loadail();
 
+                });
+
+                $(document).ready(function() {
+                    $("#jam_awal, #jam_akhir").change(function() {
+                        loadwaktu();
+                    });
+
+                    function loadwaktu() {
+                        var startDate = $("#jam_awal").val();
+                        var endDate = $("#jam_akhir").val();
+
+                        var input = '07:00';
+                        var inputAkhir = '10:00';
+                        var input2 = '16:00';
+                        var inputAkhir2 = '22:00';
+
+                        var html = '';
+
+                        if (startDate >= input && endDate <= inputAkhir) {
+                            html += '<option value="1">Level 1</option>';
+                        } else if (startDate >= input2 && endDate <= inputAkhir2) {
+                            html += '<option value="2">Level 2</option>';
+                        } else if (startDate >= input && endDate <= inputAkhir2) {
+                            html += '<option value="3">Level 3</option>';
+                        }
+
+                        $("#id_level").html(html);
+                    }
+
+                    // Panggil loadwaktu() saat halaman pertama kali dimuat
+                    loadwaktu();
                 });
 
                 function loadbarang() {
@@ -709,7 +738,6 @@
                                 var i;
                                 for (i = 0; i < data.length; i++) {
                                     html += '<option value="' + data[i].id_lab + '">' + data[i].no_barang + '</option>';
-
                                 }
                                 $("#id_lab").html(html);
                                 $("#id_lab").show();
@@ -725,7 +753,7 @@
                         $.ajax({
                             type: "POST",
                             dataType: "JSON",
-                            url: "<?= base_url(); ?>Peminjaman/getdatauser",
+                            url: "Peminjaman/getdatauser",
                             data: {
                                 no_ruangan: getruangan
                             },
@@ -740,7 +768,6 @@
                                 }
                                 $("#id_ail").html(html);
                                 $("#id_ail").show();
-
                             }
                         });
                     });

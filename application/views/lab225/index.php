@@ -11,8 +11,10 @@
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-7 grid-margin">
+                <?= $this->session->flashdata('message'); ?>
                 <div class="card">
                     <div class="card-body">
                         <p class="card-title mb-0">Data Barang</p>
@@ -242,8 +244,6 @@
     <?php } ?>
 
     <script>
-        new DataTable('#table');
-
         var tambah = document.getElementsByClassName('tambah');
         var edit = document.getElementsByClassName('edit');
 
@@ -255,15 +255,6 @@
                     formTambah.style.display = 'block';
                 } else {
                     formTambah.style.display = 'none';
-                }
-            });
-            edit[i].addEventListener('click', function(event) {
-                event.preventDefault();
-                var formEdit = document.getElementById('formEdit<?= $lab['id_lab']; ?>');
-                if (formEdit.style.display === 'none') {
-                    formEdit.style.display = 'block';
-                } else {
-                    formEdit.style.display = 'none';
                 }
             });
 

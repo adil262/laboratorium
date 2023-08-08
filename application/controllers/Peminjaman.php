@@ -55,6 +55,54 @@ class Peminjaman extends CI_Controller
         $page_data['user'] = $this->Md_Auth->getAll();
         $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
 
+        // $data = array(
+        //     'id_user' =>  $this->session->id_user,
+        //     'id_ruangan' => $this->input->post('id_ruangan'),
+        //     'id_level' => $this->input->post('id_level'),
+        //     'id_ail' => $this->input->post('id_ail'),
+        //     'nohp' => $this->input->post('nohp'),
+        //     'tanggal_awal' => $this->input->post('tanggal_awal'),
+        //     'tanggal_akhir' => $this->input->post('tanggal_akhir'),
+        //     'jam_awal' => $this->input->post('jam_awal'),
+        //     'jam_akhir' => $this->input->post('jam_akhir'),
+        //     'keterangan' => $this->input->post('keterangan'),
+        //     'peserta' => $this->input->post('peserta'),
+        //     'status' => 'Pending',
+        //     'approval_ail' => 0,
+        //     'approval_kalab' => 0,
+        //     'approval_kajur' => 0,
+        //     'approval_pudir1' => 0,
+        // );
+        // // var_dump($data);
+        // // die;
+        // // Cek apakah ada foto yang diunggah
+        // if (!empty($_FILES['bukti']['name'])) {
+        //     $config['upload_path'] = './assets/gambar';
+        //     $config['allowed_types'] = 'jpg|png|gif';
+
+        //     $this->upload->initialize($config);
+
+        //     if ($this->upload->do_upload('bukti')) {
+        //         $data['bukti'] = $this->upload->data('file_name');
+        //     } else {
+        //         // Foto gagal diunggah, tampilkan pesan error atau lakukan aksi lain
+        //         // ...
+        //     }
+        // }
+
+        // $id_peminjaman = $this->Md_Peminjaman->add($data);
+        // $id_lab = $this->input->post('id_lab');
+        // foreach ($id_lab as $data) {
+        //     $data_peminjaman = array(
+        //         'id_peminjaman' => $id_peminjaman,
+        //         'id_lab' => $data,
+        //     );
+
+        //     $this->Md_Peminjaman->addPeminjamanLab($data_peminjaman);
+        // }
+        // $this->session->set_flashdata('message', 'Peminjaman berhasil diajukan!');
+        // redirect('peminjaman');
+
         $data = array(
             'id_user' =>  $this->session->id_user,
             'id_ruangan' => $this->input->post('id_ruangan'),
@@ -73,22 +121,6 @@ class Peminjaman extends CI_Controller
             'approval_kajur' => 0,
             'approval_pudir1' => 0,
         );
-        // var_dump($data);
-        // die;
-        // Cek apakah ada foto yang diunggah
-        if (!empty($_FILES['bukti']['name'])) {
-            $config['upload_path'] = './assets/gambar';
-            $config['allowed_types'] = 'jpg|png|gif';
-
-            $this->upload->initialize($config);
-
-            if ($this->upload->do_upload('bukti')) {
-                $data['bukti'] = $this->upload->data('file_name');
-            } else {
-                // Foto gagal diunggah, tampilkan pesan error atau lakukan aksi lain
-                // ...
-            }
-        }
 
         $id_peminjaman = $this->Md_Peminjaman->add($data);
         $id_lab = $this->input->post('id_lab');
@@ -100,15 +132,44 @@ class Peminjaman extends CI_Controller
 
             $this->Md_Peminjaman->addPeminjamanLab($data_peminjaman);
         }
-        $this->session->set_flashdata('message', 'Peminjaman berhasil diajukan!');
-        redirect('peminjaman');
+
+        if ($this->_check_conflict($data)) {
+            $this->session->set_flashdata('message', 'Jadwal Bentrok!');;
+        } else {
+            $this->Md_Peminjaman->simpan_peminjaman($data);
+            $this->session->set_flashdata('message', 'Peminjaman berhasil diajukan!');
+            redirect('peminjaman');
+        }
+    }
+
+    private function _check_conflict($data)
+    {
+        $peminjaman_sebelumnya = $this->Md_Peminjaman->get_peminjaman_sebelumnya($data);
+
+        foreach ($peminjaman_sebelumnya as $peminjaman) {
+            if (
+                $data['tanggal_awal'] == $peminjaman['tanggal_awal'] &&
+                (
+                    ($data['jam_awal'] >= $peminjaman['jam_awal'] && $data['jam_awal'] < $peminjaman['jam_akhir']) ||
+                    ($data['jam_akhir'] > $peminjaman['jam_awal'] && $data['jam_akhir'] <= $peminjaman['jam_akhir'])
+                ) &&
+                $data['id_lab'] == $peminjaman['id_lab']
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function getdatauser()
     {
-        $id_ruangan = $this->input->post('no_ruangan');
+        $id_ruangan = $this->input->post('id_ruangan');
         $page_data = $this->Md_Peminjaman->getdatauser($id_ruangan);
         echo json_encode($page_data);
+        // $id_ail = $this->input->post('id_ail');
+        // $page_data = $this->Md_Peminjaman->getdatauser($id_ail);
+        // echo json_encode($page_data);
     }
 
     public function getdatabarang()

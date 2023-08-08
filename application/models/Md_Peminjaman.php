@@ -119,6 +119,14 @@ class Md_Peminjaman extends CI_model
         return $totalPeminjaman = $result->total_peminjaman;
     }
 
+    public function get_peminjaman_sebelumnya($data)
+    {
+        $this->db->where('tanggal_awal <=', $data['tanggal_awal']);
+        $this->db->where("(jam_awal < '{$data['jam_akhir']}' AND jam_akhir > '{$data['jam_awal']}')");
+        $this->db->where('id_lab', $data['id_lab']);
+        return $this->db->get('peminjaman')->result_array();
+    }
+
     public function add($data)
     {
         // Simpan data peminjaman ke tabel peminjaman
@@ -213,8 +221,6 @@ class Md_Peminjaman extends CI_model
         $this->db->update('data_barang');
     }
 
-
-
     //Ruangan
     public function getRuangan()
     {
@@ -230,6 +236,19 @@ class Md_Peminjaman extends CI_model
         $this->db->join('user', 'user.id_user = ail.id_user');
         $this->db->where('id_ail', $id_ruangan);
         return $this->db->get()->result_array();
+        // $query = $this->db->get_where('ruangan', array('id_ail' => $id_ail));
+        // return $query->result_array();
+        // $this->db->select('ail.*, user.*');
+        // $this->db->join('user', 'user.id_user = ail.id_ail');
+        // $this->db->where('id_ail', $id_ruangan);
+        // return $this->db->get()->result_array();
+        // $this->db->select('data_barang.*, ail.*, user.*'); // Ganti 'column_name' dengan kolom yang ingin Anda tampilkan
+        // $this->db->from('data_barang');
+        // $this->db->join('user', 'user.id_user = data_barang.id_user');
+        // $this->db->join('ail', 'ail.id_ail = data_barang.id_user');
+        // $this->db->where('id_ruangan', $id_ruangan);
+        // $query = $this->db->get('data_barang'); // Ganti 'projects' dengan nama tabel Anda
+        // return $query->result_array();
     }
 
     public function getdatabarang($id_ruangan)
