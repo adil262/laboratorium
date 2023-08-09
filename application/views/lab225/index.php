@@ -43,7 +43,7 @@
                                             <td>
                                                 <a href="" data-toggle="modal" data-target="#detailLab<?= $lab['id_lab']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
                                                 <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
-                                                    <button type="button" id="edit" class="btn btn-inverse-warning btn-sm mdi mdi-border-color edit"></button>
+                                                    <button type="button" id="edit<?= $lab['id_lab']; ?>" class="btn btn-inverse-warning btn-sm mdi mdi-border-color edit"></button>
                                                 <?php } ?>
                                             </td>
                                         </tr>
@@ -116,7 +116,7 @@
                 </div>
             </div>
             <?php foreach ($data as $lab) { ?>
-                <div id="formEdit<?= $lab['id_lab']; ?>" style="display:none;" class="col-md-4 stretch-card" aria-hidden="true">
+                <div id="formEdit" style="display:none;" class="col-md-4 stretch-card" aria-hidden="true">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title"><?= $page_edit; ?></h4>
@@ -255,6 +255,18 @@
                     formTambah.style.display = 'block';
                 } else {
                     formTambah.style.display = 'none';
+                }
+            });
+
+        }
+        for (var i = 0; i < edit.length; i++) {
+            edit[i].addEventListener('click', function(event) {
+                event.preventDefault();
+                var formEdit = document.getElementById('formEdit');
+                if (formEdit.style.display === 'none') {
+                    formEdit.style.display = 'block';
+                } else {
+                    formEdit.style.display = 'none';
                 }
             });
 

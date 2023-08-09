@@ -31,11 +31,11 @@ class Peminjaman extends CI_Controller
         $page_data['riwayat_peminjaman'] = $this->Md_Peminjaman->getPeminjamanByUser($id_user);
         $page_data['pengajuan'] = $this->Md_Peminjaman->getByPeminjamanProses();
         $page_data['pengembalian'] = $this->Md_Peminjaman->getByPengembalian();
-        $page_data['level1'] = $this->Md_Peminjaman->getLevel();
         $page_data['peminjaman'] = $this->Md_Peminjaman->getByPeminjaman();
         $page_data['user'] = $this->Md_Auth->getAll();
         $page_data['ruangan1'] = $this->Md_Peminjaman->getByPeminjamanUser();
         $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
+        $page_data['dosen'] = $this->Md_Peminjaman->getDosen();
 
         $this->load->view('templates/include_header', $page_data);
         $this->load->view('templates/include_topbar', $page_data);
@@ -108,6 +108,8 @@ class Peminjaman extends CI_Controller
             'id_ruangan' => $this->input->post('id_ruangan'),
             'id_level' => $this->input->post('id_level'),
             'id_ail' => $this->input->post('id_ail'),
+            'id_kalab' => $this->input->post('id_kalab'),
+            'id_dosen' => $this->input->post('id_dosen'),
             'nohp' => $this->input->post('nohp'),
             'tanggal_awal' => $this->input->post('tanggal_awal'),
             'tanggal_akhir' => $this->input->post('tanggal_akhir'),
@@ -116,6 +118,7 @@ class Peminjaman extends CI_Controller
             'keterangan' => $this->input->post('keterangan'),
             'peserta' => $this->input->post('peserta'),
             'status' => 'Pending',
+            'approval_dosen' => 0,
             'approval_ail' => 0,
             'approval_kalab' => 0,
             'approval_kajur' => 0,
@@ -164,8 +167,7 @@ class Peminjaman extends CI_Controller
 
     public function getdatauser()
     {
-        $id_ruangan = $this->input->post('id_ruangan');
-        $page_data = $this->Md_Peminjaman->getdatauser($id_ruangan);
+        $page_data = $this->Md_Peminjaman->getdatauser();
         echo json_encode($page_data);
         // $id_ail = $this->input->post('id_ail');
         // $page_data = $this->Md_Peminjaman->getdatauser($id_ail);

@@ -11,88 +11,80 @@ class Md_Peminjaman extends CI_model
     // Peminjaman
     public function getByPeminjamanUser()
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*, level.*');
+        $this->db->select('peminjaman.*, ruangan.*, user.*');
         $this->db->from('peminjaman');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
-        $this->db->join('level', 'peminjaman.id_level = level.id_level');
         $this->db->where('id_peminjaman');
         return $this->db->get()->result_array();
     }
     public function getByPeminjaman()
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*, level.*, peminjaman_barang.*, data_barang.*');
+        $this->db->select('peminjaman.*, ruangan.*, user.*, peminjaman_barang.*, data_barang.*');
         $this->db->from('peminjaman');
         $this->db->from('peminjaman_barang');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
-        $this->db->join('level', 'peminjaman.id_level = level.id_level');
         $this->db->join('data_barang', 'peminjaman_barang.id_lab = data_barang.id_lab');
         return $this->db->get()->result_array();
     }
 
     public function getByPeminjamanProses()
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*, level.*');
+        $this->db->select('peminjaman.*, ruangan.*, user.*');
         $this->db->from('peminjaman');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
-        $this->db->join('level', 'peminjaman.id_level = level.id_level');
         $this->db->where('peminjaman.status_peminjaman', 0);
         return $this->db->get()->result_array();
     }
 
     public function getByPeminjamanSukses()
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*, level.*');
+        $this->db->select('peminjaman.*, ruangan.*, user.*');
         $this->db->from('peminjaman');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
-        $this->db->join('level', 'peminjaman.id_level = level.id_level');
         $this->db->where('peminjaman.status_peminjaman', 1);
         return $this->db->get()->result_array();
     }
 
     public function getByPengembalian()
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*, level.*');
+        $this->db->select('peminjaman.*, ruangan.*, user.*');
         $this->db->from('peminjaman');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
-        $this->db->join('level', 'peminjaman.id_level = level.id_level');
         $this->db->where('peminjaman.status_peminjaman', 2);
         return $this->db->get()->result_array();
     }
 
     public function getByPeminjamanSelesai()
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*, level.*');
+        $this->db->select('peminjaman.*, ruangan.*, user.*');
         $this->db->from('peminjaman');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
-        $this->db->join('level', 'peminjaman.id_level = level.id_level');
         $this->db->where('peminjaman.status_peminjaman', 3);
         return $this->db->get()->result_array();
     }
 
     public function getByPeminjamanDitolak()
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*, level.*');
+        $this->db->select('peminjaman.*, ruangan.*, user.*');
         $this->db->from('peminjaman');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
-        $this->db->join('level', 'peminjaman.id_level = level.id_level');
         $this->db->where('peminjaman.status_peminjaman', 4);
         return $this->db->get()->result_array();
     }
 
     public function getPeminjamanByUser($id_user)
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*, level.*');
+        $this->db->select('peminjaman.*, ruangan.*, user.*');
         $this->db->from('peminjaman');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
-        $this->db->join('level', 'peminjaman.id_level = level.id_level');
         $this->db->where('peminjaman.id_user', $id_user);
         $this->db->order_by('tanggal_awal', 'desc');
         $query = $this->db->get();
@@ -229,12 +221,12 @@ class Md_Peminjaman extends CI_model
     }
 
     // Get Data
-    public function getdatauser($id_ruangan)
+    public function getdatauser()
     {
-        $this->db->select('ail.*, user.*');
-        $this->db->from('ail');
+        $this->db->select('ruangan.*, ail.*, user.*');
+        $this->db->from('ruangan');
+        $this->db->join('ail', 'ail.id_user = ruangan.id_ail');
         $this->db->join('user', 'user.id_user = ail.id_user');
-        $this->db->where('id_ail', $id_ruangan);
         return $this->db->get()->result_array();
         // $query = $this->db->get_where('ruangan', array('id_ail' => $id_ail));
         // return $query->result_array();
@@ -253,15 +245,22 @@ class Md_Peminjaman extends CI_model
 
     public function getdatabarang($id_ruangan)
     {
-        $this->db->select('data_barang.*,'); // Ganti 'column_name' dengan kolom yang ingin Anda tampilkan
+        $this->db->select('data_barang.*'); // Ganti 'column_name' dengan kolom yang ingin Anda tampilkan
         $this->db->where('status_barang = "Tersedia"');
         $this->db->where('id_ruangan', $id_ruangan);
         $query = $this->db->get('data_barang'); // Ganti 'projects' dengan nama tabel Anda
         return $query->result_array();
     }
-
-    public function getLevel()
+    public function getDosen()
     {
-        return $this->db->get('level')->result_array();
+        $this->db->select('dosen.*, user.*'); // Ganti 'column_name' dengan kolom yang ingin Anda tampilkan
+        $this->db->from('dosen');
+        $this->db->join('user', 'user.id_user = dosen.id_user');
+        return $this->db->get()->result_array();
     }
+
+    // public function getLevel()
+    // {
+    //     return $this->db->get('level')->result_array();
+    // }
 }

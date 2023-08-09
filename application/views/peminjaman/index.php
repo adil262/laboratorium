@@ -209,11 +209,8 @@
                             <div class="form-group">
                                 <label for="level" class="col-sm-5">Level</label>
                                 <div class="col-sm">
-                                    <select class="form-control" disabled name="id_level" id="id_level" placeholder="Level" onchange="loadJamOptions()">
+                                    <select class="form-control" disabled name="id_level" id="id_level" placeholder="Level" onchange="loadJamOptions()" required="">
 
-                                        <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
-                                            <option value="1">Level 1</option>
-                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
@@ -282,7 +279,7 @@
                             <div class="form-group">
                                 <label for="barang" class="col-sm-5">Barang</label>
                                 <div class="col-sm">
-                                    <select id="id_lab" name="id_lab[]" style="width:575px;" class="js-example-basic-multiple w-100" multiple>
+                                    <select id="id_lab" name="id_lab[]" style="width:100%;" class="js-example-basic-multiple w-100" multiple>
 
                                     </select>
                                 </div>
@@ -302,36 +299,22 @@
                                     </select>
                                 </div>
                             </div>
-                            <?php
-                            // Filter data $user berdasarkan level "Kepala Laboratorium"
-                            $filteredKalab = array_filter($user, function ($u) {
-                                return $u['level'] == "Kalab";
-                            });
-                            ?>
                             <div class="form-group">
                                 <label for="kalab" class="col-sm-5">Kepala Laboratorium</label>
                                 <div class="col-sm">
                                     <select id="id_kalab" name="id_kalab" class="form-control" placeholder="Kepala Laboratorium">
-                                        <?php foreach ($filteredKalab as $u) : ?>
-                                            <option value="<?php echo $u['id_user']; ?>"><?php echo $u['name']; ?></option>
-                                        <?php endforeach; ?>
+
                                     </select>
                                 </div>
                             </div>
-                            <?php
-                            // Filter data $user berdasarkan level "Ketua Jurusan"
-                            $filteredDosen = array_filter($user, function ($u) {
-                                return $u['level'] == "Dosen";
-                            });
-                            ?>
                             <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
                                 <div class="form-group">
                                     <label for="pembina" class="col-sm-5">Pembina</label>
                                     <div class="col-sm">
-                                        <select id="name" name="name" class="form-control" placeholder="Kepala Laboratorium">
-                                            <option value="">Pilih Pembina</option>
-                                            <?php foreach ($filteredDosen as $u) : ?>
-                                                <option value="<?php echo $u['name']; ?>"><?php echo $u['name']; ?></option>
+                                        <select id="id_dosen" name="id_dosen" class="form-control" placeholder="Ketua Jurusan">
+                                            <option value="">-- Pilih Pembina --</option>
+                                            <?php foreach ($dosen as $u) : ?>
+                                                <option value="<?php echo $u['id_dosen']; ?>"><?php echo $u['name']; ?></option>
                                             <?php endforeach; ?>
                                         </select>
 
@@ -347,7 +330,7 @@
                             <div class="form-group">
                                 <label for="kajur" class="col-sm-5">Ketua Jurusan</label>
                                 <div class="col-sm">
-                                    <select id="name" name="name" class="form-control" placeholder="Kepala Laboratorium">
+                                    <select id="name" name="name" class="form-control" placeholder="Ketua Jurusan">
                                         <?php foreach ($filteredKajur as $u) : ?>
                                             <option value="<?php echo $u['name']; ?>"><?php echo $u['name']; ?></option>
                                         <?php endforeach; ?>
@@ -684,8 +667,7 @@
 
                 $(document).ready(function() {
                     loadbarang();
-
-                    loadail();
+                    // loadail();
 
                 });
 
@@ -707,9 +689,11 @@
 
                         if (startDate >= input && endDate <= inputAkhir) {
                             html += '<option value="1">Level 1</option>';
-                        } else if (startDate >= input2 && endDate <= inputAkhir2) {
+                        }
+                        if (startDate >= input2 && endDate <= inputAkhir2) {
                             html += '<option value="2">Level 2</option>';
-                        } else if (startDate >= input && endDate <= inputAkhir2) {
+                        }
+                        if (startDate >= input && endDate <= inputAkhir2) {
                             html += '<option value="3">Level 3</option>';
                         }
 
@@ -746,32 +730,75 @@
                     });
                 }
 
-                function loadail() {
+                $(document).ready(function() {
                     $("#id_ruangan").change(function() {
-                        var getruangan = $("#id_ruangan").val();
+                        loadail();
+                        loadkalab();
+                    });
+
+                    function loadail() {
+                        var ruangan = $("#id_ruangan").val();
 
                         $.ajax({
-                            type: "POST",
-                            dataType: "JSON",
-                            url: "Peminjaman/getdatauser",
-                            data: {
-                                no_ruangan: getruangan
-                            },
+                            url: "<?php echo site_url('peminjaman/getdatauser'); ?>",
+                            method: "GET",
+                            dataType: "json",
                             success: function(data) {
-                                console.log(data);
+                                var ruangan = $("#id_ruangan").val();
+                                var input = [1, 2, 3, 4, 16];
+                                var input2 = [5, 6, 9];
+                                var input3 = [11, 12, 13, 17];
+                                var input4 = [7, 8, 10, 14, 15];
 
                                 var html = '';
-                                var j;
-                                for (j = 0; j < data.length; j++) {
-                                    html += '<option value = "' + data[j].id_ail + '" >' + data[j].name + ' </option>';
 
+                                if (input.includes(Number(ruangan))) {
+                                    html += '<option value="1">Aida Kamila</option>';
                                 }
+                                if (input2.includes(Number(ruangan))) {
+                                    html += '<option value="2">Nessa Chairani Bemin</option>';
+                                }
+                                if (input3.includes(Number(ruangan))) {
+                                    html += '<option value="3">Harumin</option>';
+                                }
+                                if (input4.includes(Number(ruangan))) {
+                                    html += '<option value="4">Dwi Listiyanti</option>';
+                                }
+
                                 $("#id_ail").html(html);
-                                $("#id_ail").show();
                             }
                         });
-                    });
-                }
+                    }
+
+                    function loadkalab() {
+                        var ruangan = $("#id_ruangan").val();
+
+                        $.ajax({
+                            url: "<?php echo site_url('peminjaman/getdatauser'); ?>",
+                            method: "GET",
+                            dataType: "json",
+                            success: function(data) {
+                                var ruangan = $("#id_ruangan").val();
+                                var input = [1, 2, 3, 4, 5, 6, 9, 16];
+                                var input2 = [7, 8, 10, 11, 12, 13, 14, 15, 17]
+
+                                var html = '';
+
+                                if (input.includes(Number(ruangan))) {
+                                    html += '<option value="1">Nessa Chairani Bemin</option>';
+                                }
+                                if (input2.includes(Number(ruangan))) {
+                                    html += '<option value="2">Harumin</option>';
+                                }
+
+                                $("#id_kalab").html(html);
+                            }
+                        });
+                    }
+
+                    // Panggil loadail() saat halaman pertama kali dimuat
+                    loadkalab();
+                });
 
                 if (formTambah.style.display === 'none') {
                     formTambah.style.display = 'block';
