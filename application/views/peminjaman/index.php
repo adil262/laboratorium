@@ -80,48 +80,60 @@
                                             <td>
                                                 <abbr title="detail"> <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $p['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a></abbr>
 
-                                                <?php if ($p['id_level'] == 1) : ?>
+                                                <?php if ($p['level_peminjaman'] == 1) : ?>
+                                                    <?php if ($level == 'Dosen' && $p['approval_dosen'] == 0) : ?>
+                                                        <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_dosen'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
+                                                        <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
+                                                    <?php endif; ?>
                                                     <?php if ($level == 'Ail' && $p['approval_ail'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
-                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                        <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
+                                                        <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Kalab' && $p['approval_kalab'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
-                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class=" btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                        <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
+                                                        <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class=" btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
 
-                                                <?php if ($p['id_level'] == 2) : ?>
+                                                <?php if ($p['level_peminjaman'] == 2) : ?>
+                                                    <?php if ($level == 'Dosen' && $p['approval_dosen'] == 0) : ?>
+                                                        <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_dosen'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
+                                                        <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
+                                                    <?php endif; ?>
                                                     <?php if ($level == 'Ail' && $p['approval_ail'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
-                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                        <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
+                                                        <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Kalab' && $p['approval_kalab'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
-                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                        <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
+                                                        <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class=" btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Kajur' && $p['approval_kajur'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_kajur'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
-                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                        <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_kajur'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
+                                                        <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
 
-                                                <?php if ($p['id_level'] == 3) : ?>
+                                                <?php if ($p['level_peminjaman'] == 3) : ?>
+                                                    <?php if ($level == 'Dosen' && $p['approval_dosen'] == 0) : ?>
+                                                        <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_dosen'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
+                                                        <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
+                                                    <?php endif; ?>
                                                     <?php if ($level == 'Ail' && $p['approval_ail'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
-                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                        <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
+                                                        <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Kalab' && $p['approval_kalab'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
-                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                        <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_kalab'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
+                                                        <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class=" btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Kajur' && $p['approval_kajur'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_kajur'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
-                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                        <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_kajur'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
+                                                        <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Pudir1' && $p['approval_pudir1'] == 0) : ?>
-                                                        <a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_pudir1'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a>
-                                                        <a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a>
+                                                        <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_pudir1'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
+                                                        <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
                                             </td>
@@ -209,7 +221,7 @@
                             <div class="form-group">
                                 <label for="level" class="col-sm-5">Level</label>
                                 <div class="col-sm">
-                                    <select class="form-control" disabled name="id_level" id="id_level" placeholder="Level" onchange="loadJamOptions()" required="">
+                                    <select class="form-control" readonly name="level_peminjaman" id="level_peminjaman" placeholder="Level" required="">
 
                                     </select>
                                 </div>
@@ -394,7 +406,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <p class="text-success">Level</p>
-                                    <p><?= $b['id_level'] ?></p>
+                                    <p><?= $b['level_peminjaman'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -479,7 +491,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <p class="text-success">Level</p>
-                                    <p><?= $p['id_level'] ?></p>
+                                    <p><?= $p['level_peminjaman'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -564,7 +576,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <p class="text-success">Level</p>
-                                    <p><?= $b['id_level'] ?></p>
+                                    <p><?= $b['level_peminjaman'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -696,7 +708,7 @@
                             html += '<option value="3">Level 3</option>';
                         }
 
-                        $("#id_level").html(html);
+                        $("#level_peminjaman").html(html);
                     }
 
                     // Panggil loadwaktu() saat halaman pertama kali dimuat

@@ -106,7 +106,7 @@ class Peminjaman extends CI_Controller
         $data = array(
             'id_user' =>  $this->session->id_user,
             'id_ruangan' => $this->input->post('id_ruangan'),
-            'id_level' => $this->input->post('id_level'),
+            'level_peminjaman' => $this->input->post('level_peminjaman'),
             'id_ail' => $this->input->post('id_ail'),
             'id_kalab' => $this->input->post('id_kalab'),
             'id_dosen' => $this->input->post('id_dosen'),
