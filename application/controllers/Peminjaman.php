@@ -194,12 +194,17 @@ class Peminjaman extends CI_Controller
 
         // // Cek apakah pengguna memiliki hak akses untuk melakukan approval
         if ($peminjaman['id_level'] == 1) {
-            if ($level == 'Ail' && $peminjaman['approval_ail'] == 0) {
+            if ($level == 'Dosen' && $peminjaman['approval_dosen'] == 0) {
+                // Update status approval AIL menjadi disetujui
+                $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
+                $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Pembina");
+            }
+            if ($level == 'Ail' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 0) {
                 // Update status approval AIL menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Ail");
             }
-            if ($level == 'Kalab' && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 0) {
+            if ($level == 'Kalab' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 0) {
                 // Update status approval KALAB menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Peminjaman Sukses");
@@ -210,17 +215,22 @@ class Peminjaman extends CI_Controller
             }
         }
         if ($peminjaman['id_level'] == 2) {
-            if ($level == 'Ail' && $peminjaman['approval_ail'] == 0) {
+            if ($level == 'Dosen' && $peminjaman['approval_dosen'] == 0) {
+                // Update status approval AIL menjadi disetujui
+                $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
+                $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Pembina");
+            }
+            if ($level == 'Ail' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 0) {
                 // Update status approval AIL menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Ail");
             }
-            if ($level == 'Kalab' && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 0) {
+            if ($level == 'Kalab' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 0) {
                 // Update status approval KALAB menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Kalab");
             }
-            if ($level == 'Kajur' && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 1 && $peminjaman['approval_kajur'] == 0) {
+            if ($level == 'Kajur' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 1 && $peminjaman['approval_kajur'] == 0) {
                 // Update status approval KAJUR menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Peminjaman Sukses");
@@ -231,22 +241,27 @@ class Peminjaman extends CI_Controller
             }
         }
         if ($peminjaman['id_level'] == 3) {
-            if ($level == 'Ail' && $peminjaman['approval_ail'] == 0) {
+            if ($level == 'Dosen' && $peminjaman['approval_dosen'] == 0) {
+                // Update status approval AIL menjadi disetujui
+                $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
+                $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Pembina");
+            }
+            if ($level == 'Ail' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 0) {
                 // Update status approval AIL menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Ail");
             }
-            if ($level == 'Kalab' && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 0) {
+            if ($level == 'Kalab' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 0) {
                 // Update status approval KALAB menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Kalab");
             }
-            if ($level == 'Kajur' && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 1 && $peminjaman['approval_kajur'] == 0) {
+            if ($level == 'Kajur' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 1 && $peminjaman['approval_kajur'] == 0) {
                 // Update status approval KAJUR menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Kajur");
             }
-            if ($level == 'Pudir1'  && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 1 && $peminjaman['approval_kajur'] == 1 && $peminjaman['approval_pudir1'] == 0) {
+            if ($level == 'Pudir1'  && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 1 && $peminjaman['approval_kajur'] == 1 && $peminjaman['approval_pudir1'] == 0) {
                 // Update status approval PUDIR1 menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Peminjaman Sukses");

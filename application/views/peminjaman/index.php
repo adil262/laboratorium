@@ -668,7 +668,6 @@
                 $(document).ready(function() {
                     loadbarang();
                     // loadail();
-
                 });
 
                 $(document).ready(function() {
