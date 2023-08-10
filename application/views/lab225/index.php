@@ -33,10 +33,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $no = 1; ?>
                                     <?php foreach ($data as $lab) : ?>
                                         <tr>
-                                            <td><?= $no++; ?></td>
+                                            <td><?= ++$start ?></td>
                                             <td><?= $lab['nama'] ?></td>
                                             <td><?= $lab['no_barang'] ?></td>
                                             <td><?= $lab['status_barang'] ?></td>
@@ -50,6 +49,7 @@
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                            <?= $this->pagination->create_links(); ?>
                         </div>
                     </div>
                 </div>

@@ -36,6 +36,7 @@ class Peminjaman extends CI_Controller
         $page_data['ruangan1'] = $this->Md_Peminjaman->getByPeminjamanUser();
         $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
         $page_data['dosen'] = $this->Md_Peminjaman->getDosen();
+        $page_data['barang1'] = $this->Md_Peminjaman->getBarang();
 
         $this->load->view('templates/include_header', $page_data);
         $this->load->view('templates/include_topbar', $page_data);
@@ -54,54 +55,6 @@ class Peminjaman extends CI_Controller
 
         $page_data['user'] = $this->Md_Auth->getAll();
         $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
-
-        // $data = array(
-        //     'id_user' =>  $this->session->id_user,
-        //     'id_ruangan' => $this->input->post('id_ruangan'),
-        //     'id_level' => $this->input->post('id_level'),
-        //     'id_ail' => $this->input->post('id_ail'),
-        //     'nohp' => $this->input->post('nohp'),
-        //     'tanggal_awal' => $this->input->post('tanggal_awal'),
-        //     'tanggal_akhir' => $this->input->post('tanggal_akhir'),
-        //     'jam_awal' => $this->input->post('jam_awal'),
-        //     'jam_akhir' => $this->input->post('jam_akhir'),
-        //     'keterangan' => $this->input->post('keterangan'),
-        //     'peserta' => $this->input->post('peserta'),
-        //     'status' => 'Pending',
-        //     'approval_ail' => 0,
-        //     'approval_kalab' => 0,
-        //     'approval_kajur' => 0,
-        //     'approval_pudir1' => 0,
-        // );
-        // // var_dump($data);
-        // // die;
-        // // Cek apakah ada foto yang diunggah
-        // if (!empty($_FILES['bukti']['name'])) {
-        //     $config['upload_path'] = './assets/gambar';
-        //     $config['allowed_types'] = 'jpg|png|gif';
-
-        //     $this->upload->initialize($config);
-
-        //     if ($this->upload->do_upload('bukti')) {
-        //         $data['bukti'] = $this->upload->data('file_name');
-        //     } else {
-        //         // Foto gagal diunggah, tampilkan pesan error atau lakukan aksi lain
-        //         // ...
-        //     }
-        // }
-
-        // $id_peminjaman = $this->Md_Peminjaman->add($data);
-        // $id_lab = $this->input->post('id_lab');
-        // foreach ($id_lab as $data) {
-        //     $data_peminjaman = array(
-        //         'id_peminjaman' => $id_peminjaman,
-        //         'id_lab' => $data,
-        //     );
-
-        //     $this->Md_Peminjaman->addPeminjamanLab($data_peminjaman);
-        // }
-        // $this->session->set_flashdata('message', 'Peminjaman berhasil diajukan!');
-        // redirect('peminjaman');
 
         $data = array(
             'id_user' =>  $this->session->id_user,
@@ -126,6 +79,8 @@ class Peminjaman extends CI_Controller
         );
 
         $id_peminjaman = $this->Md_Peminjaman->add($data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" 
+                role="alert">Peminjaman Berhasil Diajukan!</div>');
         $id_lab = $this->input->post('id_lab');
         foreach ($id_lab as $data) {
             $data_peminjaman = array(
@@ -134,36 +89,16 @@ class Peminjaman extends CI_Controller
             );
 
             $this->Md_Peminjaman->addPeminjamanLab($data_peminjaman);
-        }
-
-        if ($this->_check_conflict($data)) {
-            $this->session->set_flashdata('message', 'Jadwal Bentrok!');;
-        } else {
-            $this->Md_Peminjaman->simpan_peminjaman($data);
-            $this->session->set_flashdata('message', 'Peminjaman berhasil diajukan!');
-            redirect('peminjaman');
-        }
-    }
-
-    private function _check_conflict($data)
-    {
-        $peminjaman_sebelumnya = $this->Md_Peminjaman->get_peminjaman_sebelumnya($data);
-
-        foreach ($peminjaman_sebelumnya as $peminjaman) {
-            if (
-                $data['tanggal_awal'] == $peminjaman['tanggal_awal'] &&
-                (
-                    ($data['jam_awal'] >= $peminjaman['jam_awal'] && $data['jam_awal'] < $peminjaman['jam_akhir']) ||
-                    ($data['jam_akhir'] > $peminjaman['jam_awal'] && $data['jam_akhir'] <= $peminjaman['jam_akhir'])
-                ) &&
-                $data['id_lab'] == $peminjaman['id_lab']
-            ) {
-                return true;
+            $status_barang = "Booking";
+            $barang = $this->Md_Peminjaman->updateStatusBarang($id_peminjaman);
+            foreach ($barang as $data) {
+                $this->Md_Peminjaman->updateStatusData($data['id_lab'], $status_barang);
             }
         }
-
-        return false;
+        redirect('peminjaman');
     }
+
+
 
     public function getdatauser()
     {
@@ -194,15 +129,19 @@ class Peminjaman extends CI_Controller
 
         // // Cek apakah pengguna memiliki hak akses untuk melakukan approval
         if ($peminjaman['id_level'] == 1) {
-            if ($level == 'Dosen' && $peminjaman['approval_dosen'] == 0) {
-                // Update status approval AIL menjadi disetujui
+            if ($level == 'dosen' && $peminjaman['approval_dosen'] == 0) {
+                // Update status approval Dosen menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Pembina");
+                $this->session->set_flashdata('message', '<div class="alert alert-success" 
+                role="alert">Approval Berhasil!</div>');
             }
             if ($level == 'Ail' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 0) {
                 // Update status approval AIL menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Ail");
+                $this->session->set_flashdata('message', '<div class="alert alert-success" 
+                role="alert">Approval Berhasil!</div>');
             }
             if ($level == 'Kalab' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 0) {
                 // Update status approval KALAB menjadi disetujui
@@ -212,6 +151,8 @@ class Peminjaman extends CI_Controller
                 foreach ($barang as $data) {
                     $this->Md_Peminjaman->updateStatusData($data['id_lab'], $status_barang);
                 }
+                $this->session->set_flashdata('message', '<div class="alert alert-success" 
+                role="alert">Approval Berhasil!</div>');
             }
         }
         if ($peminjaman['id_level'] == 2) {
@@ -219,16 +160,22 @@ class Peminjaman extends CI_Controller
                 // Update status approval AIL menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Pembina");
+                $this->session->set_flashdata('message', '<div class="alert alert-success" 
+                role="alert">Approval Berhasil!</div>');
             }
             if ($level == 'Ail' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 0) {
                 // Update status approval AIL menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Ail");
+                $this->session->set_flashdata('message', '<div class="alert alert-success" 
+                role="alert">Approval Berhasil!</div>');
             }
             if ($level == 'Kalab' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 0) {
                 // Update status approval KALAB menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Kalab");
+                $this->session->set_flashdata('message', '<div class="alert alert-success" 
+                role="alert">Approval Berhasil!</div>');
             }
             if ($level == 'Kajur' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 1 && $peminjaman['approval_kajur'] == 0) {
                 // Update status approval KAJUR menjadi disetujui
@@ -238,30 +185,40 @@ class Peminjaman extends CI_Controller
                 foreach ($barang as $data) {
                     $this->Md_Peminjaman->updateStatusData($data['id_lab'], $status_barang);
                 }
+                $this->session->set_flashdata('message', '<div class="alert alert-success" 
+                role="alert">Approval Berhasil!</div>');
             }
         }
         if ($peminjaman['id_level'] == 3) {
-            if ($level == 'Dosen' && $peminjaman['approval_dosen'] == 0) {
+            if ($level == 'Dosen' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_dosen'] == 0) {
                 // Update status approval AIL menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Pembina");
+                $this->session->set_flashdata('message', '<div class="alert alert-success" 
+                role="alert">Approval Berhasil!</div>');
             }
             if ($level == 'Ail' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 0) {
                 // Update status approval AIL menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Ail");
+                $this->session->set_flashdata('message', '<div class="alert alert-success" 
+                role="alert">Approval Berhasil!</div>');
             }
             if ($level == 'Kalab' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 0) {
                 // Update status approval KALAB menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Kalab");
+                $this->session->set_flashdata('message', '<div class="alert alert-success" 
+                role="alert">Approval Berhasil!</div>');
             }
             if ($level == 'Kajur' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 1 && $peminjaman['approval_kajur'] == 0) {
                 // Update status approval KAJUR menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Kajur");
+                $this->session->set_flashdata('message', '<div class="alert alert-success" 
+                role="alert">Approval Berhasil!</div>');
             }
-            if ($level == 'Pudir1'  && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 1 && $peminjaman['approval_kajur'] == 1 && $peminjaman['approval_pudir1'] == 0) {
+            if ($level == 'Pudir1' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_ail'] == 1 && $peminjaman['approval_kalab'] == 1 && $peminjaman['approval_kajur'] == 1 && $peminjaman['approval_pudir1'] == 0) {
                 // Update status approval PUDIR1 menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Peminjaman Sukses");
@@ -269,6 +226,8 @@ class Peminjaman extends CI_Controller
                 foreach ($barang as $data) {
                     $this->Md_Peminjaman->updateStatusData($data['id_lab'], $status_barang);
                 }
+                $this->session->set_flashdata('message', '<div class="alert alert-success" 
+                role="alert">Approval Berhasil!</div>');
             }
         }
         redirect('peminjaman');

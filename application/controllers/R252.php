@@ -17,7 +17,42 @@ class R252 extends CI_Controller
         $page_data['email'] = $this->session->email;
         $page_data['name'] = $this->session->name;
 
-        $page_data['data'] = $this->Md_r252->getId1();
+        //Pagination
+        $config['base_url'] = 'http://localhost/laboratorium/r252/index';
+        $config['total_rows'] = $this->Md_r252->countBarang();
+        $config['per_page'] = 10;
+
+        $config['full_tag_open'] = '<nav><ul class="pagination justify-content-end">';
+        $config['full_tag_close'] = '</ul></nav>';
+
+        $config['first_link'] = 'first';
+        $config['first_tag_open'] = '<li class="page-item">';
+        $config['first_tag_close'] = '</li>';
+
+        $config['last_link'] = 'Last';
+        $config['last_tag_open'] = '<li class="page-item">';
+        $config['last_tag_close'] = '</li>';
+
+        $config['next_link'] = '&raquo';
+        $config['next_tag_open'] = '<li class="page-item">';
+        $config['next_tag_close'] = '</li>';
+
+        $config['prev_link'] = '&laquo';
+        $config['prev_tag_open'] = '<li class="page-item">';
+        $config['prev_tag_close'] = '</li>';
+
+        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+
+        $config['num_tag_open'] = '<li class="page-item">';
+        $config['num_tag_close'] = '</li>';
+
+        $config['attributes'] = array('class' => 'page-link');
+
+        $this->pagination->initialize($config);
+
+        $page_data['start'] = $this->uri->segment(3);
+        $page_data['data'] = $this->Md_r252->getId1($config['per_page'], $page_data['start']);
 
         $this->load->view('templates/include_header', $page_data);
         $this->load->view('templates/include_topbar', $page_data);

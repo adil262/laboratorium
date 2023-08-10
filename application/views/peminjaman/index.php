@@ -13,6 +13,7 @@
         </div>
         <div class="row">
             <div class="col-md-7 grid-margin">
+                <?= $this->session->flashdata('message'); ?>
                 <div class="card">
                     <div class="card-body">
                         <p class="card-title mb-0">Daftar Peminjaman</p>
@@ -44,16 +45,16 @@
                                             <td><?= $b['name'] ?></td>
                                             <td>R.<?= $b['no_ruangan'] ?></td>
                                             <td>
-                                                <abbr title="detail"><a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $b['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
-                                                    <?php if ($b['status'] == "Peminjaman Sukses") : ?>
-                                                        <form method="post" action="<?php echo base_url('peminjaman/proses_pengembalian'); ?>">
-                                                            <input type="hidden" name="id_peminjaman" value="<?= $b['id_peminjaman']; ?>">
-                                                            <button class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline" type="submit">Kembalikan</button>
-                                                        </form>
-                                                    <?php endif; ?>
-                                                    <?php if ($b['status'] == "Pending") : ?>
-                                                        <a href="<?php echo site_url('peminjaman/batalpinjam/' . $b['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-minus-circle-outline"></a>
-                                                    <?php endif; ?>
+                                                <abbr title="detail"><a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $b['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a></abbr>
+                                                <?php if ($b['status'] == "Peminjaman Sukses") : ?>
+                                                    <form method="post" action="<?php echo base_url('peminjaman/proses_pengembalian'); ?>">
+                                                        <input type="hidden" name="id_peminjaman" value="<?= $b['id_peminjaman']; ?>">
+                                                        <button class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline" type="submit">Kembalikan</button>
+                                                    </form>
+                                                <?php endif; ?>
+                                                <?php if ($b['status'] == "Pending") : ?>
+                                                    <abbr title="Batal pinjam"><a href="<?php echo site_url('peminjaman/batalpinjam/' . $b['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-minus-circle-outline"></a></abbr>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -115,10 +116,6 @@
                                                 <?php endif; ?>
 
                                                 <?php if ($p['level_peminjaman'] == 3) : ?>
-                                                    <?php if ($level == 'Dosen' && $p['approval_dosen'] == 0) : ?>
-                                                        <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_dosen'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
-                                                        <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
-                                                    <?php endif; ?>
                                                     <?php if ($level == 'Ail' && $p['approval_ail'] == 0) : ?>
                                                         <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
                                                         <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
@@ -221,7 +218,7 @@
                             <div class="form-group">
                                 <label for="level" class="col-sm-5">Level</label>
                                 <div class="col-sm">
-                                    <select class="form-control" name="level_peminjaman" id="level_peminjaman" placeholder="Level" disabled required="">
+                                    <select class="form-control" name="level_peminjaman" id="level_peminjaman" placeholder="Level" required="">
 
                                     </select>
                                 </div>
@@ -442,7 +439,9 @@
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <p class="text-success">Barang </p>
-                                    <p></p>
+                                    <?php foreach ($barang1 as $br) { ?>
+                                        <p><?= $br['no_barang'] ?></p>
+                                    <?php } ?>
                                 </div>
                             </div>
                             <div class="form-group row">

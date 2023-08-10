@@ -228,19 +228,6 @@ class Md_Peminjaman extends CI_model
         $this->db->join('ail', 'ail.id_user = ruangan.id_ail');
         $this->db->join('user', 'user.id_user = ail.id_user');
         return $this->db->get()->result_array();
-        // $query = $this->db->get_where('ruangan', array('id_ail' => $id_ail));
-        // return $query->result_array();
-        // $this->db->select('ail.*, user.*');
-        // $this->db->join('user', 'user.id_user = ail.id_ail');
-        // $this->db->where('id_ail', $id_ruangan);
-        // return $this->db->get()->result_array();
-        // $this->db->select('data_barang.*, ail.*, user.*'); // Ganti 'column_name' dengan kolom yang ingin Anda tampilkan
-        // $this->db->from('data_barang');
-        // $this->db->join('user', 'user.id_user = data_barang.id_user');
-        // $this->db->join('ail', 'ail.id_ail = data_barang.id_user');
-        // $this->db->where('id_ruangan', $id_ruangan);
-        // $query = $this->db->get('data_barang'); // Ganti 'projects' dengan nama tabel Anda
-        // return $query->result_array();
     }
 
     public function getdatabarang($id_ruangan)
@@ -256,6 +243,14 @@ class Md_Peminjaman extends CI_model
         $this->db->select('dosen.*, user.*'); // Ganti 'column_name' dengan kolom yang ingin Anda tampilkan
         $this->db->from('dosen');
         $this->db->join('user', 'user.id_user = dosen.id_user');
+        return $this->db->get()->result_array();
+    }
+
+    public function getbarang()
+    {
+        $this->db->select('peminjaman_barang.*, data_barang.*');
+        $this->db->from('peminjaman_barang');
+        $this->db->join('data_barang', 'peminjaman_barang.id_lab = data_barang.id_lab');
         return $this->db->get()->result_array();
     }
 

@@ -27,13 +27,14 @@ class Md_R252 extends CI_model
         $this->db->where('id_lab', $id_lab);
         $this->db->delete('data_barang');
     }
-    public function getId1()
+    public function getId1($limit, $start)
     {
         $this->db->distinct();
         $this->db->select('data_barang.*, ruangan.*');
         $this->db->from('data_barang');
         $this->db->join('ruangan', 'data_barang.id_ruangan = ruangan.id_ruangan');
         $this->db->where('data_barang.id_ruangan = 14');
+        $this->db->limit($limit, $start);
         return $this->db->get()->result_array();
     }
 
@@ -44,5 +45,14 @@ class Md_R252 extends CI_model
         $result = $query->row();
 
         return $totalBarang = $result->total_barang;
+    }
+
+    public function countBarang()
+    {
+        $this->db->select('data_barang.*, ruangan.*');
+        $this->db->from('data_barang');
+        $this->db->join('ruangan', 'data_barang.id_ruangan = ruangan.id_ruangan');
+        $this->db->where('data_barang.id_ruangan = 14');
+        return $this->db->get()->num_rows();
     }
 }
