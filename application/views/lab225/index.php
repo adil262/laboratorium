@@ -22,7 +22,7 @@
                             <button type="button" id="tambah" style="float: right;" class="btn btn-warning btn-sm tambah">Tambah</button>
                         <?php } ?>
                         <div class="table-responsive">
-                            <table id="table" class="table table-striped table-borderless">
+                            <table class="table table-striped table-borderless">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -41,7 +41,7 @@
                                             <td><?= $lab['no_barang'] ?></td>
                                             <td><?= $lab['status_barang'] ?></td>
                                             <td>
-                                                <a href="" data-toggle="modal" data-target="#detailLab<?= $lab['id_lab']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
+                                                <abbr title="detail"><a href="" data-toggle="modal" data-target="#detailLab<?= $lab['id_lab']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a></abbr>
                                                 <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
                                                     <button type="button" id="edit<?= $lab['id_lab']; ?>" class="btn btn-inverse-warning btn-sm mdi mdi-border-color edit"></button>
                                                 <?php } ?>

@@ -47,7 +47,8 @@ class R317 extends CI_Controller
                     'jumlah' => $this->input->post('jumlah'),
                     'keterangan' => $this->input->post('keterangan'),
                     'status_barang' => $this->input->post('status_barang'),
-                    'id_ruangan' => 4
+                    'id_ruangan' => 4,
+                    'is_active' => 1
                 );
 
                 $this->Md_r317->add($data);

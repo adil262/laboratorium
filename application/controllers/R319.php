@@ -47,7 +47,8 @@ class R319 extends CI_Controller
                     'jumlah' => $this->input->post('jumlah'),
                     'keterangan' => $this->input->post('keterangan'),
                     'status_barang' => $this->input->post('status_barang'),
-                    'id_ruangan' => 5
+                    'id_ruangan' => 5,
+                    'is_active' => 1
                 );
 
                 $this->Md_r319->add($data);

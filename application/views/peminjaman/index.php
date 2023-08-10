@@ -221,7 +221,7 @@
                             <div class="form-group">
                                 <label for="level" class="col-sm-5">Level</label>
                                 <div class="col-sm">
-                                    <select class="form-control" readonly name="level_peminjaman" id="level_peminjaman" placeholder="Level" required="">
+                                    <select class="form-control" name="level_peminjaman" id="level_peminjaman" placeholder="Level" disabled required="">
 
                                     </select>
                                 </div>
@@ -266,7 +266,7 @@
                                 </div>
                                 <div class="col-5">
                                     <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
-                                        <input tyxpe="time" class="form-control" name="jam_akhir" id="jam_akhir" placeholder="Jam Selesai" value="<?php $time = new DateTime(date('H:i'));
+                                        <input type="time" class="form-control" name="jam_akhir" id="jam_akhir" placeholder="Jam Selesai" value="<?php $time = new DateTime(date('H:i'));
                                                                                                                                                     $time->modify('+2 hours');
                                                                                                                                                     echo $time->format('H:i'); ?>">
                                     <?php } ?>

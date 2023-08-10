@@ -47,7 +47,8 @@ class R352 extends CI_Controller
                     'jumlah' => $this->input->post('jumlah'),
                     'keterangan' => $this->input->post('keterangan'),
                     'status_barang' => $this->input->post('status_barang'),
-                    'id_ruangan' => 16
+                    'id_ruangan' => 16,
+                    'is_active' => 1
                 );
 
                 $this->Md_r352->add($data);

@@ -13,6 +13,7 @@
         </div>
         <div class="row">
             <div class="col-md-7 grid-margin">
+                <?= $this->session->flashdata('message'); ?>
                 <div class="card">
                     <div class="card-body">
                         <p class="card-title mb-0">Data Barang</p>

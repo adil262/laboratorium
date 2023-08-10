@@ -13,6 +13,7 @@
         </div>
         <div class="row">
             <div class="col-md-7 grid-margin">
+                <?= $this->session->flashdata('message'); ?>
                 <div class="card">
                     <div class="card-body">
                         <p class="card-title mb-0">Data Barang</p>
@@ -39,7 +40,7 @@
                                             <td><?= $lab['no_barang'] ?></td>
                                             <td><?= $lab['status_barang'] ?></td>
                                             <td>
-                                                <a href="" data-toggle="modal" data-target="#detailLab<?= $lab['id_lab']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
+                                                <abbr title="detail"><a href="" data-toggle="modal" data-target="#detailLab<?= $lab['id_lab']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a></abbr>
                                                 <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
                                                     <button type="button" id="edit<?= $lab['id_lab']; ?>" class="btn btn-inverse-warning btn-sm mdi mdi-border-color edit"></button>
                                                 <?php } ?>
@@ -257,7 +258,7 @@
             });
             edit[i].addEventListener('click', function(event) {
                 event.preventDefault();
-                var formEdit = document.getElementById('formEdit<?= $lab['id_lab']; ?>');
+                var formEdit = document.getElementById('formEdit');
                 if (formEdit.style.display === 'none') {
                     formEdit.style.display = 'block';
                 } else {

@@ -47,7 +47,8 @@ class R313 extends CI_Controller
                     'jumlah' => $this->input->post('jumlah'),
                     'keterangan' => $this->input->post('keterangan'),
                     'status_barang' => $this->input->post('status_barang'),
-                    'id_ruangan' => 2
+                    'id_ruangan' => 2,
+                    'is_active' => 1
                 );
 
                 $this->Md_r313->add($data);
