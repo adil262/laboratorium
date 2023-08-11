@@ -117,6 +117,10 @@
                                                 <?php endif; ?>
 
                                                 <?php if ($p['level_peminjaman'] == 3) : ?>
+                                                    <?php if ($level == 'Dosen' && $p['approval_dosen'] == 0) : ?>
+                                                        <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_dosen'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
+                                                        <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
+                                                    <?php endif; ?>
                                                     <?php if ($level == 'Ail' && $p['approval_ail'] == 0) : ?>
                                                         <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
                                                         <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
@@ -221,7 +225,7 @@
                             <div class="form-group">
                                 <label for="level" class="col-sm-5">Level</label>
                                 <div class="col-sm">
-                                    <select class="form-control" name="level_peminjaman" id="level_peminjaman" placeholder="Level" required="">
+                                    <select class="form-control" readonly name="level_peminjaman" id="level_peminjaman" placeholder="Level" required="">
 
                                     </select>
                                 </div>
@@ -258,7 +262,7 @@
                                         <input type="time" class="form-control" name="jam_awal" id="jam_awal" placeholder="Jam Mulai" value="<?php echo date('H:i') ?>">
                                     <?php } ?>
                                     <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
-                                        <input type="time-local" class="form-control" name="jam_awal" id="jam_awal" placeholder="Jam Mulai" value="<?php echo date('H:i') ?>">
+                                        <input type="time" class="form-control" name="jam_awal" id="jam_awal" placeholder="Jam Mulai" value="<?php echo date('H:i') ?>">
                                     <?php } ?>
                                 </div>
                                 <div style="margin-left: 10px; margin-right:-40px;">
@@ -442,9 +446,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-6">
                                     <p class="text-success">Barang </p>
-                                    <?php foreach ($barang1 as $br) { ?>
-                                        <p><?= $br['no_barang'] ?></p>
-                                    <?php } ?>
+                                    <p><?= $b['no_barang'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -694,8 +696,8 @@
                         var endDate = $("#jam_akhir").val();
 
                         var input = '07:00';
-                        var inputAkhir = '10:00';
-                        var input2 = '16:00';
+                        var inputAkhir = '16:00';
+                        var input2 = '16:01';
                         var inputAkhir2 = '22:00';
 
                         var html = '';

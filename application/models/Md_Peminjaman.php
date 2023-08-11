@@ -11,28 +11,54 @@ class Md_Peminjaman extends CI_model
     // Peminjaman
     public function getByPeminjamanUser()
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*');
+        $this->db->select('peminjaman.*, ruangan.*, user.*, data_barang.*');
         $this->db->from('peminjaman');
+        $this->db->join('data_barang', 'peminjaman.id_peminjaman = data_barang.id_lab');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
-        $this->db->where('id_peminjaman');
         return $this->db->get()->result_array();
     }
-    public function getByPeminjaman()
+
+    public function getbarang()
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*, peminjaman_barang.*, data_barang.*');
-        $this->db->from('peminjaman');
+        $this->db->select('peminjaman_barang.*, data_barang.*');
         $this->db->from('peminjaman_barang');
-        $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
-        $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->join('data_barang', 'peminjaman_barang.id_lab = data_barang.id_lab');
         return $this->db->get()->result_array();
     }
 
-    public function getByPeminjamanProses()
+    public function getByPeminjaman()
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*');
+        $this->db->select('peminjaman.*, ruangan.*, user.*, data_barang.*');
         $this->db->from('peminjaman');
+        $this->db->join('data_barang', 'peminjaman.id_peminjaman = data_barang.id_lab');
+        $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
+        $this->db->join('user', 'peminjaman.id_user = user.id_user');
+        return $this->db->get()->result_array();
+    }
+    public function getByIdAil($id_user)
+    {
+        $this->db->where('id_user', $id_user);
+        return $this->db->get('ail')->row_array();
+    }
+
+    public function getByPeminjamanProses($id_ail, $limit, $start)
+    {
+        $this->db->select('peminjaman.*, ruangan.*, user.*, data_barang.*');
+        $this->db->from('peminjaman');
+        $this->db->join('data_barang', 'peminjaman.id_peminjaman = data_barang.id_lab');
+        $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
+        $this->db->join('user', 'peminjaman.id_user = user.id_user');
+        $this->db->where('peminjaman.status_peminjaman', 0);
+        $this->db->where('peminjaman.id_ail', $id_ail);
+        $this->db->limit($limit, $start);
+        return $this->db->get()->result_array();
+    }
+    public function getByPeminjamanProses2()
+    {
+        $this->db->select('peminjaman.*, ruangan.*, user.*, data_barang.*');
+        $this->db->from('peminjaman');
+        $this->db->join('data_barang', 'peminjaman.id_peminjaman = data_barang.id_lab');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->where('peminjaman.status_peminjaman', 0);
@@ -41,28 +67,33 @@ class Md_Peminjaman extends CI_model
 
     public function getByPeminjamanSukses()
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*');
+        $this->db->select('peminjaman.*, ruangan.*, user.*, data_barang.*');
         $this->db->from('peminjaman');
+        $this->db->join('data_barang', 'peminjaman.id_peminjaman = data_barang.id_lab');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->where('peminjaman.status_peminjaman', 1);
         return $this->db->get()->result_array();
     }
 
-    public function getByPengembalian()
+    public function getByPengembalian($id_ail, $limit, $start)
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*');
+        $this->db->select('peminjaman.*, ruangan.*, user.*, data_barang.*');
         $this->db->from('peminjaman');
+        $this->db->join('data_barang', 'peminjaman.id_peminjaman = data_barang.id_lab');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->where('peminjaman.status_peminjaman', 2);
+        $this->db->where('peminjaman.id_ail', $id_ail);
+        $this->db->limit($limit, $start);
         return $this->db->get()->result_array();
     }
 
     public function getByPeminjamanSelesai()
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*');
+        $this->db->select('peminjaman.*, ruangan.*, user.*, data_barang.*');
         $this->db->from('peminjaman');
+        $this->db->join('data_barang', 'peminjaman.id_peminjaman = data_barang.id_lab');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->where('peminjaman.status_peminjaman', 3);
@@ -71,8 +102,9 @@ class Md_Peminjaman extends CI_model
 
     public function getByPeminjamanDitolak()
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*');
+        $this->db->select('peminjaman.*, ruangan.*, user.*, data_barang.*');
         $this->db->from('peminjaman');
+        $this->db->join('data_barang', 'peminjaman.id_peminjaman = data_barang.id_lab');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->where('peminjaman.status_peminjaman', 4);
@@ -81,8 +113,9 @@ class Md_Peminjaman extends CI_model
 
     public function getPeminjamanByUser($id_user, $limit, $start)
     {
-        $this->db->select('peminjaman.*, ruangan.*, user.*');
+        $this->db->select('peminjaman.*, ruangan.*, user.*, data_barang.*');
         $this->db->from('peminjaman');
+        $this->db->join('data_barang', 'peminjaman.id_peminjaman = data_barang.id_lab');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->where('peminjaman.id_user', $id_user);
@@ -247,14 +280,6 @@ class Md_Peminjaman extends CI_model
         return $this->db->get()->result_array();
     }
 
-    public function getbarang($id_peminjaman)
-    {
-        $this->db->select('peminjaman_barang.*, data_barang.*');
-        $this->db->from('peminjaman_barang');
-        $this->db->join('data_barang', 'peminjaman_barang.id_lab = data_barang.id_lab');
-        $this->db->where('id_peminjaman_barang', $id_peminjaman);
-        return $this->db->get()->result_array();
-    }
 
     public function countBarang()
     {

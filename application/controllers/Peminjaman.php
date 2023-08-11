@@ -63,9 +63,11 @@ class Peminjaman extends CI_Controller
         }
 
         $page_data['start'] = $this->uri->segment(3);
+        $id_ail = $this->Md_Peminjaman->getByIdAil($id_user);
+
         $page_data['riwayat_peminjaman'] = $this->Md_Peminjaman->getPeminjamanByUser($id_user, $config['per_page'], $page_data['start']);
-        $page_data['pengajuan'] = $this->Md_Peminjaman->getByPeminjamanProses($config['per_page'], $page_data['start']);
-        $page_data['pengembalian'] = $this->Md_Peminjaman->getByPengembalian($config['per_page'], $page_data['start']);
+        $page_data['pengajuan'] = $this->Md_Peminjaman->getByPeminjamanProses($id_ail, $config['per_page'], $page_data['start']);
+        $page_data['pengembalian'] = $this->Md_Peminjaman->getByPengembalian($id_ail, $config['per_page'], $page_data['start']);
 
         $page_data['peminjaman'] = $this->Md_Peminjaman->getByPeminjaman();
         $page_data['user'] = $this->Md_Auth->getAll();
@@ -73,6 +75,7 @@ class Peminjaman extends CI_Controller
         $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
         $page_data['dosen1'] = $this->Md_Peminjaman->getDosen();
 
+        // $id_peminjaman = $this->input->post('id_peminjaman');
         $page_data['barang1'] = $this->Md_Peminjaman->getBarang();
 
         $this->load->view('templates/include_header', $page_data);
