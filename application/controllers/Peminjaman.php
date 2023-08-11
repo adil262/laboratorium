@@ -20,6 +20,39 @@ class Peminjaman extends CI_Controller
         $page_data['nip'] = $this->session->nip;
         $page_data['level'] = $this->session->level;
 
+        $config['base_url'] = 'http://localhost/laboratorium/peminjaman/index';
+        $config['total_rows'] = $this->Md_Peminjaman->countBarang();
+        $config['per_page'] = 10;
+
+        $config['full_tag_open'] = '<nav><ul class="pagination justify-content-end">';
+        $config['full_tag_close'] = '</ul></nav>';
+
+        $config['first_link'] = 'first';
+        $config['first_tag_open'] = '<li class="page-item">';
+        $config['first_tag_close'] = '</li>';
+
+        $config['last_link'] = 'Last';
+        $config['last_tag_open'] = '<li class="page-item">';
+        $config['last_tag_close'] = '</li>';
+
+        $config['next_link'] = '&raquo';
+        $config['next_tag_open'] = '<li class="page-item">';
+        $config['next_tag_close'] = '</li>';
+
+        $config['prev_link'] = '&laquo';
+        $config['prev_tag_open'] = '<li class="page-item">';
+        $config['prev_tag_close'] = '</li>';
+
+        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+
+        $config['num_tag_open'] = '<li class="page-item">';
+        $config['num_tag_close'] = '</li>';
+
+        $config['attributes'] = array('class' => 'page-link');
+
+        $this->pagination->initialize($config);
+
         $id_user = $this->session->userdata('id_user');
 
         if (!$id_user) {
@@ -28,14 +61,18 @@ class Peminjaman extends CI_Controller
             // ...
             return;
         }
-        $page_data['riwayat_peminjaman'] = $this->Md_Peminjaman->getPeminjamanByUser($id_user);
-        $page_data['pengajuan'] = $this->Md_Peminjaman->getByPeminjamanProses();
-        $page_data['pengembalian'] = $this->Md_Peminjaman->getByPengembalian();
+
+        $page_data['start'] = $this->uri->segment(3);
+        $page_data['riwayat_peminjaman'] = $this->Md_Peminjaman->getPeminjamanByUser($id_user, $config['per_page'], $page_data['start']);
+        $page_data['pengajuan'] = $this->Md_Peminjaman->getByPeminjamanProses($config['per_page'], $page_data['start']);
+        $page_data['pengembalian'] = $this->Md_Peminjaman->getByPengembalian($config['per_page'], $page_data['start']);
+
         $page_data['peminjaman'] = $this->Md_Peminjaman->getByPeminjaman();
         $page_data['user'] = $this->Md_Auth->getAll();
         $page_data['ruangan1'] = $this->Md_Peminjaman->getByPeminjamanUser();
         $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
-        $page_data['dosen'] = $this->Md_Peminjaman->getDosen();
+        $page_data['dosen1'] = $this->Md_Peminjaman->getDosen();
+
         $page_data['barang1'] = $this->Md_Peminjaman->getBarang();
 
         $this->load->view('templates/include_header', $page_data);
@@ -98,8 +135,6 @@ class Peminjaman extends CI_Controller
         redirect('peminjaman');
     }
 
-
-
     public function getdatauser()
     {
         $page_data = $this->Md_Peminjaman->getdatauser();
@@ -125,13 +160,14 @@ class Peminjaman extends CI_Controller
 
         $peminjaman = $this->Md_Peminjaman->getByPeminjamanId($id_peminjaman);
         $barang = $this->Md_Peminjaman->updateStatusBarang($id_peminjaman);
+
         // $peminjaman1 = $this->Md_Peminjaman->updateStatusBarang($id_peminjaman);
 
         // // Cek apakah pengguna memiliki hak akses untuk melakukan approval
-        if ($peminjaman['id_level'] == 1) {
-            if ($level == 'dosen' && $peminjaman['approval_dosen'] == 0) {
+        if ($peminjaman['level_peminjaman'] == 1) {
+            if ($level == 'Dosen' && $peminjaman['approval_dosen'] == 0) {
                 // Update status approval Dosen menjadi disetujui
-                $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
+                $this->Md_Peminjaman->update($id_peminjaman, 'approval_dosen', $status);
                 $this->Md_Peminjaman->updateStatus($id_peminjaman, "Disetujui Pembina");
                 $this->session->set_flashdata('message', '<div class="alert alert-success" 
                 role="alert">Approval Berhasil!</div>');
@@ -155,7 +191,7 @@ class Peminjaman extends CI_Controller
                 role="alert">Approval Berhasil!</div>');
             }
         }
-        if ($peminjaman['id_level'] == 2) {
+        if ($peminjaman['level_peminjaman'] == 2) {
             if ($level == 'Dosen' && $peminjaman['approval_dosen'] == 0) {
                 // Update status approval AIL menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
@@ -189,7 +225,7 @@ class Peminjaman extends CI_Controller
                 role="alert">Approval Berhasil!</div>');
             }
         }
-        if ($peminjaman['id_level'] == 3) {
+        if ($peminjaman['level_peminjaman'] == 3) {
             if ($level == 'Dosen' && $peminjaman['approval_dosen'] == 1 && $peminjaman['approval_dosen'] == 0) {
                 // Update status approval AIL menjadi disetujui
                 $this->Md_Peminjaman->update($id_peminjaman, $level_approval, $status);
