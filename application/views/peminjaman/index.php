@@ -60,6 +60,7 @@
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                            <?= $this->pagination->create_links(); ?>
                         </div>
                         <div class="table-responsive" id="tampilanPengajuan">
                             <table class="table table-striped table-borderless">
@@ -83,11 +84,11 @@
 
                                                 <?php if ($p['level_peminjaman'] == 1) : ?>
                                                     <?php if ($level == 'Dosen' && $p['approval_dosen'] == 0) : ?>
-                                                        <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_dosen'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
+                                                        <abbr title="terima"><a href="<?php echo site_url('Peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_dosen'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
                                                         <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Ail' && $p['approval_ail'] == 0) : ?>
-                                                        <abbr title="terima"><a href="<?php echo site_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
+                                                        <abbr title="terima"><a href="<?php echo base_url('peminjaman/submitApproval/' . $p['id_peminjaman'] . '/approval_ail'); ?>" class="btn btn-inverse-success btn-sm mdi mdi-checkbox-marked-circle-outline"></a></abbr>
                                                         <abbr title="tolak"><a href="<?php echo base_url('peminjaman/ditolak/' . $p['id_peminjaman']); ?>" class="btn btn-inverse-danger btn-sm mdi mdi-close-circle-outline"></a></abbr>
                                                     <?php endif; ?>
                                                     <?php if ($level == 'Kalab' && $p['approval_kalab'] == 0) : ?>
@@ -138,6 +139,7 @@
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                            <?= $this->pagination->create_links(); ?>
                         </div>
                         <div class="table-responsive" id="tampilanPengembalian">
                             <table class="table table-striped table-borderless">
@@ -166,6 +168,7 @@
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                            <?= $this->pagination->create_links(); ?>
                         </div>
                     </div>
                 </div>
@@ -255,7 +258,7 @@
                                         <input type="time" class="form-control" name="jam_awal" id="jam_awal" placeholder="Jam Mulai" value="<?php echo date('H:i') ?>">
                                     <?php } ?>
                                     <?php if ($this->session->userdata('level') == 'Peminjam') { ?>
-                                        <input type="time" class="form-control" name="jam_awal" id="jam_awal" placeholder="Jam Mulai" value="<?php echo date('H:i') ?>">
+                                        <input type="time-local" class="form-control" name="jam_awal" id="jam_awal" placeholder="Jam Mulai" value="<?php echo date('H:i') ?>">
                                     <?php } ?>
                                 </div>
                                 <div style="margin-left: 10px; margin-right:-40px;">
@@ -322,7 +325,7 @@
                                     <div class="col-sm">
                                         <select id="id_dosen" name="id_dosen" class="form-control" placeholder="Ketua Jurusan">
                                             <option value="">-- Pilih Pembina --</option>
-                                            <?php foreach ($dosen as $u) : ?>
+                                            <?php foreach ($dosen1 as $u) : ?>
                                                 <option value="<?php echo $u['id_dosen']; ?>"><?php echo $u['name']; ?></option>
                                             <?php endforeach; ?>
                                         </select>

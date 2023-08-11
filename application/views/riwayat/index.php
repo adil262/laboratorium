@@ -54,6 +54,7 @@
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                            <?= $this->pagination->create_links(); ?>
                         </div>
                         <div class="table-responsive" id="tampilanProses">
                             <table class="table table-striped table-borderless">
@@ -87,6 +88,7 @@
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                            <?= $this->pagination->create_links(); ?>
                         </div>
                         <div class="table-responsive" id="tampilanSelesai">
                             <table class="table table-striped table-borderless">
@@ -120,6 +122,7 @@
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                            <?= $this->pagination->create_links(); ?>
                         </div>
                         <div class="table-responsive" id="tampilanDitolak">
                             <table class="table table-striped table-borderless">
@@ -153,6 +156,7 @@
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                            <?= $this->pagination->create_links(); ?>
                         </div>
                     </div>
                 </div>

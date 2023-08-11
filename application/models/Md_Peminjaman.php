@@ -79,7 +79,7 @@ class Md_Peminjaman extends CI_model
         return $this->db->get()->result_array();
     }
 
-    public function getPeminjamanByUser($id_user)
+    public function getPeminjamanByUser($id_user, $limit, $start)
     {
         $this->db->select('peminjaman.*, ruangan.*, user.*');
         $this->db->from('peminjaman');
@@ -87,6 +87,7 @@ class Md_Peminjaman extends CI_model
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->where('peminjaman.id_user', $id_user);
         $this->db->order_by('tanggal_awal', 'desc');
+        $this->db->limit($limit, $start);
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -246,12 +247,18 @@ class Md_Peminjaman extends CI_model
         return $this->db->get()->result_array();
     }
 
-    public function getbarang()
+    public function getbarang($id_peminjaman)
     {
         $this->db->select('peminjaman_barang.*, data_barang.*');
         $this->db->from('peminjaman_barang');
         $this->db->join('data_barang', 'peminjaman_barang.id_lab = data_barang.id_lab');
+        $this->db->where('id_peminjaman_barang', $id_peminjaman);
         return $this->db->get()->result_array();
+    }
+
+    public function countBarang()
+    {
+        return $this->db->get('ruangan')->num_rows();
     }
 
     // public function getLevel()
