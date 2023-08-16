@@ -66,7 +66,7 @@ class Peminjaman extends CI_Controller
         $id_ail = $this->Md_Peminjaman->getByIdAil($id_user);
 
         $page_data['riwayat_peminjaman'] = $this->Md_Peminjaman->getPeminjamanByUser($id_user, $config['per_page'], $page_data['start']);
-        $page_data['pengajuan'] = $this->Md_Peminjaman->getByPeminjamanProses($id_ail, $config['per_page'], $page_data['start']);
+        $page_data['pengajuan'] = $this->Md_Peminjaman->getByPeminjamanProses();
         $page_data['pengembalian'] = $this->Md_Peminjaman->getByPengembalian($id_ail, $config['per_page'], $page_data['start']);
 
         $page_data['peminjaman'] = $this->Md_Peminjaman->getByPeminjaman();

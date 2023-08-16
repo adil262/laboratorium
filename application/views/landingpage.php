@@ -89,12 +89,11 @@
         <div class="container">
             <div class="row g-4 align-items-end mb-4">
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <img class="img-fluid rounded" style="height: 500px;" src="<?= base_url('assets/assets/') ?>img/img1.jpg">
+                    <img class="img-fluid rounded" style="height: 500px;" src="<?= base_url('assets/assets/') ?>img/bglab2.png">
                 </div>
                 <div class="col-lg-5 wow fadeInUp" data-wow-delay="0.3s">
                     <h1 class="display-6 mb-4 py-1 px-3">SOP PENGGUNAAN</h1>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et
-                        eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet
+                    <p class="mb-4">SOP Laboratorium Jurusan Teknologi Informasi Politeknik Caltex Riau
                     </p>
                     <div class="border rounded p-4">
                         <nav>
@@ -188,7 +187,7 @@
                             </div>
                             <img class="rounded-circle mb-3" src="<?= base_url('assets/assets/') ?>img/bglab2.png" alt="">
                             <h4><?= $p['name'] ?></h4>
-                            <span>Level <?= $p['id_level'] ?></span>
+                            <span>Level <?= $p['level_peminjaman'] ?></span>
                         </div>
                     <?php endif; ?>
                 <?php }; ?>

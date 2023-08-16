@@ -42,7 +42,7 @@ class Md_Peminjaman extends CI_model
         return $this->db->get('ail')->row_array();
     }
 
-    public function getByPeminjamanProses($id_ail, $limit, $start)
+    public function getByPeminjamanProses()
     {
         $this->db->select('peminjaman.*, ruangan.*, user.*, data_barang.*');
         $this->db->from('peminjaman');
@@ -50,8 +50,6 @@ class Md_Peminjaman extends CI_model
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->where('peminjaman.status_peminjaman', 0);
-        $this->db->where('peminjaman.id_ail', $id_ail);
-        $this->db->limit($limit, $start);
         return $this->db->get()->result_array();
     }
     public function getByPeminjamanProses2()

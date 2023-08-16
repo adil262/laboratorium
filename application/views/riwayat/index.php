@@ -44,7 +44,9 @@
                                             <td><?= $s['no_ruangan'] ?></td>
                                             <td><?= $s['keterangan'] ?></td>
                                             <td>
-                                                <a href="" class="badge badge-warning"><?= $s['status'] ?></a>
+                                                <?php if ($s['status'] == "Peminjaman Sukses") { ?>
+                                                    <a href="" class="badge badge-success"><?= $s['status'] ?></a>
+                                                <?php } ?>
                                             </td>
                                             <td>
                                                 <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $s['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
@@ -77,7 +79,21 @@
                                             <td><?= $p['no_ruangan'] ?></td>
                                             <td><?= $p['keterangan'] ?></td>
                                             <td>
-                                                <a href="" class="badge badge-warning"><?= $p['status'] ?></a>
+                                                <?php if ($p['status'] == "Disetujui Ail") { ?>
+                                                    <a href="" class="badge badge-primary"><?= $p['status'] ?></a>
+                                                <?php } ?>
+                                                <?php if ($p['status'] == "Disetujui Kalab") { ?>
+                                                    <a href="" class="badge badge-primary"><?= $p['status'] ?></a>
+                                                <?php } ?>
+                                                <?php if ($p['status'] == "Disetujui Pembina") { ?>
+                                                    <a href="" class="badge badge-primary"><?= $p['status'] ?></a>
+                                                <?php } ?>
+                                                <?php if ($p['status'] == "Disetujui Kajur") { ?>
+                                                    <a href="" class="badge badge-primary"><?= $p['status'] ?></a>
+                                                <?php } ?>
+                                                <?php if ($p['status'] == "Pending") { ?>
+                                                    <a href="" class="badge badge-warning"><?= $p['status'] ?></a>
+                                                <?php } ?>
                                             </td>
                                             <td>
                                                 <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $p['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
@@ -111,7 +127,9 @@
                                             <td><?= $p['no_ruangan'] ?></td>
                                             <td><?= $p['keterangan'] ?></td>
                                             <td>
-                                                <a href="" class="badge badge-warning"><?= $p['status'] ?></a>
+                                                <?php if ($p['status'] == "Peminjaman Selesai") { ?>
+                                                    <a href="" class="badge badge-success"><?= $p['status'] ?></a>
+                                                <?php } ?>
                                             </td>
                                             <td>
                                                 <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $p['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
@@ -145,7 +163,9 @@
                                             <td><?= $p['no_ruangan'] ?></td>
                                             <td><?= $p['keterangan'] ?></td>
                                             <td>
-                                                <a href="" class="badge badge-warning"><?= $p['status'] ?></a>
+                                                <?php if ($p['status'] == "Peminjaman Ditolak") { ?>
+                                                    <a href="" class="badge badge-danger"><?= $p['status'] ?></a>
+                                                <?php } ?>
                                             </td>
                                             <td>
                                                 <a href="" data-toggle="modal" data-target="#detailPeminjaman<?= $p['id_peminjaman']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a>
