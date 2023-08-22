@@ -28,6 +28,7 @@ class Kalab extends CI_Controller
         $page_data['barang'] = $this->Md_r225->getTotalBarang();
         $page_data['request'] = $this->Md_Peminjaman->getTotalRequest();
         $page_data['paktif'] = $this->Md_Peminjaman->getTotalPeminjaman();
+        $page_data['riwayat_peminjaman'] = $this->Md_Peminjaman->getPeminjamanByUser($id_user, $config['per_page'], $page_data['start']);
 
         $this->load->view('templates/include_header', $page_data);
         $this->load->view('templates/include_topbar', $page_data);

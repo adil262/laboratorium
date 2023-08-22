@@ -13,11 +13,12 @@ class Md_Ruangan extends CI_model
         $query = $this->db->get_where('ruangan', array('id_ruangan' => $id));
         return $query->row();
     }
-    public function getRuangan()
+    public function getRuangan($limit, $start)
     {
-        $this->db->select('ruangan.*, asistenlab.*,');
+        $this->db->select('ruangan.*, ail.*,');
         $this->db->from('ruangan');
-        $this->db->join('asistenlab', 'ruangan.id_ail = asistenlab.id_ail');
+        $this->db->join('ail', 'ruangan.id_ail = ail.id_ail');
+        $this->db->limit($limit, $start);
         return $this->db->get()->result_array();
     }
     public function getAll()
@@ -48,5 +49,13 @@ class Md_Ruangan extends CI_model
         $result = $query->row();
 
         return $totalRuangan = $result->total_ruangan;
+    }
+
+    public function countRuangan()
+    {
+        $this->db->select('ruangan.*, ail.*');
+        $this->db->from('ruangan');
+        $this->db->join('ail', 'ruangan.id_ail = ail.id_ail');
+        return $this->db->get()->num_rows();
     }
 }

@@ -23,11 +23,21 @@ class Dosen extends CI_Controller
         $page_data['email'] = $this->session->email;
         $page_data['name'] = $this->session->name;
 
+        $id_user = $this->session->userdata('id_user');
+
+        if (!$id_user) {
+            // Jika tidak ada ID user dalam sesi, mungkin pengguna belum login
+            // Lakukan aksi sesuai kebijakan Anda, misalnya arahkan ke halaman login
+            // ...
+            return;
+        }
+
         $page_data['peminjaman'] = $this->Md_Peminjaman->getByPeminjamanSukses();
         $page_data['ruangan'] = $this->Md_Ruangan->getTotalRuangan();
         $page_data['barang'] = $this->Md_r225->getTotalBarang();
         $page_data['request'] = $this->Md_Peminjaman->getTotalRequest();
         $page_data['paktif'] = $this->Md_Peminjaman->getTotalPeminjaman();
+        $page_data['riwayat_peminjaman'] = $this->Md_Peminjaman->getPeminjamanByUser2($id_user,);
 
         $this->load->view('templates/include_header', $page_data);
         $this->load->view('templates/include_topbar', $page_data);

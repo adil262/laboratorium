@@ -24,19 +24,32 @@
                                         <th>No</th>
                                         <th>Nama Laboratorium</th>
                                         <th>Ruangan</th>
+                                        <th>Ail</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $no = 1; ?>
-                                    <?php foreach ($ruangan as $b) : ?>
+                                    <?php foreach ($data as $b) : ?>
                                         <tr>
-                                            <td><?= $no++; ?></td>
+                                            <td><?= ++$start ?></td>
                                             <td><?= $b['nama_ruangan'] ?></td>
                                             <td>R.<?= $b['no_ruangan'] ?></td>
+                                            <td><?= $b['id_user'] ?></td>
+                                            <td><?php if ($b['status_ruangan'] == "Tersedia") { ?>
+                                                    <a href="" class="badge badge-success"><?= $b['status_ruangan'] ?></a>
+                                                <?php } ?>
+                                                <?php if ($b['status_ruangan'] == "Booking") { ?>
+                                                    <a href="" class="badge badge-warning"><?= $b['status_ruangan'] ?></a>
+                                                <?php } ?>
+                                                <?php if ($b['status_ruangan'] == "Tidak Tersedia") { ?>
+                                                    <a href="" class="badge badge-danger"><?= $b['status_ruangan'] ?></a>
+                                                <?php } ?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                            <?= $this->pagination->create_links(); ?>
                         </div>
                     </div>
                 </div>
