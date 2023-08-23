@@ -14,11 +14,10 @@ class Md_R225 extends CI_model
     }
     public function add($data)
     {
-        $this->accesscontrol->grantForAccess('Kajur');
         $this->db->insert('data_barang', $data);
         return $this->db->insert_id();
     }
-    public function updateByLab($id_lab, $data)
+    public function update($id_lab, $data)
     {
         $this->db->where('id_lab', $id_lab);
         $this->db->update('data_barang', $data);

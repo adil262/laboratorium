@@ -6,12 +6,12 @@ class R225 extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Md_r225');
+        $this->load->model('Md_R225');
     }
 
     public function index()
     {
-        $page_data['page_title'] = 'Lab Pemrograman 1 - R.225';
+        $page_data['page_title'] = 'Lab Programming 1 - R.225';
         $page_data['page_tambah'] = 'Tambah Data Laboratorium';
         $page_data['page_edit'] = 'Edit Data Laboratorium';
         $page_data['page_detail'] = 'Detail Data Laboratorium';
@@ -20,7 +20,7 @@ class R225 extends CI_Controller
 
         //Pagination
         $config['base_url'] = 'http://localhost/laboratorium/r225/index';
-        $config['total_rows'] = $this->Md_r225->countBarang();
+        $config['total_rows'] = $this->Md_R225->countBarang();
         $config['per_page'] = 10;
 
         $config['full_tag_open'] = '<nav><ul class="pagination justify-content-end">';
@@ -53,7 +53,7 @@ class R225 extends CI_Controller
         $this->pagination->initialize($config);
 
         $page_data['start'] = $this->uri->segment(3);
-        $page_data['data'] = $this->Md_r225->getId1($config['per_page'], $page_data['start']);
+        $page_data['data'] = $this->Md_R225->getId1($config['per_page'], $page_data['start']);
 
         $this->load->view('templates/include_header', $page_data);
         $this->load->view('templates/include_topbar', $page_data);
@@ -61,123 +61,40 @@ class R225 extends CI_Controller
         $this->load->view('lab225/index', $page_data);
         $this->load->view('templates/include_footer');
     }
-    public function add()
+
+    public function tambah()
     {
-        $uploaded_file = $_FILES['gambar']['name'];
+        $data = array(
+            'nama' => $this->input->post('nama'),
+            'no_barang' => $this->input->post('no_barang'),
+            'jumlah' => $this->input->post('jumlah'),
+            'keterangan' => $this->input->post('keterangan'),
+            'status_barang' => $this->input->post('status_barang'),
+            'id_ruangan' => 1,
+            'is_active' => 1,
+        );
 
-        if (empty($uploaded_file)) {
-            // Tangani jika file gambar tidak ada
-        } else {
-            $config['upload_path'] = './assets/gambar';
-            $config['allowed_types'] = 'jpg|png|gif';
-
-            $this->upload->initialize($config);
-
-            if ($this->upload->do_upload('gambar')) {
-                $gambar = $this->upload->data('file_name');
-
-                $data = array(
-                    'gambar' => $gambar,
-                    'nama' => $this->input->post('nama'),
-                    'no_barang' => $this->input->post('no_barang'),
-                    'jumlah' => $this->input->post('jumlah'),
-                    'keterangan' => $this->input->post('keterangan'),
-                    'status_barang' => $this->input->post('status_barang'),
-                    'id_ruangan' => 1,
-                    'is_active' => 1
-                );
-
-                $this->Md_r225->add($data);
-                $this->session->set_flashdata('message', '<div class="alert alert-success" 
+        $this->Md_R225->add($data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" 
                 role="alert">Barang Berhasil Ditambahkan!</div>');
-                redirect('r225');
-            } else {
-                $error = $this->upload->display_errors();
-                echo $error;
-            }
-        }
+        redirect('r225');
     }
+
     public function update($id_lab)
     {
-        $page_data['data'] = $this->Md_r225->getByLabId($id_lab);
+        $data_update = array(
+            'nama' => $this->input->post('nama'),
+            'no_barang' => $this->input->post('no_barang'),
+            'jumlah' => $this->input->post('jumlah'),
+            'keterangan' => $this->input->post('keterangan'),
+            'status_barang' => $this->input->post('status_barang'),
+            'id_ruangan' => 1,
+            'is_active' => 1,
+        );
+        $this->Md_R225->update($id_lab, $data_update);
 
-        if (empty($page_data['data'])) {
-            // Tangani jika data barang tidak ditemukan
-            show_404();
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $uploaded_file = $_FILES['gambar']['name'];
-
-            // Cek apakah file gambar baru diunggah
-            if (!empty($uploaded_file)) {
-                $config['upload_path'] = './assets/gambar';
-                $config['allowed_types'] = 'jpeg|jpg|png|gif';
-                $this->upload->initialize($config);
-
-                if ($this->upload->do_upload('gambar')) {
-                    // Jika gambar baru berhasil diunggah, hapus gambar lama (opsional)
-                    $gambar_lama = $page_data['makanan']['gambar'];
-                    if (!empty($gambar_lama)) {
-                        unlink('./assets/gambar/' . $gambar_lama);
-                    }
-
-                    $gambar = $this->upload->data('file_name');
-
-                    // Update data barang dengan gambar baru
-                    $data_update = array(
-                        'gambar' => $gambar,
-                        'nama' => $this->input->post('nama'),
-                        'no_barang' => $this->input->post('no_barang'),
-                        'jumlah' => $this->input->post('jumlah'),
-                        'keterangan' => $this->input->post('keterangan'),
-                        'status_barang' => $this->input->post('status_barang'),
-                        'id_ruangan' => 1
-                    );
-
-                    $this->Md_r225->updateByLab($id_lab, $data_update);
-
-                    $this->session->set_flashdata('message', '<div class="alert alert-success" 
-                    role="alert">Data Berhasil Diperbarui!</div>');
-                    redirect('r225');
-                } else {
-                    $error = $this->upload->display_errors();
-                    echo $error;
-                }
-            } else {
-                // Update data barang tanpa perubahan gambar
-                $data_update = array(
-                    'nama' => $this->input->post('nama'),
-                    'no_barang' => $this->input->post('no_barang'),
-                    'jumlah' => $this->input->post('jumlah'),
-                    'keterangan' => $this->input->post('keterangan'),
-                    'status_barang' => $this->input->post('status_barang'),
-                    'id_ruangan' => 1
-                );
-
-                $this->Md_r225->updateByLab($id_lab, $data_update);
-
-                $this->session->set_flashdata('message', '<div class="alert alert-success" 
-                role="alert">Data Berhasil Diperbarui!</div>');
-                redirect('r225');
-            }
-        } else {
-            // Tampilkan tampilan form edit dengan data barang
-            // $this->load->view('barang/edit', $page_data);
-        }
+        $this->session->set_flashdata('message', '<div class="alert alert-success" 
+                    role="alert">Barang Berhasil Diperbarui!</div>');
+        redirect('r225');
     }
-    // public function lab()
-    // {
-    //     $page_data['page_title'] = 'Lab Pemrograman - R.301';
-    //     $page_data['email'] = $this->session->email;
-    //     $page_data['name'] = $this->session->name;
-
-    //     $page_data['lab_pemrograman'] = $this->Md_Lab_pemrograman->getAll();
-
-    //     $this->load->view('templates/include_header', $page_data);
-    //     $this->load->view('templates/include_sidebar', $page_data);
-    //     $this->load->view('templates/include_topbar', $page_data);
-    //     $this->load->view('peminjam/lab301/index', $page_data);
-    //     $this->load->view('templates/include_footer');
-    // }
 }

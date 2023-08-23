@@ -9,6 +9,7 @@
              <span class="icon-menu"></span>
          </button>
          <ul class="navbar-nav navbar-nav-right">
+             <h5 class="font-weight-normal" style="margin: 20px;"><?= $name; ?></h5>
              <li class="nav-item nav-profile dropdown">
                  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                      <img src="<?= base_url('assets/') ?>images/faces/face28.jpg" alt="profile" />

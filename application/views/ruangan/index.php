@@ -13,6 +13,7 @@
         </div>
         <div class="row">
             <div class="col-md-8 grid-margin">
+                <?= $this->session->flashdata('message'); ?>
                 <div class="card">
                     <div class="card-body">
                         <p class="card-title mb-0"><?= $page_title; ?></p>
@@ -122,67 +123,6 @@
             tambah[i].addEventListener('click', function(event) {
                 event.preventDefault();
                 var formTambah = document.getElementById('formTambah');
-
-                $(document).ready(function() {
-                    loadbarang();
-                    loadail();
-
-                });
-
-                // function loadbarang() {
-                //     $("#id_ruangan").change(function() {
-                //         var getruangan = $("#id_ruangan").val();
-
-                //         $.ajax({
-                //             type: "POST",
-                //             dataType: "JSON",
-                //             url: "<?= base_url(); ?>Peminjaman/getdatabarang",
-                //             data: {
-                //                 no_ruangan: getruangan,
-                //             },
-                //             success: function(data) {
-
-                //                 console.log(data);
-                //                 var html = '';
-                //                 var i;
-                //                 for (i = 0; i < data.length; i++) {
-                //                     html += '<option value="' + data[i].id_lab + '">' + data[i].no_barang + '</option>';
-
-                //                 }
-                //                 $("#id_lab").html(html);
-                //                 $("#id_lab").show();
-                //             }
-                //         });
-                //     });
-                // }
-
-                // function loadail() {
-                //     $("#id_ruangan").change(function() {
-                //         var getruangan = $("#id_ruangan").val();
-
-                //         $.ajax({
-                //             type: "POST",
-                //             dataType: "JSON",
-                //             url: "<?= base_url(); ?>Peminjaman/getdatauser",
-                //             data: {
-                //                 no_ruangan: getruangan
-                //             },
-                //             success: function(data) {
-                //                 console.log(data);
-
-                //                 var html = '';
-                //                 var j;
-                //                 for (j = 0; j < data.length; j++) {
-                //                     html += '<option value = "' + data[j].id_ail + '" >' + data[j].name + ' </option>';
-
-                //                 }
-                //                 $("#id_ail").html(html);
-                //                 $("#id_ail").show();
-
-                //             }
-                //         });
-                //     });
-                // }
 
                 if (formTambah.style.display === 'none') {
                     formTambah.style.display = 'block';

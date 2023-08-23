@@ -16,6 +16,7 @@ class Md_Peminjaman extends CI_model
         $this->db->join('data_barang', 'peminjaman.id_peminjaman = data_barang.id_lab');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
+        $this->db->order_by('tanggal_awal', 'desc');
         return $this->db->get()->result_array();
     }
 
@@ -34,6 +35,7 @@ class Md_Peminjaman extends CI_model
         $this->db->join('data_barang', 'peminjaman.id_peminjaman = data_barang.id_lab');
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
+        $this->db->order_by('tanggal_awal', 'desc');
         return $this->db->get()->result_array();
     }
     public function getByIdAil($id_user)
@@ -50,6 +52,7 @@ class Md_Peminjaman extends CI_model
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->where('peminjaman.status_peminjaman', 0);
+        $this->db->order_by('tanggal_awal', 'desc');
         return $this->db->get()->result_array();
     }
     public function getByPeminjamanProses2()
@@ -60,6 +63,7 @@ class Md_Peminjaman extends CI_model
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->where('peminjaman.status_peminjaman', 0);
+        $this->db->order_by('tanggal_awal', 'desc');
         return $this->db->get()->result_array();
     }
 
@@ -71,6 +75,7 @@ class Md_Peminjaman extends CI_model
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->where('peminjaman.status_peminjaman', 1);
+        $this->db->order_by('tanggal_awal', 'desc');
         return $this->db->get()->result_array();
     }
 
@@ -82,6 +87,7 @@ class Md_Peminjaman extends CI_model
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->where('peminjaman.status_peminjaman', 2);
+        $this->db->order_by('tanggal_awal', 'desc');
         // $this->db->where('peminjaman.id_ail', $id_ail);
         // $this->db->limit($limit, $start);
         return $this->db->get()->result_array();
@@ -95,6 +101,7 @@ class Md_Peminjaman extends CI_model
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->where('peminjaman.status_peminjaman', 3);
+        $this->db->order_by('tanggal_awal', 'desc');
         return $this->db->get()->result_array();
     }
 
@@ -106,6 +113,7 @@ class Md_Peminjaman extends CI_model
         $this->db->join('ruangan', 'peminjaman.id_ruangan = ruangan.id_ruangan');
         $this->db->join('user', 'peminjaman.id_user = user.id_user');
         $this->db->where('peminjaman.status_peminjaman', 4);
+        $this->db->order_by('tanggal_awal', 'desc');
         return $this->db->get()->result_array();
     }
 

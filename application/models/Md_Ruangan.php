@@ -22,6 +22,12 @@ class Md_Ruangan extends CI_model
         $this->db->limit($limit, $start);
         return $this->db->get()->result_array();
     }
+    public function graph()
+    {
+        $this->db->select('ruangan.*');
+        $this->db->from('ruangan');
+        return $this->db->get()->result_array();
+    }
 
     public function getAil()
     {

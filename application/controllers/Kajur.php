@@ -37,6 +37,7 @@ class Kajur extends CI_Controller
         $page_data['request'] = $this->Md_Peminjaman->getTotalRequest();
         $page_data['paktif'] = $this->Md_Peminjaman->getTotalPeminjaman();
         $page_data['riwayat_peminjaman'] = $this->Md_Peminjaman->getPeminjamanByUser2($id_user);
+        $page_data['graph'] = $this->Md_Ruangan->graph();
 
         $this->load->view('templates/include_header', $page_data);
         $this->load->view('templates/include_topbar', $page_data);

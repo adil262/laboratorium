@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Md_R252 extends CI_model
+class Md_R352 extends CI_model
 {
     public function getAll()
     {

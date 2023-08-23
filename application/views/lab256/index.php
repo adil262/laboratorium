@@ -12,11 +12,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-7 grid-margin">
+            <div class="col-md-8 grid-margin">
                 <?= $this->session->flashdata('message'); ?>
                 <div class="card">
                     <div class="card-body">
-                        <p class="card-title mb-0">Data Barang</p>
+                        <p class="card-title mb-0"><?= $page_title; ?></p>
                         <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
                             <button type="button" id="tambah" style="float: right;" class="btn btn-warning btn-sm tambah">Tambah</button>
                         <?php } ?>
@@ -25,23 +25,34 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Nama Barang</th>
+                                        <th>Nama</th>
                                         <th>No Barang</th>
+                                        <th>Keterangan</th>
                                         <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($data as $lab) : ?>
+                                    <?php foreach ($data as $b) : ?>
                                         <tr>
                                             <td><?= ++$start ?></td>
-                                            <td><?= $lab['nama'] ?></td>
-                                            <td><?= $lab['no_barang'] ?></td>
-                                            <td><?= $lab['status_barang'] ?></td>
+                                            <td><?= $b['nama'] ?></td>
+                                            <td><?= $b['no_barang'] ?></td>
+                                            <td><?= $b['keterangan'] ?></td>
+                                            <td><?php if ($b['status_barang'] == "Tersedia") { ?>
+                                                    <a href="" class="badge badge-success"><?= $b['status_barang'] ?></a>
+                                                <?php } ?>
+                                                <?php if ($b['status_barang'] == "Booking") { ?>
+                                                    <a href="" class="badge badge-warning"><?= $b['status_barang'] ?></a>
+                                                <?php } ?>
+                                                <?php if ($b['status_barang'] == "Tidak Tersedia") { ?>
+                                                    <a href="" class="badge badge-danger"><?= $b['status_barang'] ?></a>
+                                                <?php } ?>
+                                            </td>
                                             <td>
-                                                <abbr title="detail"><a href="" data-toggle="modal" data-target="#detailLab<?= $lab['id_lab']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a></abbr>
+                                                <abbr title="detail"><a href="" data-toggle="modal" data-target="#detail<?= $b['id_lab']; ?>" class="btn btn-inverse-info btn-sm mdi mdi-information-variant"></a></abbr>
                                                 <?php if ($this->session->userdata('level') != 'Peminjam') { ?>
-                                                    <button type="button" id="edit<?= $lab['id_lab']; ?>" class="btn btn-inverse-warning btn-sm mdi mdi-border-color edit"></button>
+                                                    <abbr title="edit"><a href="" class="btn btn-inverse-warning btn-sm mdi mdi-border-color" data-toggle="modal" data-target="#edit<?= $b['id_lab']; ?>"></a></abbr>
                                                 <?php } ?>
                                             </td>
                                         </tr>
@@ -57,53 +68,40 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title"><?= $page_tambah; ?></h4>
-                        <form action="<?= base_url('r256/add') ?>" enctype="multipart/form-data" method="post">
+                        <form action="<?= base_url('R256/tambah') ?>" method="post">
                             <div class="form-group">
                                 <label for="nama" class="col-sm-5">Nama Barang</label>
                                 <div class="col-sm">
-                                    <input type="text" class="form-control form-control-user" name="nama" id="nama" placeholder="Nama Barang">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="no_barang" class="col-sm-5">No Barang</label>
-                                <div class="col-sm">
-                                    <input type="text" class="form-control form-control-user" name="no_barang" id="no_barang" placeholder="No Barang">
+                                    <input type="text" class="form-control" name="nama" id="nama" placeholder="">
                                 </div>
                             </div>
 
                             <div class="form-group">
+                                <label for="nobarang" class="col-sm-5">No Barang</label>
+                                <div class="col-sm">
+                                    <input type="text" class="form-control" name="no_barang" id="no_barang" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="jumlah" class="col-sm-5">Jumlah</label>
                                 <div class="col-sm">
-                                    <input type="text" class="form-control form-control-user" name="jumlah" id="jumlah" placeholder="Jumlah">
+                                    <input type="number" class="form-control" name="jumlah" id="jumlah" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="" class="col-sm-5">Gambar</label>
+                                <label for="keterangan" class="col-sm-9">Keterangan</label>
                                 <div class="col-sm">
-                                    <input type="file" name="gambar" class="file-upload-default">
-                                    <div class="input-group col-xs-12">
-                                        <input type="text" name="gambar" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                                        <span class="input-group-append">
-                                            <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="keterangan" class="col-sm-5">Keterangan</label>
-                                <div class="col-sm">
-                                    <select type="text" class="form-control form-control-user" name="keterangan" id="keterangan" placeholder="Keterangan">
+                                    <select id="keterangan" name="keterangan" class="form-control" placeholder="Ail">
                                         <option value="Aset">Aset</option>
                                         <option value="Non Aset">Non Aset</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="status_barang" class="col-sm-5">Status Barang</label>
+                                <label for="kalab" class="col-sm-9">Status Barang</label>
                                 <div class="col-sm">
-                                    <select class="form-control" name="status_barang" id="status_barang" placeholder="Status">
+                                    <select id="status_barang" name="status_barang" class="form-control" placeholder="Kalab">
                                         <option value="Tersedia">Tersedia</option>
-                                        <option value="Tidak Tersedia">Tidak Tersedia</option>
                                     </select>
                                 </div>
                             </div>
@@ -114,77 +112,61 @@
                     </div>
                 </div>
             </div>
-            <?php foreach ($data as $lab) { ?>
-                <div id="formEdit<?= $lab['id_lab']; ?>" style="display:none;" class="col-md-4 stretch-card" aria-hidden="true">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title"><?= $page_edit; ?></h4>
-
-                            <form action="<?= base_url('r256/update') ?>" enctype="multipart/form-data" method="post">
-                                <div class="form-group">
-                                    <label for="nama" class="col-sm-5">Nama Barang</label>
-                                    <div class="col-sm">
-                                        <input type="text" class="form-control form-control-user" name="nama" id="nama" placeholder="Nama Barang" value="<?= $lab['nama'] ?>">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="no_barang" class="col-sm-5">No Barang</label>
-                                    <div class="col-sm">
-                                        <input type="text" class="form-control form-control-user" name="no_barang" id="no_barang" placeholder="No Barang" value="<?= $lab['no_barang'] ?>">
-                                    </div>
-                                </div>
-
-                                <div class=" form-group">
-                                    <label for="jumlah" class="col-sm-5">Jumlah</label>
-                                    <div class="col-sm">
-                                        <input type="text" class="form-control form-control-user" name="jumlah" id="jumlah" placeholder="Jumlah" value="<?= $lab['jumlah'] ?>">
-                                    </div>
-                                </div>
-                                <div class=" form-group">
-                                    <label for="" class="col-sm-5">Gambar</label>
-                                    <div class="col-sm">
-                                        <input type="file" name="gambar" class="file-upload-default" value="<?= $lab['gambar'] ?>">
-                                        <div class="input-group col-xs-12">
-                                            <input type="text" name="gambar" class="form-control file-upload-info" disabled placeholder="Upload Image" value="<?= $lab['gambar'] ?>">
-                                            <span class="input-group-append">
-                                                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="keterangan" class="col-sm-5">Keterangan</label>
-                                    <div class="col-sm">
-                                        <select type="text" class="form-control form-control-user" name="keterangan" id="keterangan" placeholder="Keterangan">
-                                            <option value="Bagus">Bagus</option>
-                                            <option value="Rusak">Rusak</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="status_barang" class="col-sm-5">Status Barang</label>
-                                    <div class="col-sm">
-                                        <select class="form-control" name="status_barang" id="status_barang" placeholder="Status">
-                                            <option value="Tersedia">Tersedia</option>
-                                            <option value="Tidak Tersedia">Tidak Tersedia</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">Simpan</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            <?php } ?>
         </div>
     </div>
+    <?php foreach ($data as $m) { ?>
+        <div class="modal fade bd-example-modal-lg" id="edit<?= $m['id_lab']; ?>" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editLabel"><?= $page_edit; ?></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="<?= base_url('R256/update/' . $m['id_lab']); ?>" method="post" enctype="multipart/form-data" role="form">
+                        <hr>
+                        <div class="form-group">
+                            <label for="nama" class="col-sm-5">Nama</label>
+                            <div class="col-sm">
+                                <input type="text" class="form-control form-control-user" name="nama" id="nama" placeholder="Nama" value="<?= $m['nama'] ?>">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="stok" class="col-sm-5">No Barang</label>
+                            <div class="col-sm">
+                                <input type="text" class="form-control form-control-user" name="no_barang" id="no_barang" placeholder="no_barang" value="<?= $m['no_barang'] ?>">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="keterangan" class="col-sm-5">Jumlah</label>
+                            <div class="col-sm">
+                                <input type="number" class="form-control form-control-user" name="jumlah" id="jumlah" placeholder="jumlah" value="<?= $m['jumlah'] ?>">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="stok" class="col-sm-5">Keterangan</label>
+                            <div class="col-sm">
+                                <input type="text" class="form-control form-control-user" name="keterangan" id="keterangan" placeholder="keterangan" value="<?= $m['keterangan'] ?>">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="stok" class="col-sm-5">Status Barang</label>
+                            <div class="col-sm">
+                                <input type="text" class="form-control form-control-user" name="status_barang" id="status_barang" placeholder="status_barang" value="<?= $m['status_barang'] ?>">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
     <!-- content-wrapper ends -->
-
-    <!-- Modal -->
     <?php foreach ($data as $lab) { ?>
-        <div class="modal fade bd-example-modal-lg" id="detailLab<?= $lab['id_lab']; ?>" tabindex="-1" role="dialog" aria-labelledby="detailLabLabel" aria-hidden="true">
+        <div class="modal fade bd-example-modal-lg" id="detail<?= $lab['id_lab']; ?>" tabindex="-1" role="dialog" aria-labelledby="detailLabLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -225,13 +207,6 @@
                                     <p class="badge badge-warning"><?= $lab['status_barang'] ?></p>
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-6">
-                                    <p class="text-success">Gambar </p>
-                                    <p><img src="<?= base_url('assets/gambar/' . $lab['gambar']); ?> " style="height:100px; width:100px;"></p>
-
-                                </div>
-                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -244,27 +219,17 @@
 
     <script>
         var tambah = document.getElementsByClassName('tambah');
-        var edit = document.getElementsByClassName('edit');
 
         for (var i = 0; i < tambah.length; i++) {
             tambah[i].addEventListener('click', function(event) {
                 event.preventDefault();
                 var formTambah = document.getElementById('formTambah');
+
                 if (formTambah.style.display === 'none') {
                     formTambah.style.display = 'block';
                 } else {
                     formTambah.style.display = 'none';
                 }
             });
-            edit[i].addEventListener('click', function(event) {
-                event.preventDefault();
-                var formEdit = document.getElementById('formEdit');
-                if (formEdit.style.display === 'none') {
-                    formEdit.style.display = 'block';
-                } else {
-                    formEdit.style.display = 'none';
-                }
-            });
-
         }
     </script>
