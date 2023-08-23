@@ -54,6 +54,8 @@ class Ruangan extends CI_Controller
 
         $page_data['start'] = $this->uri->segment(3);
         $page_data['data'] = $this->Md_Ruangan->getRuangan($config['per_page'], $page_data['start']);
+        $page_data['ail'] = $this->Md_Ruangan->getAil();
+        $page_data['kalab'] = $this->Md_Ruangan->getKalab();
 
         $this->load->view('templates/include_header', $page_data);
         $this->load->view('templates/include_topbar', $page_data);
@@ -63,109 +65,21 @@ class Ruangan extends CI_Controller
     }
     public function add()
     {
-        $uploaded_file = $_FILES['gambar']['name'];
+        $data = array(
+            'id_ail' => $this->input->post('id_ail'),
+            'id_kalab' => $this->input->post('id_kalab'),
+            'no_ruangan' => $this->input->post('no_ruangan'),
+            'nama_ruangan' => $this->input->post('nama_ruangan'),
+            'status_ruangan' => $this->input->post('status_ruangan'),
+            'is_active' => 1
+        );
 
-        if (empty($uploaded_file)) {
-            // Tangani jika file gambar tidak ada
-        } else {
-            $config['upload_path'] = './assets/gambar';
-            $config['allowed_types'] = 'jpg|png|gif';
-
-            $this->upload->initialize($config);
-
-            if ($this->upload->do_upload('gambar')) {
-                $gambar = $this->upload->data('file_name');
-
-                $data = array(
-                    'gambar' => $gambar,
-                    'nama' => $this->input->post('nama'),
-                    'no_barang' => $this->input->post('no_barang'),
-                    'jumlah' => $this->input->post('jumlah'),
-                    'keterangan' => $this->input->post('keterangan'),
-                    'status_barang' => $this->input->post('status_barang'),
-                    'id_ruangan' => 1,
-                    'is_active' => 1
-                );
-
-                $this->Md_Ruangan->add($data);
-                $this->session->set_flashdata('message', '<div class="alert alert-success" 
-                role="alert">Barang Berhasil Ditambahkan!</div>');
-                redirect('ruangan');
-            } else {
-                $error = $this->upload->display_errors();
-                echo $error;
-            }
-        }
+        $this->Md_Ruangan->add($data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" 
+                role="alert">Ruangan Berhasil Ditambahkan!</div>');
+        redirect('ruangan');
     }
-    public function update($id_lab)
-    {
-        $page_data['data'] = $this->Md_Ruangan->getByLabId($id_lab);
 
-        if (empty($page_data['data'])) {
-            // Tangani jika data barang tidak ditemukan
-            show_404();
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $uploaded_file = $_FILES['gambar']['name'];
-
-            // Cek apakah file gambar baru diunggah
-            if (!empty($uploaded_file)) {
-                $config['upload_path'] = './assets/gambar';
-                $config['allowed_types'] = 'jpeg|jpg|png|gif';
-                $this->upload->initialize($config);
-
-                if ($this->upload->do_upload('gambar')) {
-                    // Jika gambar baru berhasil diunggah, hapus gambar lama (opsional)
-                    $gambar_lama = $page_data['makanan']['gambar'];
-                    if (!empty($gambar_lama)) {
-                        unlink('./assets/gambar/' . $gambar_lama);
-                    }
-
-                    $gambar = $this->upload->data('file_name');
-
-                    // Update data barang dengan gambar baru
-                    $data_update = array(
-                        'gambar' => $gambar,
-                        'nama' => $this->input->post('nama'),
-                        'no_barang' => $this->input->post('no_barang'),
-                        'jumlah' => $this->input->post('jumlah'),
-                        'keterangan' => $this->input->post('keterangan'),
-                        'status_barang' => $this->input->post('status_barang'),
-                        'id_ruangan' => 1
-                    );
-
-                    $this->Md_Ruangan->updateByLab($id_lab, $data_update);
-
-                    $this->session->set_flashdata('message', '<div class="alert alert-success" 
-                    role="alert">Data Berhasil Diperbarui!</div>');
-                    redirect('ruangan');
-                } else {
-                    $error = $this->upload->display_errors();
-                    echo $error;
-                }
-            } else {
-                // Update data barang tanpa perubahan gambar
-                $data_update = array(
-                    'nama' => $this->input->post('nama'),
-                    'no_barang' => $this->input->post('no_barang'),
-                    'jumlah' => $this->input->post('jumlah'),
-                    'keterangan' => $this->input->post('keterangan'),
-                    'status_barang' => $this->input->post('status_barang'),
-                    'id_ruangan' => 1
-                );
-
-                $this->Md_Ruangan->updateByLab($id_lab, $data_update);
-
-                $this->session->set_flashdata('message', '<div class="alert alert-success" 
-                role="alert">Data Berhasil Diperbarui!</div>');
-                redirect('ruangan');
-            }
-        } else {
-            // Tampilkan tampilan form edit dengan data barang
-            // $this->load->view('barang/edit', $page_data);
-        }
-    }
     // public function lab()
     // {
     //     $page_data['page_title'] = 'Lab Pemrograman - R.301';

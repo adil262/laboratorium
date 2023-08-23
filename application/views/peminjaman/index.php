@@ -181,7 +181,6 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title"><?= $page_judul; ?></h4>
-                        <?= $this->session->flashdata('message'); ?>
                         <form action="<?= base_url('Peminjaman/add') ?>" method="post">
                             <div class="alert alert-primary" role="alert">
                                 <i class="icon-bell mx-0 lg"></i>
@@ -287,7 +286,9 @@
                                     <select id="id_ruangan" name="id_ruangan" class="form-control" placeholder="Ruangan">
                                         <option value="">Pilih Ruangan</option>
                                         <?php foreach ($ruangan as $r) : ?>
-                                            <option value="<?= $r['id_ruangan']; ?>">R.<?= $r['no_ruangan']; ?></option>
+                                            <?php if ($r['level1'] == 0) { ?>
+                                                <option value="<?= $r['id_ruangan']; ?>">R.<?= $r['no_ruangan']; ?></option>
+                                            <?php } ?>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>

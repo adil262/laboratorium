@@ -96,6 +96,11 @@ class Peminjaman extends CI_Controller
         $page_data['user'] = $this->Md_Auth->getAll();
         $page_data['ruangan'] = $this->Md_Peminjaman->getRuangan();
 
+        $reqIdRuangan = $this->input->post('id_ruangan');
+        $reqTglAwal = $this->input->post('tanggal_awal');
+        $reqJamAwal = $this->input->post('jam_awal');
+        $reqJamAkhir = $this->input->post('jam_akhir');
+
         $data = array(
             'id_user' =>  $this->session->id_user,
             'id_ruangan' => $this->input->post('id_ruangan'),
@@ -118,23 +123,32 @@ class Peminjaman extends CI_Controller
             'approval_pudir1' => 0,
         );
 
-        $id_peminjaman = $this->Md_Peminjaman->add($data);
-        $this->session->set_flashdata('message', '<div class="alert alert-success" 
+        if ($this->Md_Peminjaman->checkTimeConflict($reqIdRuangan, $reqJamAwal, $reqJamAkhir, $reqTglAwal)) {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" 
+                role="alert">Peminjaman Gagal, Jadwal yang Anda Ajukan Bentrok!</div>');
+        } else {
+            $id_peminjaman = $this->Md_Peminjaman->add($data);
+            $status_ruangan = "Booking";
+            $this->Md_Peminjaman->updateStatusDataRuangan($reqIdRuangan, $status_ruangan);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" 
                 role="alert">Peminjaman Berhasil Diajukan!</div>');
-        $id_lab = $this->input->post('id_lab');
-        foreach ($id_lab as $data) {
-            $data_peminjaman = array(
-                'id_peminjaman' => $id_peminjaman,
-                'id_lab' => $data,
-            );
+            $id_lab = $this->input->post('id_lab');
+            foreach ($id_lab as $data) {
+                $data_peminjaman = array(
+                    'id_peminjaman' => $id_peminjaman,
+                    'id_lab' => $data,
+                );
 
-            $this->Md_Peminjaman->addPeminjamanLab($data_peminjaman);
-            $status_barang = "Booking";
-            $barang = $this->Md_Peminjaman->updateStatusBarang($id_peminjaman);
-            foreach ($barang as $data) {
-                $this->Md_Peminjaman->updateStatusData($data['id_lab'], $status_barang);
+                $this->Md_Peminjaman->addPeminjamanLab($data_peminjaman);
+                $status_barang = "Booking";
+                $barang = $this->Md_Peminjaman->updateStatusBarang($id_peminjaman);
+                foreach ($barang as $data) {
+                    $this->Md_Peminjaman->updateStatusData($data['id_lab'], $status_barang);
+                }
             }
         }
+
+
         redirect('peminjaman');
     }
 
@@ -156,8 +170,10 @@ class Peminjaman extends CI_Controller
 
     public function submitApproval($id_peminjaman, $level_approval)
     {
+        $reqIdRuangan = $this->input->post('id_ruangan');
         $status = 1; // Approval diset menjadi 1
         $status_barang = "Tidak Tersedia";
+        $status_ruangan = "Tidak Tersedia";
 
         $level = $this->session->userdata('level');
 
@@ -190,6 +206,7 @@ class Peminjaman extends CI_Controller
                 foreach ($barang as $data) {
                     $this->Md_Peminjaman->updateStatusData($data['id_lab'], $status_barang);
                 }
+                $this->Md_Peminjaman->updateStatusDataRuangan($reqIdRuangan, $status_ruangan);
                 $this->session->set_flashdata('message', '<div class="alert alert-success" 
                 role="alert">Approval Berhasil!</div>');
             }
@@ -224,6 +241,7 @@ class Peminjaman extends CI_Controller
                 foreach ($barang as $data) {
                     $this->Md_Peminjaman->updateStatusData($data['id_lab'], $status_barang);
                 }
+                $this->Md_Peminjaman->updateStatusDataRuangan($reqIdRuangan, $status_ruangan);
                 $this->session->set_flashdata('message', '<div class="alert alert-success" 
                 role="alert">Approval Berhasil!</div>');
             }
@@ -265,6 +283,7 @@ class Peminjaman extends CI_Controller
                 foreach ($barang as $data) {
                     $this->Md_Peminjaman->updateStatusData($data['id_lab'], $status_barang);
                 }
+                $this->Md_Peminjaman->updateStatusDataRuangan($reqIdRuangan, $status_ruangan);
                 $this->session->set_flashdata('message', '<div class="alert alert-success" 
                 role="alert">Approval Berhasil!</div>');
             }
@@ -291,6 +310,7 @@ class Peminjaman extends CI_Controller
     {
         $peminjaman = $this->Md_Peminjaman->getByPeminjamanId($id_peminjaman);
         $barang = $this->Md_Peminjaman->updateStatusBarang($id_peminjaman);
+        $reqIdRuangan = $this->input->post('id_ruangan');
 
         if ($peminjaman['status_peminjaman'] == 2) {
             $this->Md_Peminjaman->updateAktif($id_peminjaman, 3);
@@ -298,25 +318,33 @@ class Peminjaman extends CI_Controller
             foreach ($barang as $data) {
                 $this->Md_Peminjaman->updateStatusData($data['id_lab'], "Tersedia");
             }
+            $this->Md_Peminjaman->updateStatusDataRuangan($reqIdRuangan, "Tersedia");
         }
         redirect('peminjaman');
     }
 
     public function ditolak($id_peminjaman)
     {
+        $barang = $this->Md_Peminjaman->updateStatusBarang($id_peminjaman);
         $this->Md_Peminjaman->updateAktif($id_peminjaman, 4);
         $this->Md_Peminjaman->updateStatus($id_peminjaman, "Peminjaman Ditolak");
+        foreach ($barang as $data) {
+            $this->Md_Peminjaman->updateStatusData($data['id_lab'], "Tersedia");
+        }
         redirect('peminjaman');
     }
 
     public function batalpinjam($id_peminjaman)
     {
+        $barang = $this->Md_Peminjaman->updateStatusBarang($id_peminjaman);
         $batalpinjam = $this->Md_Peminjaman->deletedata('peminjaman', array('id_peminjaman' => $id_peminjaman));
         $batalpinjam1 = $this->Md_Peminjaman->deletedata('peminjaman_barang', array('id_peminjaman' => $id_peminjaman));
+        foreach ($barang as $data) {
+            $this->Md_Peminjaman->updateStatusData($data['id_lab'], "Tersedia");
+        }
         if ($batalpinjam && $batalpinjam1) {
-            $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-				<h5><i class="icon fas fa-check"></i> Dibatalkan!</h5></div>');
+            $this->session->set_flashdata('message', '<div class="alert alert-success" 
+                role="alert">Peminjaman Berhasil Dibatalkan!</div>');
             redirect('peminjaman');
         }
     }

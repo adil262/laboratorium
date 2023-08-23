@@ -250,12 +250,28 @@ class Md_Peminjaman extends CI_model
         // $this->db->set('data_barang.status_barang', $status_barang);
     }
 
+    public function updateStatusRuangan($id_peminjaman)
+    {
+
+        $this->db->select('peminjaman.*');
+        $this->db->where('id_ruangan', $id_peminjaman);
+        return $this->db->get('peminjaman')->result_array();
+        // $this->db->set('data_barang.status_barang', $status_barang);
+    }
+
     // Data Barang
     public function updateStatusData($id_peminjaman, $status_barang)
     {
         $this->db->where('id_lab', $id_peminjaman);
         $this->db->set('status_barang', $status_barang);
         $this->db->update('data_barang');
+    }
+
+    public function updateStatusDataRuangan($id_peminjaman, $status_ruangan)
+    {
+        $this->db->where('id_ruangan', $id_peminjaman);
+        $this->db->set('status_ruangan', $status_ruangan);
+        $this->db->update('ruangan');
     }
 
     //Ruangan
@@ -278,7 +294,6 @@ class Md_Peminjaman extends CI_model
     public function getdatabarang($id_ruangan)
     {
         $this->db->select('data_barang.*'); // Ganti 'column_name' dengan kolom yang ingin Anda tampilkan
-        $this->db->where('status_barang = "Tersedia"');
         $this->db->where('id_ruangan', $id_ruangan);
         $query = $this->db->get('data_barang'); // Ganti 'projects' dengan nama tabel Anda
         return $query->result_array();
@@ -295,6 +310,20 @@ class Md_Peminjaman extends CI_model
     public function countBarang()
     {
         return $this->db->get('ruangan')->num_rows();
+    }
+
+    public function checkTimeConflict($id_ruangan, $jam_awal, $jam_akhir, $tanggal_awal)
+    {
+        $query = $this->db->query("
+            SELECT *
+            FROM peminjaman
+            WHERE id_ruangan = ? AND tanggal_awal = ? AND
+                  ((jam_awal <= ? AND jam_akhir > ?) OR
+                  (jam_awal < ? AND jam_akhir >= ?) OR
+                  (jam_awal >= ? AND jam_akhir <= ?))
+        ", array($id_ruangan, $tanggal_awal, $jam_awal, $jam_awal, $jam_akhir, $jam_akhir, $jam_awal, $jam_akhir));
+
+        return $query->num_rows() > 0;
     }
 
     // public function getLevel()

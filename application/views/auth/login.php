@@ -36,6 +36,9 @@
                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                         Login
                                     </button>
+                                    <a href="<?= base_url('auth/registration') ?>" type="submit" class="btn btn-primary btn-user btn-block">
+                                        Register Account
+                                    </a>
                                 </form>
                             </div>
                         </div>

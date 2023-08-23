@@ -213,7 +213,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <p class="text-success">Level</p>
-                                    <p><?= $s['id_level'] ?></p>
+                                    <p><?= $s['level_peminjaman'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -297,7 +297,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <p class="text-success">Level</p>
-                                    <p><?= $p['id_level'] ?></p>
+                                    <p><?= $p['level_peminjaman'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -381,7 +381,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <p class="text-success">Level</p>
-                                    <p><?= $p['id_level'] ?></p>
+                                    <p><?= $p['level_peminjaman'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -465,7 +465,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <p class="text-success">Level</p>
-                                    <p><?= $p['id_level'] ?></p>
+                                    <p><?= $p['level_peminjaman'] ?></p>
                                 </div>
                             </div>
                             <div class="form-group row">

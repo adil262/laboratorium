@@ -15,12 +15,36 @@ class Md_Ruangan extends CI_model
     }
     public function getRuangan($limit, $start)
     {
-        $this->db->select('ruangan.*, ail.*,');
+        $this->db->select('ruangan.*, ail.*, user.*');
         $this->db->from('ruangan');
         $this->db->join('ail', 'ruangan.id_ail = ail.id_ail');
+        $this->db->join('user', 'ail.id_user = user.id_user');
         $this->db->limit($limit, $start);
         return $this->db->get()->result_array();
     }
+
+    public function getAil()
+    {
+        $this->db->select('ail.*, user.*');
+        $this->db->from('ail');
+        $this->db->join('user', 'ail.id_user = user.id_user');
+        return $this->db->get()->result_array();
+    }
+
+    public function getKalab()
+    {
+        $this->db->select('kalab.*, user.*');
+        $this->db->from('kalab');
+        $this->db->join('user', 'kalab.id_user = user.id_user');
+        return $this->db->get()->result_array();
+    }
+
+    public function add($data)
+    {
+        $this->db->insert('ruangan', $data);
+        return $this->db->insert_id();
+    }
+
     public function getAll()
     {
         return $this->db->get('data_barang')->result_array();
